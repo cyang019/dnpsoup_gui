@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <div class="d-flex flex-column">
-      <div id="parameters" class="h-70 d-flex flex-row">
+      <div id="parameters" class="h-70 flex-fill d-flex flex-row">
         <div class="w-75">
           <working-area/>
         </div>
@@ -38,6 +38,7 @@ export default {
 
 <style scoped>
   #home {
-    object-fit: fill;
+    width: 100%;
+    height: 100%;
   }
 </style>

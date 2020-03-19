@@ -1,5 +1,5 @@
 <template>
-  <div id="working-area" clsas="border border-primary flex-fill flex-grow-1 m-1">
+  <div id="working-area" class="border border-primary">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" @click="spinsysTabSelected">
         <router-link 
@@ -50,6 +50,6 @@ export default {
 <style scoped>
   #working-area {
     margin: 2px;
-    border: 1px solid #aaa;
+    min-height: 160px;
   }
 </style>
