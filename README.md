@@ -1,6 +1,6 @@
 # dnpsoup_gui
 
-> An electron-vue project
+> A Graphic Interface for Preparing [DNP](https://en.wikipedia.org/wiki/Dynamic_nuclear_polarization) Simulation Inputs.
 
 #### Build Setup
 
