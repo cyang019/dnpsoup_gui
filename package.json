@@ -55,6 +55,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap-css-only": "^4.4.1",
+    "js-yaml": ">=3.13.1",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
