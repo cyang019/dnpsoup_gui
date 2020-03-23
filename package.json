@@ -55,6 +55,9 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap-css-only": "^4.4.1",
+    "dotenv": "^8.2.0",
+    "ify-loader": "^1.1.0",
+    "plotly.js-dist": "^1.52.3",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",

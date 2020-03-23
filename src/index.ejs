@@ -8,6 +8,23 @@
       <script>
         require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
       </script>
+      <style>
+        #app {
+          height: 100%;
+          width: 100%;
+        }
+
+        html {
+          height: 100%;
+          width: 100%;
+        }
+
+        body {
+          height: 100%;
+          width: 100%;
+        }
+      </style>
+      <link href="../resources/font-awesome-icons/css/all.css" rel="stylesheet">
     <% } %>
   </head>
   <body>

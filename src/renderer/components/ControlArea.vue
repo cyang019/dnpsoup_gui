@@ -1,7 +1,7 @@
 <template>
   <div id="control-area">
-    <p>Execute Tasks</p>
-    <button>Run</button>
+    <p><strong>Execute Tasks</strong></p>
+    <button class='btn btn-primary btn-md'>Run</button>
   </div>
 </template>
 

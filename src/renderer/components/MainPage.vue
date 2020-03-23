@@ -1,11 +1,11 @@
 <template>
   <div id="home">
-    <div class="d-flex flex-column">
-      <div id="parameters" class="h-70 flex-fill d-flex flex-row">
-        <div class="w-75">
-          <working-area/>
+    <div id="global-container" class="d-flex flex-column">
+      <div id="parameters" class="h-70 d-flex flex-fill flex-row">
+        <div class="w-75 upper-left-region">
+          <router-view/>
         </div>
-        <div class="w-25">
+        <div class="w-25 upper-right-region">
           <summary-area/>
         </div>
       </div>
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import WorkingArea from './WorkingArea.vue'
 import SummaryArea from './SummaryArea.vue'
 import ControlArea from './ControlArea.vue'
 import InfoArea from './InfoArea.vue'
@@ -28,7 +27,6 @@ import InfoArea from './InfoArea.vue'
 export default {
   name: 'main-page',
   components: {
-    WorkingArea,
     SummaryArea,
     ControlArea,
     InfoArea
@@ -40,5 +38,25 @@ export default {
   #home {
     width: 100%;
     height: 100%;
+  }
+
+  #global-container {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    min-width: 200px;
+  }
+
+  #parameters {
+    overflow: auto;
+  }
+
+  .upper-left-region {
+    margin: 2px;
+  }
+
+  .upper-right-region {
+    margin: 2px;
+    padding: 5px;
   }
 </style>

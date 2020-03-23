@@ -1,9 +1,9 @@
 <template>
-  <div id="working-area" class="border border-primary">
+  <div id="working-area" class="border border-primary container">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" @click="spinsysTabSelected">
         <router-link 
-          :to="{ path: '/spinsys'}" 
+          :to="{ path: '/panels/spinsys'}" 
           class="nav-link"
           :class="{ active: tabIdentity === 'spinsys'}">
           Spin System
@@ -11,7 +11,7 @@
       </li>
       <li class="nav-item" @click="pulseseqTabSelected">
         <router-link 
-          :to="{ path: '/pulseseq'}" 
+          :to="{ path: '/panels/pulseseq'}" 
           class="nav-link"
           :class="{ active: tabIdentity === 'pulseseq'}">
           Pulse Sequence
@@ -19,7 +19,7 @@
       </li>
       <li class="nav-item" @click="settingsTabSelected">
         <router-link 
-          :to="{ path: '/settings'}" 
+          :to="{ path: '/panels/settings'}" 
           class="nav-link"
           :class="{ active: tabIdentity === 'settings'}">
           Settings
@@ -50,6 +50,6 @@ export default {
 <style scoped>
   #working-area {
     margin: 2px;
-    min-height: 160px;
+    overflow: scroll;
   }
 </style>
