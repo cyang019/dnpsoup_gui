@@ -7,7 +7,9 @@
       </button>
     </div>
     <div v-if='adding'>
-      <form id='addspin-form' @submit.prevent='onSubmit' @mouseleave='adding=false'>
+      <form id='addspin-form' 
+        @submit.prevent='onSubmit' @mouseleave='adding=false'
+        class='border border-primary'>
         <div class="form-row">
           <label for='x' class='col-form-label'>x:</label>
           <input type='number' id='x' placeholder=0.0 

@@ -2,7 +2,7 @@
 
 import { app, BrowserWindow } from 'electron'
 
-/* exported variableName */
+/* eslint-disable no-unused-vars */
 import store from '../renderer/store'
 
 /**
