@@ -4,7 +4,16 @@
 
 <script>
 export default {
-  name: 'add-interaction'
+  name: 'add-interaction',
+  data () {
+    return {
+      adding: false,
+      interaction: {
+        name: '',
+        entries: {}
+      }
+    }
+  }
 }
 </script>
 

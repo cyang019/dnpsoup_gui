@@ -3,12 +3,19 @@ import Vuex from 'vuex'
 
 import { createPersistedState, createSharedMutations } from 'vuex-electron'
 
-import modules from './modules'
+// import modules from './modules'
+import pulseseq from './modules/pulseseq'
+import spinsys from './modules/spinsys'
+import settings from './modules/settings'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules,
+  modules: {
+    pulseseq,
+    spinsys,
+    settings
+  },
   plugins: [
     createPersistedState(),
     createSharedMutations()

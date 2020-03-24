@@ -3,7 +3,7 @@
     <div id="global-container" class="d-flex flex-column">
       <div id="parameters" class="h-70 d-flex flex-fill flex-row">
         <div class="w-75 upper-left-region">
-          <router-view/>
+          <working-area/>
         </div>
         <div class="w-25 upper-right-region">
           <summary-area/>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import WorkingArea from './WorkingArea.vue'
 import SummaryArea from './SummaryArea.vue'
 import ControlArea from './ControlArea.vue'
 import InfoArea from './InfoArea.vue'
@@ -27,6 +28,7 @@ import InfoArea from './InfoArea.vue'
 export default {
   name: 'main-page',
   components: {
+    WorkingArea,
     SummaryArea,
     ControlArea,
     InfoArea
