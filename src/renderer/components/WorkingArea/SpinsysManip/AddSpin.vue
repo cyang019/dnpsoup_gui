@@ -7,21 +7,20 @@
       </button>
     </div>
     <div v-if='adding'>
-      <form id='addspin-form' @submit.prevent='onSubmit'>
+      <form id='addspin-form' @submit.prevent='onSubmit' @mouseleave='adding=false'>
         <div class="form-row">
-          <div class='col-form-label'>
-            <label for='x' class='col-form-label'>x:</label>
-            <input type='number' id='x' placeholder=0.0 v-model='spin.x'>
-          </div>
-          
-          <div class='col-form-label'>
-            <label for='y' class='col-form-label'>y:</label>
-            <input type='number' id='y' placeholder=0.0 v-model='spin.y'>
-          </div>
-          <div class='col-form-label'>
-            <label for='z' class='col-form-label'>z:</label>
-            <input type='number' id='z' placeholder=0.0 v-model='spin.z'>
-          </div>
+          <label for='x' class='col-form-label'>x:</label>
+          <input type='number' id='x' placeholder=0.0 
+            class='col-sm-2'
+            v-model='spin.x' step="any">
+          <label for='y' class='col-form-label'>y:</label>
+          <input type='number' id='y' placeholder=0.0 
+            class='col-sm-2'
+            v-model='spin.y' step="any">
+          <label for='z' class='col-form-label'>z:</label>
+          <input type='number' id='z' placeholder=0.0 
+            class='col-sm-2'
+            v-model='spin.z' step="any">
         </div>
 
         <div class='form-row'>
@@ -37,46 +36,69 @@
             </select>
           </div>
           
-          <div class='col-auto'>
-            <label for='t1' class='col-form-label'>T1:</label>
-            <input type='number' id='t1' placeholder='10.0' min='0.0' v-model='spin.t1'>
-          </div>
-          <div class='col-auto'>
-            <label for='t2' class='col-form-label'>T2:</label>
-            <input type='number' id='t2' placeholder='1.0e-3' min='0.0' v-model='spin.t2'>
-          </div>       
+          <label for='t1' class='col-form-label'>T1:</label>
+          <input type='number' id='t1' placeholder='10.0' min='0.0' 
+            class='col-sm-2'
+            v-model='spin.t1' step="any">
+          <label for='t2' class='col-form-label'>T2:</label>
+          <input type='number' id='t2' placeholder='1.0e-3' min='0.0' 
+            class='col-sm-2'
+            v-model='spin.t2' step="any"> 
         </div>
 
         <div v-if="spin.spinType=='e'">
           <div class="form-row">
-            <div class='col-auto'>
-              <label for='gxx' class='col-form-label'>g<sub>xx</sub></label>
-              <input type='number' id='gxx' placeholder='2.003' v-model='tensor.x'>
-            </div>
-            <div class='col-auto'>
-              <label for='gyy' class='col-form-label'>g<sub>yy</sub></label>
-              <input type='number' id='gyy' placeholder='2.003' v-model='tensor.y'>
-            </div>
-            <div class='col-auto'>
-              <label for='gzz' class='col-form-label'>g<sub>zz</sub></label>
-              <input type='number' id='gzz' placeholder='2.003' v-model='tensor.z'>
-            </div>
+            <label for='gxx' class='col-form-label'>g<sub>xx</sub></label>
+            <input 
+              type='number' 
+              id='gxx' 
+              placeholder='2.003' 
+              v-model='tensor.x' 
+              class="col-sm-2 col-lg-1"
+              step="any">
+            <label for='gyy' class='col-form-label'>g<sub>yy</sub></label>
+            <input 
+              type='number' 
+              id='gyy' 
+              placeholder='2.003' 
+              v-model='tensor.y' 
+              class="col-sm-2"
+              step="any">
+            <label for='gzz' class='col-form-label'>g<sub>zz</sub></label>
+            <input 
+              type='number' 
+              id='gzz' 
+              placeholder='2.003' 
+              v-model='tensor.z' 
+              class="col-sm-2"
+              step="any">
           </div>
         </div>
         <div v-else>
           <div class='form-row'>
-            <div class='col-auto'>
-              <label for='csaxx' class='col-form-label'>csa<sub>xx</sub></label>
-              <input type='number' id='csaxx' placeholder='0.0' v-model='tensor.x'>
-            </div>
-            <div class='col-auto'>
-              <label for='csayy' class='col-form-label'>csa<sub>yy</sub></label>
-              <input type='number' id='csayy' placeholder='0.0' v-model='tensor.y'>
-            </div>
-            <div class='col-auto'>
-              <label for='csazz' class='col-form-label'>csa<sub>zz</sub></label>
-              <input type='number' id='csazz' placeholder='0.0' v-model='tensor.z'>
-            </div>
+            <label for='csaxx' class='col-form-label'>csa<sub>xx</sub></label>
+            <input 
+              type='number' 
+              id='csaxx' placeholder='0.0' 
+              v-model='tensor.x'
+              class="col-sm-2"
+              step="any">
+            <label for='csayy' class='col-form-label'>csa<sub>yy</sub></label>
+            <input 
+              type='number' 
+              id='csayy' 
+              placeholder='0.0' 
+              v-model='tensor.y' 
+              class="col-sm-2"
+              step="any">
+            <label for='csazz' class='col-form-label'>csa<sub>zz</sub></label>
+            <input 
+              type='number' 
+              id='csazz' 
+              placeholder='0.0' 
+              v-model='tensor.z' 
+              class="col-sm-2"
+              step="any">
           </div>
         </div>
 
@@ -84,18 +106,26 @@
           <div class="col-auto">
             <small class="form-text text-muted">Euler Angle:</small>
           </div>
-          <div class="col-auto">
-            <label for="euler-alpha" class="col-form-label">alpha</label>
-            <input type="number" id="euler-alpha" v-model="euler.alpha">
-          </div>
-          <div class="col-auto">
-            <label for="euler-beta" class="col-form-label">beta</label>
-            <input type="number" id="euler-beta" v-model="euler.beta">
-          </div>
-          <div class="col-auto">
-            <label for="euler-gamma" class="col-form-label">gamma</label>
-            <input type="number" id="euler-gamma" v-model="euler.gamma">
-          </div>
+
+          <label for="euler-alpha" class="col-form-label">alpha</label>
+          <input 
+            type="number" 
+            id="euler-alpha" 
+            v-model="euler.alpha" 
+            class="col-sm-2"
+            step="any">
+
+          <label for="euler-beta" class="col-form-label">beta</label>
+          <input 
+            type="number" id="euler-beta" v-model="euler.beta"
+            class="col-sm-2"
+            step="any">
+
+          <label for="euler-gamma" class="col-form-label">gamma</label>
+          <input 
+            type="number" id="euler-gamma" v-model="euler.gamma"
+            class="col-sm-2"
+            step="any">
         </div>
 
         <div class='form-row'>
@@ -117,6 +147,7 @@ export default {
     return {
       adding: false,
       spin: {
+        id: 0,
         x: 0.0,
         y: 0.0,
         z: 0.0,
@@ -133,43 +164,56 @@ export default {
         alpha: 0.0,
         beta: 0.0,
         gamma: 0.0
-      },
-      currentId: 1
+      }
     }
   },
   methods: {
-    ...mapActions('spinsys', ['addSpin', 'addInteraction']),
+    ...mapActions('spinsys', ['addSpin', 'addInteraction', 'resetSpinsys']),
 
     genInteraction () {
       const name = (this.spin.spinType === 'e') ? 'shielding' : 'csa'
       return {
         name: name,
         entries: {
-          euler: {
-            alpha: this.euler.alpha,
-            beta: this.euler.beta,
-            gamma: this.euler.gamma
-          },
-          x: this.tensor.x,
-          y: this.tensor.y,
-          z: this.tensor.z
+          id: Object.assign({}, this.spin.id),
+          euler: Object.assign({}, this.euler),
+          x: Object.assign({}, this.tensor.x),
+          y: Object.assign({}, this.tensor.y),
+          z: Object.assign({}, this.tensor.z)
         }
       }
     },
-
     onSubmit (e) {
       this.adding = false
       // currentId incremented after addSpin
-      const payload = [
-        this.currentId, this.spin
-      ]
-      this.addSpin(payload)
+      const spin = Object.assign({}, this.spin)
+      if (spin.id === -1 || spin.spinType === '') return
+      this.addSpin(spin)
 
-      var observable = this.genInteraction()
-      observable['entries']['id'] = this.currentId.toString()
-      this.addInteraction(observable)
-      this.currentId++
+      this.addInteraction(this.genInteraction())
+
+      // increment
+      ++this.spin.id
+      // reset other info
+      this.resetPhysicalProperties()
+    },
+    resetPhysicalProperties () {
+      this.spin.x = 0.0
+      this.spin.y = 0.0
+      this.spin.y = 0.0
+      this.spinType = ''
+      this.t1 = 100
+      this.t2 = 10
+      this.tensor.x = 0.0
+      this.tensor.y = 0.0
+      this.tensor.z = 0.0
+      this.euler.alpha = 0.0
+      this.euler.beta = 0.0
+      this.euler.gamma = 0.0
     }
+  },
+  mounted () {
+    this.resetSpinsys()
   }
 }
 </script>

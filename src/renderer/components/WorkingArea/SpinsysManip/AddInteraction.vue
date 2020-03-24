@@ -9,6 +9,7 @@ export default {
     return {
       adding: false,
       interaction: {
+        id: -1,
         name: '',
         entries: {}
       }

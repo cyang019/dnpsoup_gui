@@ -6,7 +6,7 @@ const state = {
   },
   interactions: [],
   irradiation: [],
-  spins: {}
+  spins: []
 }
 
 const getters = {
@@ -17,23 +17,21 @@ const getters = {
 /* eslint-disable no-unused-vars */
 
 const mutations = {
-  newSpin: (state, payload) => {
-    const spinid = payload[0]
-    const spin = payload[1]
-    state.spins = { ...state.spins, spinid: spin }
+  newSpin: (state, spin) => {
+    state.spins.push(spin)
   },
   newInteraction: (state, prop) => {
     if (['csa', 'shielding', 'hyperfine', 'dipole'].includes(prop.name.toLowerCase())) {
       prop.name = prop.name.toLowerCase()
       switch (prop.name) {
         case 'csa': case 'shielding':
-          if (prop.entries.id in state.spins) {
+          if (state.spinids.includes(prop.entries.id)) {
             state.interactions.push(prop)
           }
           break
         case 'dipole': case 'hyperfine':
-          if (prop.entries.id1 in state.spins &&
-            prop.entries.id2 in state.spins) {
+          if (state.spinids.includes(prop.entries.id1) &&
+            state.spinids.includes(prop.entries.id2)) {
             state.interactions.push(prop)
           }
           break
@@ -41,6 +39,12 @@ const mutations = {
           break
       }
     }
+  },
+  resetSpinsys: (state) => {
+    state.euler = {alpha: 0.0, beta: 0.0, gamma: 0.0}
+    state.spins = []
+    state.interactions = []
+    state.irradiation = []
   }
 }
 
@@ -50,6 +54,9 @@ const actions = {
   },
   addInteraction ({ commit }, interaction) {
     commit('newInteraction', interaction)
+  },
+  resetSpinsys ({ commit }) {
+    commit('resetSpinsys')
   }
 }
 

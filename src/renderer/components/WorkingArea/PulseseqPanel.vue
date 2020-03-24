@@ -1,5 +1,5 @@
 <template>
-  <div class='flex-fill'>
+  <div id='pulseseq-panel' class='flex-fill'>
     <div class='d-flex flex-column'>
       <div>
         <p>components</p>
@@ -21,5 +21,7 @@ export default {
 </script>
 
 <style scoped>
-
+#pulseseq-panel {
+  height: 100%;
+}
 </style>

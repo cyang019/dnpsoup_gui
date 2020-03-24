@@ -1,11 +1,18 @@
 <template>
   <div id='spinsys-panel' class='flex-fill'>
     <div class='d-flex flex-column'>
-      <add-spin/>
-      <spins/>
+      <div class='d-flex flex-column'>
+        <div id='spins-info' class='d-flex flex-column'>
+          <add-spin/>
+        <spins/>
+        </div>
+        <div id='interactions-info' class='d-flex flex-column'>
+          <add-interaction/>
+          <interactions/>
+        </div>
+      </div>
+
       <spinsys-canvas/>
-      <add-interaction/>
-      <interactions/>
     </div>
   </div>
 </template>
@@ -30,5 +37,13 @@ export default {
 </script>
 
 <style scoped>
-
+  #spinsys-panel {
+    height: 100%;
+  }
+  #spins-info {
+    padding: 0 2px 0 0;
+  }
+  #interactions-info {
+    padding: 0 0 0 2px;
+  }
 </style>

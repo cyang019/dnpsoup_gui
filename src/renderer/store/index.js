@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { createPersistedState, createSharedMutations } from 'vuex-electron'
+import { createPersistedState } from 'vuex-electron'
 
 // import modules from './modules'
 import pulseseq from './modules/pulseseq'
@@ -17,8 +17,8 @@ export default new Vuex.Store({
     settings
   },
   plugins: [
-    createPersistedState(),
-    createSharedMutations()
+    createPersistedState()
+    // createSharedMutations()
   ],
   strict: process.env.NODE_ENV !== 'production'
 })
