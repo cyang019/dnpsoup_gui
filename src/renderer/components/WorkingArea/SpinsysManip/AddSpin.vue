@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'add-spin',
@@ -170,32 +170,30 @@ export default {
     }
   },
   methods: {
-    ...mapActions('spinsys', ['addSpin', 'addInteraction', 'resetSpinsys']),
+    ...mapActions('spinsys', ['addSpin', 'addInteraction', 'resetSpinsys', 'incrementSpinId', 'incrementInteractionId']),
+    ...mapGetters('spinsys', ['getSpinId', 'getInteractionId']),
 
     genInteraction () {
-      const name = (this.spin.spinType === 'e') ? 'shielding' : 'csa'
-      return {
-        name: name,
-        entries: {
-          id: Object.assign({}, this.spin.id),
-          euler: Object.assign({}, this.euler),
-          x: Object.assign({}, this.tensor.x),
-          y: Object.assign({}, this.tensor.y),
-          z: Object.assign({}, this.tensor.z)
-        }
-      }
+      var observable = {}
+      observable.name = (this.spin.spinType === 'e') ? 'shielding' : 'csa'
+      observable['id'] = this.getInteractionId()
+      observable.entries = Object.assign({}, this.tensor)
+      observable.entries['id'] = this.spin.id
+      observable.euler = Object.assign({}, this.euler)
+      return observable
     },
     onSubmit (e) {
       this.adding = false
       // currentId incremented after addSpin
-      const spin = Object.assign({}, this.spin)
+      let spin = Object.assign({}, this.spin)
+      spin['id'] = this.getSpinId()
       if (spin.id === -1 || spin.spinType === '') return
       this.addSpin(spin)
+      this.incrementSpinId()
 
       this.addInteraction(this.genInteraction())
+      this.incrementInteractionId()
 
-      // increment
-      ++this.spin.id
       // reset other info
       this.resetPhysicalProperties()
     },

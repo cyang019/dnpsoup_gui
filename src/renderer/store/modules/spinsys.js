@@ -6,10 +6,16 @@ const state = {
   },
   interactions: [],
   irradiation: [],
-  spins: []
+  spins: [],
+  spinids: [],
+
+  spinId: 0,
+  interactionId: 0
 }
 
 const getters = {
+  getSpinId: state => state.spinId,
+  getInteractionId: state => state.interactionId,
   getSpins: state => state.spins,
   getInteractions: state => state.interactions
 }
@@ -19,10 +25,10 @@ const getters = {
 const mutations = {
   newSpin: (state, spin) => {
     state.spins.push(spin)
+    state.spinids.push(spin.id)
   },
   newInteraction: (state, prop) => {
-    if (['csa', 'shielding', 'hyperfine', 'dipole'].includes(prop.name.toLowerCase())) {
-      prop.name = prop.name.toLowerCase()
+    if (['csa', 'shielding', 'hyperfine', 'dipole'].includes(prop.name)) {
       switch (prop.name) {
         case 'csa': case 'shielding':
           if (state.spinids.includes(prop.entries.id)) {
@@ -43,8 +49,17 @@ const mutations = {
   resetSpinsys: (state) => {
     state.euler = {alpha: 0.0, beta: 0.0, gamma: 0.0}
     state.spins = []
+    state.spinids = []
     state.interactions = []
     state.irradiation = []
+    state.spinId = 0
+    state.interactionId = 0
+  },
+  incSpinId: (state) => {
+    ++state.spinId
+  },
+  incInteractionId: (state) => {
+    ++state.interactionId
   }
 }
 
@@ -57,6 +72,12 @@ const actions = {
   },
   resetSpinsys ({ commit }) {
     commit('resetSpinsys')
+  },
+  incrementSpinId ({ commit }) {
+    commit('incSpinId')
+  },
+  incrementInteractionId ({ commit }) {
+    commit('incInteractionId')
   }
 }
 
