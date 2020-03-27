@@ -46,6 +46,8 @@ export default {
   data () {
     return {
       showDetails: false,
+      hasEuler: this.interaction.entries.hasOwnProperty('euler'),
+      hasEllipsoid: this.interaction.entries.hasOwnProperty('x'),
 
       ids: this.interaction.entries.hasOwnProperty('id') ? [this.interaction.entries.id] : [this.interaction.entries.id1, this.interaction.entries.id2]
     }
@@ -55,14 +57,6 @@ export default {
 
     genIndicesRepresentation () {
       return this.ids.join('-')
-    },
-
-    hasEllipsoid () {
-      this.interaction.entries.hasOwnProperty('x')
-    },
-
-    hasEuler () {
-      this.interaction.entries.hasOwnProperty('euler')
     }
   }
 }
