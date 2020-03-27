@@ -39,11 +39,4 @@ export default {
 #interactions {
   margin: 0 0 0 5px;
 }
-
-.interaction-item {
-  font-size: 0.8rem;
-  height: 1.4rem;
-  width: 6rem;
-  margin: 1px 2px;
-}
 </style>

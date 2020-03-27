@@ -15,6 +15,14 @@ function initDefaultState () {
   }
 }
 
+function idNotInEntries (entries, spinId) {
+  if (entries.hasOwnProperty('id')) {
+    return entries.id !== spinId
+  } else {
+    return entries.id1 !== spinId && entries.id2 !== spinId
+  }
+}
+
 const state = initDefaultState()
 
 const getters = {
@@ -34,28 +42,42 @@ const mutations = {
   deleteSpin: (state, spinId) => {
     state.spins = state.spins.filter(spin => spin.id !== spinId)
     state.spinIds = state.spinIds.filter(value => value !== spinId)
+    state.interactions = state.interactions.filter(
+      interaction => idNotInEntries(interaction.entries, spinId)
+    )
   },
-  newInteraction: (state, prop) => {
-    if (['csa', 'shielding', 'hyperfine', 'dipole'].includes(prop.name)) {
-      switch (prop.name) {
-        case 'csa': case 'shielding':
-          if (state.spinIds.includes(prop.entries.id)) {
-            state.interactions.push(prop)
-          }
-          break
-        case 'dipole': case 'hyperfine':
-          if (state.spinIds.includes(prop.entries.id1) &&
-            state.spinIds.includes(prop.entries.id2)) {
-            state.interactions.push(prop)
-          }
-          break
-        default:
-          break
-      }
+  newOneSpinInteraction: (state, payload) => {
+    let spin = state.spins.find(spin => spin.id === payload.spinId)
+    let interaction = {
+      'name': (spin.spinType === 'e') ? 'shielding' : 'csa',
+      'id': parseInt(state.interactionId)
     }
+    interaction['id'] = parseInt(state.interactionId)
+    interaction.entries = Object.assign({}, payload.tensor)
+    interaction.entries.id = parseInt(payload.spinId)
+    interaction.entries.euler = Object.assign({}, payload.euler)
+
+    ++state.interactionId
+    state.interactions.push(interaction)
+  },
+  newTwoSpinInteraction: (state, payload) => {
+    let interaction = {
+      'name': payload.name,
+      'id': parseInt(state.interactionId),
+      'entries': {}
+    }
+    if (payload.hasOwnProperty('value')) { // scalar
+      interaction.entries.value = parseFloat(payload.value)
+    }
+
+    interaction.entries.id1 = parseInt(payload.spinId1)
+    interaction.entries.id2 = parseInt(payload.spinId2)
+
+    ++state.interactionId
+    state.interactions.push(interaction)
   },
   deleteInteraction: (state, interactionId) => {
-    state.interactions = state.interactions.filter(interaction => interaction.interactionId !== interactionId)
+    state.interactions = state.interactions.filter(interaction => interaction.id !== interactionId)
   },
   resetSpinsys: (state) => {
     state.euler = {alpha: 0.0, beta: 0.0, gamma: 0.0}
@@ -81,8 +103,11 @@ const actions = {
   removeSpin ({ commit }, spinId) {
     commit('deleteSpin', spinId)
   },
-  addInteraction ({ commit }, interaction) {
-    commit('newInteraction', interaction)
+  addOneSpinInteraction ({ commit }, payload) {
+    commit('newOneSpinInteraction', payload)
+  },
+  addTwoSpinInteraction ({ commit }, payload) {
+    commit('newTwoSpinInteraction', payload)
   },
   removeInteraction ({ commit }, interactionId) {
     commit('deleteInteraction', interactionId)

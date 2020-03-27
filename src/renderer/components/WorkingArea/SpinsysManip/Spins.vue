@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import SpinBrief from './SpinBrief.vue'
 
 export default {
@@ -24,24 +24,8 @@ export default {
   components: {
     SpinBrief
   },
-  data () {
-    return {
-      spinsOnPage: this.getSpins()
-    }
-  },
-  methods: {
-    ...mapGetters('spinsys', ['getSpins'])
-  },
   computed: {
     ...mapState('spinsys', ['spins'])
-  },
-  watch: {
-    spins: {
-      handler: function () {
-        this.spinsOnPage = this.getSpins()
-      },
-      deep: true
-    }
   }
 }
 </script>

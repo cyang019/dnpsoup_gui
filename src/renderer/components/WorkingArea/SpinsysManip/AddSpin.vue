@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'add-spin',
@@ -169,20 +169,23 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState('spinsys', ['spins'])
+  },
   methods: {
-    ...mapActions('spinsys', ['addSpin', 'addInteraction', 'incrementSpinId', 'incrementInteractionId']),
+    ...mapActions('spinsys', [
+      'addSpin', 'addOneSpinInteraction', 'addTwoSpinInteraction',
+      'incrementSpinId', 'incrementInteractionId']),
     ...mapGetters('spinsys', ['getSpinId', 'getInteractionId']),
 
-    genInteraction (spinId) {
-      var observable = {}
-      observable.name = (this.spin.spinType === 'e') ? 'shielding' : 'csa'
-      observable['id'] = parseInt(this.getInteractionId())
-      observable.entries = Object.assign({}, this.tensor)
-      observable.entries['id'] = parseInt(spinId)
-      observable.entries.euler = Object.assign({}, this.euler)
-      console.log(`new interaction: ${observable}`)
-      return observable
+    deriveDefaultInteractionName (spin1, spin2) {
+      if (spin1.spinType !== spin2.spinType && [spin1.spinType, spin2.spinType].includes('e')) {
+        return 'hyperfine'
+      } else {
+        return 'dipole'
+      }
     },
+
     onSubmit (e) {
       this.adding = false
       // currentId incremented after addSpin
@@ -192,8 +195,28 @@ export default {
       this.addSpin(spin)
       this.incrementSpinId()
 
-      this.addInteraction(this.genInteraction(spin['id']))
-      this.incrementInteractionId()
+      this.addOneSpinInteraction({
+        'spinId': parseInt(spin['id']),
+        'tensor': Object.assign({}, this.tensor),
+        'euler': Object.assign({}, this.euler)
+      })
+      for (const spin2 of this.spins) {
+        if (spin2.id !== spin.id) {
+          if (spin2.id > spin.id) {
+            this.addTwoSpinInteraction({
+              'name': this.deriveDefaultInteractionName(spin, spin2),
+              'spinId1': parseInt(spin.id),
+              'spinId2': parseInt(spin2.id)
+            })
+          } else {
+            this.addTwoSpinInteraction({
+              'name': this.deriveDefaultInteractionName(spin2, spin),
+              'spinId1': parseInt(spin2.id),
+              'spinId2': parseInt(spin.id)
+            })
+          }
+        }
+      }
 
       // reset other info
       this.resetPhysicalProperties()
@@ -201,7 +224,7 @@ export default {
     resetPhysicalProperties () {
       this.spin.x = 0.0
       this.spin.y = 0.0
-      this.spin.y = 0.0
+      this.spin.z = 0.0
       this.spinType = ''
       this.t1 = 100
       this.t2 = 10
