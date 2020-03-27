@@ -11,9 +11,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'spinsys-canvas',
   computed: {
-    ...mapState('spinsys', {
-      spins: 'state.spinys.spins'
-    })
+    ...mapState('spinsys', ['spins', 'interactions'])
   },
   data () {
     return {

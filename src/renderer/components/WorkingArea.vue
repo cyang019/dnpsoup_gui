@@ -1,48 +1,61 @@
 <template>
   <div id="working-area" class="border border-primary container">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item" @click="spinsysTabSelected">
-        <router-link 
-          :to="{ path: '/panels/spinsys'}" 
-          class="nav-link"
-          :class="{ active: tabIdentity === 'spinsys'}">
-          Spin System
-        </router-link>
-      </li>
-      <li class="nav-item" @click="pulseseqTabSelected">
-        <router-link 
-          :to="{ path: '/panels/pulseseq'}" 
-          class="nav-link"
-          :class="{ active: tabIdentity === 'pulseseq'}">
-          Pulse Sequence
-        </router-link>
-      </li>
-      <li class="nav-item" @click="settingsTabSelected">
-        <router-link 
-          :to="{ path: '/panels/settings'}" 
-          class="nav-link"
-          :class="{ active: tabIdentity === 'settings'}">
-          Settings
-        </router-link>
+      <li class="nav-item"
+        v-for="panel in panels"
+        v-bind:key="panel"
+        @click="currentPanel = panel"
+      >
+        <div :class="['nav-link', { 'active': currentPanel === panel }]">
+          <span>{{panelNames[panel]}}</span>
+        </div>
       </li>
     </ul>   
-    <router-view/>
+    <keep-alive>
+      <component v-bind:is="currentPanelComponent">
+      </component>
+    </keep-alive>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import SpinsysPanel from './WorkingArea/SpinsysPanel.vue'
+import PulseseqPanel from './WorkingArea/PulseseqPanel.vue'
+import SettingsPanel from './WorkingArea/SettingsPanel.vue'
 
 export default {
   name: 'working-area',
+  components: {
+    SpinsysPanel,
+    PulseseqPanel,
+    SettingsPanel
+  },
   data () {
     return {
-      tabIdentity: 'spinsys'
+      currentPanel: 'Spinsys',
+      panels: [
+        'Spinsys',
+        'Pulseseq',
+        'Settings'
+      ],
+      panelNames: {
+        'Spinsys': 'Spin System',
+        'Pulseseq': 'Pulse Sequence',
+        'Settings': 'Settings'
+      }
+    }
+  },
+  computed: {
+    currentPanelComponent () {
+      return this.currentPanel.toLowerCase() + '-panel'
     }
   },
   methods: {
-    spinsysTabSelected () { this.tabIdentity = 'spinsys' },
-    pulseseqTabSelected () { this.tabIdentity = 'pulseseq' },
-    settingsTabSelected () { this.tabIdentity = 'settings' }
+    ...mapActions('spinsys', ['resetSpinsys'])
+  },
+  mounted () {
+    this.resetSpinsys()
   }
 }
 </script>

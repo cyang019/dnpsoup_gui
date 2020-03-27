@@ -1,8 +1,12 @@
 <template>
   <div id='input-summary'>
-    <spinsys-summary/>
-    <pulseseq-summary/>
-    <settings-summary/>
+    <div class="container-fuild">
+      <div class="col-12 h-100">
+        <spinsys-summary class="row-4 summary-item h-33"/>
+        <pulseseq-summary class="row-4 summary-item h-33"/>
+        <settings-summary class="row-4 summary-item h-33"/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -22,5 +26,15 @@ export default {
 </script>
 
 <style scoped>
+  #input-summary {
+    height: 100%;
+  }
 
+  .summary-item {
+    margin: 4px 0;
+  }
+
+  .col {
+    padding: 1px;
+  }
 </style>

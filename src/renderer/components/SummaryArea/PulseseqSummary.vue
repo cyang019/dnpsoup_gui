@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Pulse Sequence Summary</p>
+    <small class="text-muted">Pulse Sequence Summary</small>
   </div>
 </template>
 

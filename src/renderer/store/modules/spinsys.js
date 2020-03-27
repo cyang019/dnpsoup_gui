@@ -1,17 +1,21 @@
-const state = {
-  euler: {
-    alpha: 0.0,
-    beta: 0.0,
-    gamma: 0.0
-  },
-  interactions: [],
-  irradiation: [],
-  spins: [],
-  spinids: [],
+function initDefaultState () {
+  return {
+    euler: {
+      alpha: 0.0,
+      beta: 0.0,
+      gamma: 0.0
+    },
+    interactions: [],
+    irradiation: [],
+    spins: [],
+    spinIds: [],
 
-  spinId: 0,
-  interactionId: 0
+    spinId: 0,
+    interactionId: 0
+  }
 }
+
+const state = initDefaultState()
 
 const getters = {
   getSpinId: state => state.spinId,
@@ -25,19 +29,23 @@ const getters = {
 const mutations = {
   newSpin: (state, spin) => {
     state.spins.push(spin)
-    state.spinids.push(spin.id)
+    state.spinIds.push(spin.id)
+  },
+  deleteSpin: (state, spinId) => {
+    state.spins = state.spins.filter(spin => spin.id !== spinId)
+    state.spinIds = state.spinIds.filter(value => value !== spinId)
   },
   newInteraction: (state, prop) => {
     if (['csa', 'shielding', 'hyperfine', 'dipole'].includes(prop.name)) {
       switch (prop.name) {
         case 'csa': case 'shielding':
-          if (state.spinids.includes(prop.entries.id)) {
+          if (state.spinIds.includes(prop.entries.id)) {
             state.interactions.push(prop)
           }
           break
         case 'dipole': case 'hyperfine':
-          if (state.spinids.includes(prop.entries.id1) &&
-            state.spinids.includes(prop.entries.id2)) {
+          if (state.spinIds.includes(prop.entries.id1) &&
+            state.spinIds.includes(prop.entries.id2)) {
             state.interactions.push(prop)
           }
           break
@@ -46,10 +54,13 @@ const mutations = {
       }
     }
   },
+  deleteInteraction: (state, interactionId) => {
+    state.interactions = state.interactions.filter(interaction => interaction.interactionId !== interactionId)
+  },
   resetSpinsys: (state) => {
     state.euler = {alpha: 0.0, beta: 0.0, gamma: 0.0}
     state.spins = []
-    state.spinids = []
+    state.spinIds = []
     state.interactions = []
     state.irradiation = []
     state.spinId = 0
@@ -67,8 +78,14 @@ const actions = {
   addSpin ({ commit }, payload) {
     commit('newSpin', payload)
   },
+  removeSpin ({ commit }, spinId) {
+    commit('deleteSpin', spinId)
+  },
   addInteraction ({ commit }, interaction) {
     commit('newInteraction', interaction)
+  },
+  removeInteraction ({ commit }, interactionId) {
+    commit('deleteInteraction', interactionId)
   },
   resetSpinsys ({ commit }) {
     commit('resetSpinsys')

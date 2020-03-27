@@ -14,15 +14,15 @@
           <label for='x' class='col-form-label'>x:</label>
           <input type='number' id='x' placeholder=0.0 
             class='col-sm-2'
-            v-model='spin.x' step="any">
+            v-model.number='spin.x' step="any">
           <label for='y' class='col-form-label'>y:</label>
           <input type='number' id='y' placeholder=0.0 
             class='col-sm-2'
-            v-model='spin.y' step="any">
+            v-model.number='spin.y' step="any">
           <label for='z' class='col-form-label'>z:</label>
           <input type='number' id='z' placeholder=0.0 
             class='col-sm-2'
-            v-model='spin.z' step="any">
+            v-model.number='spin.z' step="any">
         </div>
 
         <div class='form-row'>
@@ -41,11 +41,11 @@
           <label for='t1' class='col-form-label'>T1:</label>
           <input type='number' id='t1' placeholder='10.0' min='0.0' 
             class='col-sm-2'
-            v-model='spin.t1' step="any">
+            v-model.number='spin.t1' step="any">
           <label for='t2' class='col-form-label'>T2:</label>
           <input type='number' id='t2' placeholder='1.0e-3' min='0.0' 
             class='col-sm-2'
-            v-model='spin.t2' step="any"> 
+            v-model.number='spin.t2' step="any"> 
         </div>
 
         <div v-if="spin.spinType=='e'">
@@ -55,7 +55,7 @@
               type='number' 
               id='gxx' 
               placeholder='2.003' 
-              v-model='tensor.x' 
+              v-model.number='tensor.x' 
               class="col-sm-2 col-lg-1"
               step="any">
             <label for='gyy' class='col-form-label'>g<sub>yy</sub></label>
@@ -63,7 +63,7 @@
               type='number' 
               id='gyy' 
               placeholder='2.003' 
-              v-model='tensor.y' 
+              v-model.number='tensor.y' 
               class="col-sm-2"
               step="any">
             <label for='gzz' class='col-form-label'>g<sub>zz</sub></label>
@@ -71,7 +71,7 @@
               type='number' 
               id='gzz' 
               placeholder='2.003' 
-              v-model='tensor.z' 
+              v-model.number='tensor.z' 
               class="col-sm-2"
               step="any">
           </div>
@@ -82,7 +82,7 @@
             <input 
               type='number' 
               id='csaxx' placeholder='0.0' 
-              v-model='tensor.x'
+              v-model.number='tensor.x'
               class="col-sm-2"
               step="any">
             <label for='csayy' class='col-form-label'>csa<sub>yy</sub></label>
@@ -90,7 +90,7 @@
               type='number' 
               id='csayy' 
               placeholder='0.0' 
-              v-model='tensor.y' 
+              v-model.number='tensor.y' 
               class="col-sm-2"
               step="any">
             <label for='csazz' class='col-form-label'>csa<sub>zz</sub></label>
@@ -98,7 +98,7 @@
               type='number' 
               id='csazz' 
               placeholder='0.0' 
-              v-model='tensor.z' 
+              v-model.number='tensor.z' 
               class="col-sm-2"
               step="any">
           </div>
@@ -113,19 +113,19 @@
           <input 
             type="number" 
             id="euler-alpha" 
-            v-model="euler.alpha" 
+            v-model.number="euler.alpha" 
             class="col-sm-2"
             step="any">
 
           <label for="euler-beta" class="col-form-label">beta</label>
           <input 
-            type="number" id="euler-beta" v-model="euler.beta"
+            type="number" id="euler-beta" v-model.number="euler.beta"
             class="col-sm-2"
             step="any">
 
           <label for="euler-gamma" class="col-form-label">gamma</label>
           <input 
-            type="number" id="euler-gamma" v-model="euler.gamma"
+            type="number" id="euler-gamma" v-model.number="euler.gamma"
             class="col-sm-2"
             step="any">
         </div>
@@ -170,16 +170,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions('spinsys', ['addSpin', 'addInteraction', 'resetSpinsys', 'incrementSpinId', 'incrementInteractionId']),
+    ...mapActions('spinsys', ['addSpin', 'addInteraction', 'incrementSpinId', 'incrementInteractionId']),
     ...mapGetters('spinsys', ['getSpinId', 'getInteractionId']),
 
-    genInteraction () {
+    genInteraction (spinId) {
       var observable = {}
       observable.name = (this.spin.spinType === 'e') ? 'shielding' : 'csa'
-      observable['id'] = this.getInteractionId()
+      observable['id'] = parseInt(this.getInteractionId())
       observable.entries = Object.assign({}, this.tensor)
-      observable.entries['id'] = this.spin.id
-      observable.euler = Object.assign({}, this.euler)
+      observable.entries['id'] = parseInt(spinId)
+      observable.entries.euler = Object.assign({}, this.euler)
+      console.log(`new interaction: ${observable}`)
       return observable
     },
     onSubmit (e) {
@@ -191,7 +192,7 @@ export default {
       this.addSpin(spin)
       this.incrementSpinId()
 
-      this.addInteraction(this.genInteraction())
+      this.addInteraction(this.genInteraction(spin['id']))
       this.incrementInteractionId()
 
       // reset other info
@@ -211,9 +212,6 @@ export default {
       this.euler.beta = 0.0
       this.euler.gamma = 0.0
     }
-  },
-  mounted () {
-    this.resetSpinsys()
   }
 }
 </script>

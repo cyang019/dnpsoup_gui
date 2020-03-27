@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Settings Summary</p>
+    <small class="text-muted">Settings Summary</small>
   </div>
 </template>
 
