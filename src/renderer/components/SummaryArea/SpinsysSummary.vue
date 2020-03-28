@@ -9,7 +9,15 @@
       <span>no spins</span>
     </div>
     <div v-else>
-      <span>{{name}} spin system</span>
+      <div class='p'>
+        {{name}}
+      </div>
+      <div class='p'>
+        {{spins.length}} spin<span v-if="spins.length>1">s</span>
+      </div>
+      <div class="p">
+        {{interactions.length}} interaction<span v-if="spins.length>1">s</span>
+      </div>
     </div>
   </div>
 </template>

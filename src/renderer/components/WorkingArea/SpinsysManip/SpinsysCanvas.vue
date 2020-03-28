@@ -13,7 +13,67 @@ export default {
   computed: {
     ...mapState('spinsys', ['spins', 'interactions'])
   },
+  data () {
+    return {
+      chart: {
+        uuid: '123',
+        traces: [this.genDefaultTrace()],
+        layout: this.genDefaultLayout()
+      }
+    }
+  },
   methods: {
+    genDefaultLayout () {
+      return {
+        autosize: true,
+        showlegend: false,
+        margin: {
+          l: 2,
+          r: 2,
+          b: 0,
+          t: 0
+        },
+        scene: {
+          aspectratio: {
+            x: 1,
+            y: 1,
+            z: 1
+          },
+          camera: {
+            center: {
+              x: 0,
+              y: 0,
+              z: 0
+            },
+            eye: {
+              x: 1.25,
+              y: -2.5,
+              z: 1.25
+            },
+            up: {
+              x: 0,
+              y: 0,
+              z: 1
+            }
+          },
+          xaxis: {
+            type: 'linear',
+            zeroline: true,
+            range: [-1, 1]
+          },
+          yaxis: {
+            type: 'linear',
+            zeroline: true,
+            range: [-1, 1]
+          },
+          zaxis: {
+            type: 'linear',
+            zeroline: true,
+            range: [-1, 1]
+          }
+        }
+      }
+    },
     genDefaultTrace () {
       return {
         x: [0.0],
@@ -53,7 +113,7 @@ export default {
         type: 'scatter3d',
         marker: {
           color: 'rgb(217, 217, 217)',
-          size: 6,
+          size: 8,
           symbol: 'circle',
           line: {
             color: 'rgb(204, 204, 204)',
@@ -89,7 +149,7 @@ export default {
             opacity: 0.5,
             line: {
               width: 6,
-              color: 'rgb(201, 201, 201)',
+              color: 'rgb(180, 180, 180)',
               dash: 'dashdot'
             }
           }
@@ -104,6 +164,8 @@ export default {
           trace.z.push(spin1.z)
           trace.z.push(spin2.z)
           traces.push(trace)
+        } else if (interaction.name === 'shielding') {
+
         }
       }
 
@@ -128,7 +190,6 @@ export default {
       let ymax = 1
       let zmin = -1
       let zmax = 1
-      console.log(`zmax: ${zmax}`)
       for (const trace of this.chart.traces) {
         let xminTmp = Math.min(...trace.x) - 1
         let xmaxTmp = Math.max(...trace.x) + 1
@@ -148,64 +209,6 @@ export default {
       this.chart.layout.scene.zaxis.range = [zmin, zmax]
     }
   },
-  data () {
-    return {
-      chart: {
-        uuid: '123',
-        traces: [this.genDefaultTrace()],
-        layout: {
-          autosize: true,
-          showlegend: false,
-          margin: {
-            l: 2,
-            r: 2,
-            b: 0,
-            t: 0
-          },
-          scene: {
-            aspectratio: {
-              x: 1,
-              y: 1,
-              z: 1
-            },
-            camera: {
-              center: {
-                x: 0,
-                y: 0,
-                z: 0
-              },
-              eye: {
-                x: 1.25,
-                y: -2.5,
-                z: 1.25
-              },
-              up: {
-                x: 0,
-                y: 0,
-                z: 1
-              }
-            },
-            xaxis: {
-              type: 'linear',
-              zeroline: true,
-              range: [-1, 1]
-            },
-            yaxis: {
-              type: 'linear',
-              zeroline: true,
-              range: [-1, 1]
-            },
-            zaxis: {
-              type: 'linear',
-              zeroline: true,
-              range: [-1, 1]
-            }
-          }
-        }
-      }
-    }
-  },
-
   mounted () {
     plotly.plot(this.$refs[this.chart.uuid], this.chart.traces, this.chart.layout)
   },

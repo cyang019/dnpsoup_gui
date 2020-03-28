@@ -1,3 +1,5 @@
+import defaultEllipsoidAngles from './angles/ellipsoid'
+
 function initDefaultState () {
   return {
     euler: {
@@ -11,7 +13,9 @@ function initDefaultState () {
     spinIds: [],
 
     spinId: 0,
-    interactionId: 0
+    interactionId: 0,
+
+    defaultEllipsoidAngles: defaultEllipsoidAngles
   }
 }
 

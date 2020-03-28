@@ -142,6 +142,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
+import { minValue, integer } from 'vuelidate/lib/validators'
 
 export default {
   name: 'add-spin',
@@ -167,6 +168,13 @@ export default {
         beta: 0.0,
         gamma: 0.0
       }
+    }
+  },
+  validations: {
+    spin: {
+      id: integer,
+      t1: minValue(0.0),
+      t2: minValue(0.0)
     }
   },
   computed: {
