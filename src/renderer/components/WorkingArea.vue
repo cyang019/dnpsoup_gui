@@ -65,4 +65,8 @@ export default {
     margin: 2px;
     overflow: scroll;
   }
+
+  .nav-tabs {
+    cursor: pointer;
+  }
 </style>

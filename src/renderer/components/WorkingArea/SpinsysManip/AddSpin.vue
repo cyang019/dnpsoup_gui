@@ -8,7 +8,8 @@
     </div>
     <div v-if='adding'>
       <form id='addspin-form' 
-        @submit.prevent='onSubmit' @mouseleave='adding=false'
+        @submit.prevent='onSubmit'
+        @cancel.prevent='onCancel'
         class='border border-primary'>
         <div class="form-row">
           <label for='x' class='col-form-label'>x:</label>
@@ -131,8 +132,14 @@
         </div>
 
         <div class='form-row'>
-          <div class='col-auto'>
+          <div class='col-3'>
             <input type='submit' value='Add' class='btn btn-primary btn-sm'>
+          </div>
+          <div class="col-3">
+            <input type="cancel" value='Cancel'
+              class="btn btn-light btn-sm"
+              @click="onCancel"
+            >
           </div>
         </div>
       </form>
@@ -242,6 +249,10 @@ export default {
       this.euler.alpha = 0.0
       this.euler.beta = 0.0
       this.euler.gamma = 0.0
+    },
+    onCancel (e) {
+      this.adding = false
+      this.resetPhysicalProperties()
     }
   }
 }
