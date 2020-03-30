@@ -1,8 +1,8 @@
 const state = {
   pulseseq: {
     increment: 1.0e-9,
-    components: {},
-    sections: {},
+    emrs: [],
+    sections: [],
     sequence: []
   }
 }

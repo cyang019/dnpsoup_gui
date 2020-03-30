@@ -56,6 +56,7 @@
     "axios": "^0.18.0",
     "bootstrap-css-only": "^4.4.1",
     "dotenv": "^8.2.0",
+    "he": "^1.2.0",
     "ify-loader": "^1.1.0",
     "plotly.js-dist": "^1.52.3",
     "uuid": "^7.0.2",

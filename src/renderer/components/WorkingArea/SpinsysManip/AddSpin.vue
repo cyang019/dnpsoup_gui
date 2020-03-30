@@ -9,7 +9,6 @@
     <div v-if='adding'>
       <form id='addspin-form' 
         @submit.prevent='onSubmit'
-        @cancel.prevent='onCancel'
         class='border border-primary'>
         <div class="form-row">
           <label for='x' class='col-form-label'>x:</label>
@@ -132,15 +131,11 @@
         </div>
 
         <div class='form-row'>
-          <div class='col-3'>
-            <input type='submit' value='Add' class='btn btn-primary btn-sm'>
-          </div>
-          <div class="col-3">
-            <input type="cancel" value='Cancel'
-              class="btn btn-light btn-sm"
+          <input type='submit' value='Add' class='btn btn-primary btn-sm col-3 btn-submit'>
+          <input type="cancel" value='Cancel'
+              class="btn btn-light btn-sm col-3 btn-submit"
               @click="onCancel"
             >
-          </div>
         </div>
       </form>
     </div>
@@ -261,6 +256,11 @@ export default {
 <style scoped>
   #addspin-form {
     font-size: 0.8rem;
+    margin: 0px;
     padding: 1px;
+  }
+
+  .btn-submit {
+    margin: 1px 4px;
   }
 </style>

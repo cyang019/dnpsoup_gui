@@ -22,7 +22,6 @@
     <div v-else>
       <form id='addinteraction-form' 
         @submit.prevent='onSubmit'
-        @cancel.prevent='onCancel'
         class='border border-primary'>
         <div class="form-row">
           <div class="btn-group btn-group-sm btn-group-toggle" role="group">
@@ -202,15 +201,11 @@
         </div>
         
         <div class='form-row'>
-          <div class='col-3'>
-            <input type='submit' value='Add' class='btn btn-secondary btn-sm'>
-          </div>
-          <div class="col-3">
-            <input type="cancel" value='Cancel'
-              class="btn btn-light btn-sm"
-              @click="onCancel"
-            >
-          </div>
+          <input type='submit' value='Add' class='btn btn-primary btn-sm col-4 btn-submit'>
+          <input type="cancel" value='Cancel'
+            class="btn btn-light btn-sm col-4 btn-submit"
+            @click="onCancel"
+          >
         </div>
       </form>
     </div>
@@ -322,6 +317,11 @@ export default {
 <style scoped>
   #addinteraction-form {
     font-size: 0.8rem;
+    margin: 0px;
     padding: 1px;
+  }
+
+  .btn-submit {
+    margin: 1px 4px;
   }
 </style>
