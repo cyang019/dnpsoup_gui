@@ -1,6 +1,5 @@
 <template>
   <div>
-    emrs
     <add-emr/>
   </div>
 </template>

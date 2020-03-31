@@ -105,11 +105,9 @@
         </div>
 
         <div class="form-row">
-          <div class="col-auto">
-            <small class="form-text text-muted">Euler Angle:</small>
-          </div>
+          <label class="col-form-label">Euler Angle: </label>
 
-          <label for="euler-alpha" class="col-form-label">alpha</label>
+          <label for="euler-alpha" class="col-form-label">{{decode(msgAlpha)}}</label>
           <input 
             type="number" 
             id="euler-alpha" 
@@ -117,13 +115,13 @@
             class="col-sm-2"
             step="any">
 
-          <label for="euler-beta" class="col-form-label">beta</label>
+          <label for="euler-beta" class="col-form-label">{{decode(msgBeta)}}</label>
           <input 
             type="number" id="euler-beta" v-model.number="euler.beta"
             class="col-sm-2"
             step="any">
 
-          <label for="euler-gamma" class="col-form-label">gamma</label>
+          <label for="euler-gamma" class="col-form-label">{{decode(msgGamma)}}</label>
           <input 
             type="number" id="euler-gamma" v-model.number="euler.gamma"
             class="col-sm-2"
@@ -143,6 +141,7 @@
 </template>
 
 <script>
+import { decode } from 'he'
 import { mapActions, mapGetters, mapState } from 'vuex'
 import { minValue, integer } from 'vuelidate/lib/validators'
 
@@ -169,7 +168,10 @@ export default {
         alpha: 0.0,
         beta: 0.0,
         gamma: 0.0
-      }
+      },
+      msgAlpha: '&#x3B1;',
+      msgBeta: '&#x3B2;',
+      msgGamma: '&#x3B3;'
     }
   },
   validations: {
@@ -194,6 +196,10 @@ export default {
       } else {
         return 'dipole'
       }
+    },
+
+    decode (str) {
+      return decode(str)
     },
 
     onSubmit (e) {

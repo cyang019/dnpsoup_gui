@@ -5,9 +5,24 @@
         <label for="increment">Increment:</label>
         <input type="number" step="any" v-model="increment">
       </div>
-      <emr-panel class="panel-secondary"/>
-      <section-panel class="panel-secondary"/>
-      <sequence-panel class="panel-secondary"/>
+      <div class="card">
+        <div class="card-header pulseseq-header">
+          <span class="panel-title">ElectroMagnetic Radiations</span>
+        </div>
+        <emr-panel class="panel-secondary"/>
+      </div>
+      <div class="card">
+        <div class="card-header pulseseq-header">
+          <span class="panel-title">Sections</span>
+        </div>
+        <section-panel class="panel-secondary"/>
+      </div>
+      <div class="card">
+        <div class="card-header pulseseq-header">
+          <span class="panel-title">Sequence</span>
+        </div>
+        <sequence-panel class="panel-secondary"/>
+      </div>
     </div>
   </div>
 </template>
@@ -35,9 +50,18 @@ export default {
 <style scoped>
 #pulseseq-panel {
   height: 100%;
+  padding: 1px;
 }
 
 .panel-secondary {
   min-height: 100px;
+}
+
+.pulseseq-header {
+  font-size: 0.8rem;
+  color: #aaaaaa;
+  height: 1.2rem;
+  padding: 1px 1rem;
+  text-align: 'center'
 }
 </style>

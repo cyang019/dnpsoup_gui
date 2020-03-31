@@ -130,11 +130,9 @@
             </div>
           </div>
           <div class="form-row">
-            <div class="col-auto">
-              <small class="form-text text-muted">Euler Angle:</small>
-            </div>
+            <label class="col-form-label">Euler Angle: </label>
 
-            <label for="euler-alpha" class="col-form-label">alpha</label>
+            <label for="euler-alpha" class="col-form-label">{{decode(msgAlpha)}}</label>
             <input 
               type="number" 
               id="euler-alpha" 
@@ -142,13 +140,13 @@
               class="col-sm-2"
               step="any">
 
-            <label for="euler-beta" class="col-form-label">beta</label>
+            <label for="euler-beta" class="col-form-label">{{decode(msgBeta)}}</label>
             <input 
               type="number" id="euler-beta" v-model.number="interaction.euler.beta"
               class="col-sm-2"
               step="any">
 
-            <label for="euler-gamma" class="col-form-label">gamma</label>
+            <label for="euler-gamma" class="col-form-label">{{decode(msgGamma)}}</label>
             <input 
               type="number" id="euler-gamma" v-model.number="interaction.euler.gamma"
               class="col-sm-2"
@@ -216,6 +214,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { decode } from 'he'
 
 export default {
   name: 'add-interaction',
@@ -239,6 +238,9 @@ export default {
           gamma: 0.0
         }
       },
+      msgAlpha: '&#x3B1;',
+      msgBeta: '&#x3B2;',
+      msgGamma: '&#x3B3;',
 
       oneSpinOptions: [
         'Csa',
@@ -257,6 +259,10 @@ export default {
   methods: {
     ...mapActions('spinsys', [
       'addOneSpinInteraction', 'addTwoSpinInteraction']),
+
+    decode (str) {
+      return decode(str)
+    },
 
     onSubmit (e) {
       this.adding = false
