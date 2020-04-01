@@ -1,6 +1,11 @@
-# dnpsoup_gui
+# dnpsoup_gui [In Development]
 
 > A Graphic Interface for Preparing [DNP](https://en.wikipedia.org/wiki/Dynamic_nuclear_polarization) Simulation Inputs.
+
+Such inputs are separated into three categories:
+  - Spin System
+  - Pulse Sequence
+  - Simulation Settings
 
 #### Build Setup
 
