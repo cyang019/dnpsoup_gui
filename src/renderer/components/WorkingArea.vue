@@ -52,10 +52,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions('spinsys', ['resetSpinsys'])
+    ...mapActions('spinsys', ['resetSpinsys']),
+    ...mapActions('pulseseq', ['resetPulseseq'])
   },
   mounted () {
     this.resetSpinsys()
+    this.resetPulseseq()
   }
 }
 </script>

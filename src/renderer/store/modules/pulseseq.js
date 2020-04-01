@@ -2,7 +2,8 @@ const state = {
   increment: 1.0e-9,
   emrs: [],
   sections: [],
-  sequence: []
+  sequence: [],
+  channelOptions: ['e']
 }
 
 const getters = {
@@ -20,7 +21,15 @@ const mutations = {
     const index = state.emrs.findIndex(tmpEmr => tmpEmr.name === emr.name)
     if (index !== -1) {
       state.emrs.splice(index, 1, emr)
+    } else {
+      state.emrs.push(emr)
     }
+  },
+  resetPulseseq: (state) => {
+    state.increment = 1.0e-9
+    state.emrs = []
+    state.sections = []
+    state.sequence = []
   }
 }
 
@@ -28,11 +37,14 @@ const actions = {
   addEmr ({ commit }, emr) {
     commit('newEmr', emr)
   },
-  deleteEmr ({ commit }, name) {
-    commit('removeEmr', name)
+  deleteEmrByName ({ commit }, name) {
+    commit('removeEmrByName', name)
   },
   updateEmr ({ commit }, emr) {
     commit('updateEmr', emr)
+  },
+  resetPulseseq ({ commit }) {
+    commit('resetPulseseq')
   }
 }
 
