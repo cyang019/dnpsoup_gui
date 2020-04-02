@@ -3,13 +3,22 @@ const state = {
   emrs: [],
   sections: [],
   sequence: [],
-  channelOptions: ['e']
+  channelOptions: ['e'],
+  sectionOptions: [
+    'Delay', 'Pulse', 'Chirp',
+    'Section'
+  ]
 }
 
 const getters = {
   getEmrs: state => state.emrs,
   getEmrByName: state => name => {
     return state.emrs.find(emr => emr.name === name)
+  },
+
+  getSections: state => state.sections,
+  getSectionByName: state => name => {
+    return state.sections.find(section => section.name === name)
   }
 }
 
@@ -25,6 +34,20 @@ const mutations = {
       state.emrs.push(emr)
     }
   },
+
+  newSection: (state, section) => state.sections.push(section),
+  removeSectionByName: (state, name) => {
+    state.sections = state.sections.filter(section => section.name !== name)
+  },
+  updateSection: (state, section) => {
+    const index = state.sections.findIndex(tmpSection => tmpSection.name === section.name)
+    if (index !== -1) {
+      state.sections.splice(index, 1, section)
+    } else {
+      state.sections.push(section)
+    }
+  },
+
   resetPulseseq: (state) => {
     state.increment = 1.0e-9
     state.emrs = []
@@ -42,6 +65,15 @@ const actions = {
   },
   updateEmr ({ commit }, emr) {
     commit('updateEmr', emr)
+  },
+  addSection ({ commit }, section) {
+    commit('newSection', section)
+  },
+  deleteSectionByName ({ commit }, name) {
+    commit('removeSectionByName', name)
+  },
+  updateSection ({ commit }, section) {
+    commit('updateSection', section)
   },
   resetPulseseq ({ commit }) {
     commit('resetPulseseq')
