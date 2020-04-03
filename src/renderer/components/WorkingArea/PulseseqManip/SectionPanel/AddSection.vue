@@ -1,6 +1,13 @@
 <template>
-  <div v-if="!adding" id='add-section' class="btn btn-light" @click="adding=true">
-    <i class="fas fa-plus"></i>
+  <div v-if="!adding" 
+    id='add-section' 
+    class="btn btn-light d-flex flex-column" 
+    @click="adding=true">
+    <br>
+    <span class="text-secondary">
+      <i class="fas fa-plus"></i>
+    </span>
+    <br>
   </div>
   <div v-else id='add-section'>
     <edit-section 
