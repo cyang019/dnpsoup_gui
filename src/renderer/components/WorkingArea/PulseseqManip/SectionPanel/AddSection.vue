@@ -3,7 +3,12 @@
     <i class="fas fa-plus"></i>
   </div>
   <div v-else id='add-section'>
-    <edit-section/>
+    <edit-section 
+      v-bind:section="defaultSection"
+      v-bind:purpose="'add'"
+      v-on:add-finish="adding=false"
+    >
+    </edit-section>
   </div>
 </template>
 
@@ -17,7 +22,14 @@ export default {
   },
   data () {
     return {
-      adding: false
+      adding: false,
+      defaultSection: {
+        name: '',
+        type: 'Delay',
+        size: 0,
+        names: [],
+        params: {}
+      }
     }
   }
 }
