@@ -1,13 +1,11 @@
 <template>
   <div v-if="!adding" 
-    id='add-section' 
-    class="btn btn-light d-flex flex-column" 
-    @click="adding=true">
-    <br>
-    <span class="text-secondary">
-      <i class="fas fa-plus"></i>
-    </span>
-    <br>
+    id='add-section'
+    @click="adding=true"
+    class="d-flex flex-row"
+  >
+    <btn-add-vertical >
+    </btn-add-vertical>
   </div>
   <div v-else id='add-section'>
     <edit-section 
@@ -21,11 +19,13 @@
 
 <script>
 import EditSection from './EditSection.vue'
+import BtnAddVertical from '../../common/BtnAddVertical.vue'
 
 export default {
   name: 'add-section',
   components: {
-    EditSection
+    EditSection,
+    BtnAddVertical
   },
   data () {
     return {

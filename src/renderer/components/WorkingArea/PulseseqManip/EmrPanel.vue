@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex flex-column">
     <add-emr/>
     <div class="d-flex flex-wrap">
       <emr-brief
