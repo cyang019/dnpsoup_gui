@@ -1,9 +1,9 @@
 <template>
   <div class='d-flex flex-row'>
-    <add-section></add-section>
     <div v-for="section in sections" :key="section.name">
       <section-brief :section="section"></section-brief>
     </div>
+    <add-section></add-section>
   </div>
 </template>
 

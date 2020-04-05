@@ -1,27 +1,33 @@
 <template>
   <div id='pulseseq-panel' class='flex-fill'>
     <div class='d-flex flex-column'>
-      <div>
-        <label for="increment">Increment:</label>
-        <input type="number" step="any" v-model="increment">
+      <div class="d-flex flex-row">
+        <label for="pulseseq-name" class="col-form-label">
+          Name:
+        </label>
+        <input type="text" id="pulseseq-name" v-model="name">
+        <label for="increment" class="col-form-label">
+          Increment:
+        </label>
+        <input type="number" id="increment" step="any" v-model="increment">
       </div>
       <div class="card">
         <div class="card-header pulseseq-header">
           <span class="panel-title">ElectroMagnetic Radiations</span>
         </div>
-        <emr-panel class="panel-secondary"/>
+        <emr-panel class="card-body panel-secondary"/>
       </div>
       <div class="card">
         <div class="card-header pulseseq-header">
           <span class="panel-title">Sections</span>
         </div>
-        <section-panel class="panel-secondary"/>
+        <section-panel class="card-body panel-secondary"/>
       </div>
       <div class="card">
         <div class="card-header pulseseq-header">
           <span class="panel-title">Sequence</span>
         </div>
-        <sequence-panel class="panel-secondary"/>
+        <sequence-panel class="card-body panel-secondary"/>
       </div>
     </div>
   </div>
@@ -36,7 +42,8 @@ export default {
   name: 'pulseseq-panel',
   data () {
     return {
-      increment: 1.0e-9
+      increment: 1.0e-9,
+      name: ''
     }
   },
   components: {
@@ -51,6 +58,10 @@ export default {
 #pulseseq-panel {
   height: 100%;
   padding: 1px;
+}
+
+.card-body {
+  padding: 0;
 }
 
 .panel-secondary {

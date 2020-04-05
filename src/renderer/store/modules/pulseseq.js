@@ -48,6 +48,11 @@ const mutations = {
     }
   },
 
+  newSubSequence: (state, subseqName) => state.sequence.push(subseqName),
+  removeSubSequenceByName: (state, subseqName) => {
+    state.sequence = state.sequence.filter(name => name !== subseqName)
+  },
+
   resetPulseseq: (state) => {
     state.increment = 1.0e-9
     state.emrs = []
@@ -75,6 +80,13 @@ const actions = {
   updateSection ({ commit }, section) {
     commit('updateSection', section)
   },
+  addSectionToSequence ({ commit }, sectionName) {
+    commit('newSubSequence', sectionName)
+  },
+  deleteNameInSequence ({ commit }, sectionName) {
+    commit('removeSubSequenceByName', sectionName)
+  },
+
   resetPulseseq ({ commit }) {
     commit('resetPulseseq')
   }
