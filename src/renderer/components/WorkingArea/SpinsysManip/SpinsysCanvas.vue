@@ -210,7 +210,11 @@ export default {
     }
   },
   mounted () {
-    plotly.plot(this.$refs[this.chart.uuid], this.chart.traces, this.chart.layout)
+    plotly.plot(
+      this.$refs[this.chart.uuid],
+      this.chart.traces,
+      this.chart.layout,
+      {displaylogo: false})
   },
 
   watch: {
@@ -219,7 +223,8 @@ export default {
         plotly.react(
           this.$refs[this.chart.uuid],
           this.chart.traces,
-          this.chart.layout
+          this.chart.layout,
+          {displaylogo: false}
         )
       },
       deep: true

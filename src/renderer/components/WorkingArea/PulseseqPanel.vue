@@ -69,9 +69,7 @@ export default {
 }
 
 .pulseseq-header {
-  font-size: 0.8rem;
-  color: #aaaaaa;
-  height: 1.2rem;
+  font-size: 0.9rem;
   padding: 1px 1rem;
   text-align: 'center'
 }

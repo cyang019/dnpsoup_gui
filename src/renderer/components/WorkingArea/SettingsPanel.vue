@@ -1,27 +1,28 @@
 <template>
   <div id='settings-panel' class='flex-fill'>
     <div class='d-flex flex-column'>
-      <div>
-        <p>sample parameters</p>
-      </div>
-      <div>
-        <p>hardware</p>
-      </div>
-      <div>
-        <p>task and task details</p>
-      </div>
+      <task-settings></task-settings>
+      <sample-settings></sample-settings>
+      <hardware-settings></hardware-settings>
     </div>
   </div>
 </template>
 
 <script>
+import SampleSettings from './SettingsManip/SampleSettings'
+import HardwareSettings from './SettingsManip/HardwareSettings'
+import TaskSettings from './SettingsManip/TaskSettings'
+
 export default {
-  name: 'settings-panel'
+  name: 'settings-panel',
+  components: {
+    SampleSettings,
+    HardwareSettings,
+    TaskSettings
+  }
 }
 </script>
 
 <style scoped>
-#settings-panel {
-  height: 100%;
-}
+
 </style>

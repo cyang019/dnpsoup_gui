@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { createPersistedState } from 'vuex-electron'
+// import { createPersistedState } from 'vuex-electron'
 
 // import modules from './modules'
 import pulseseq from './modules/pulseseq'
 import spinsys from './modules/spinsys'
-import settings from './modules/settings'
+import SimSettings from './modules/SimSettings'
 
 Vue.use(Vuex)
 
@@ -14,10 +14,10 @@ export default new Vuex.Store({
   modules: {
     pulseseq,
     spinsys,
-    settings
+    SimSettings
   },
   plugins: [
-    createPersistedState()
+    // createPersistedState()
     // createSharedMutations()
   ],
   strict: process.env.NODE_ENV !== 'production'
