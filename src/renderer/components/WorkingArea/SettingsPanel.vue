@@ -1,9 +1,9 @@
 <template>
   <div id='settings-panel' class='flex-fill'>
     <div class='d-flex flex-column'>
-      <task-settings></task-settings>
       <sample-settings></sample-settings>
       <hardware-settings></hardware-settings>
+      <task-settings></task-settings>
     </div>
   </div>
 </template>

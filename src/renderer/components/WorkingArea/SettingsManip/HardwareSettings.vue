@@ -57,7 +57,7 @@
                 <label for="input-increment" class="col-form-label">
                   Increment (ns)
                 </label>
-                <input type="number" step="any" id="input-increment"
+                <input type="number" step="any" id="input-increment" min="0"
                   v-model="increment"
                   @change="setIncrementState"
                 >
@@ -66,7 +66,7 @@
                 <label for="input-temperature" class="col-form-label">
                   Temperature (K)
                 </label>
-                <input type="number" step="any" id="input-temperature"
+                <input type="number" step="any" id="input-temperature" min="0"
                   v-model="temperature"
                   @change="setTemperatureState"
                 >

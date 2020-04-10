@@ -1,6 +1,7 @@
 <template>
-  <div>
-    buildup
+  <div id="buildup-form" class="d-flex flex-column">
+    <div class="form-group mb-0">
+    </div>
   </div>
 </template>
 

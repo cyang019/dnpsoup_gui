@@ -4,8 +4,9 @@
       <label for="input-ncores" class="col-form-label">
         <span>ncores:</span>
       </label>
-      <input type="number" step="1" 
+      <input type="number" step="1" min="1"
         v-model="ncores"
+        @change="setNumCores(ncores)"
       >
     </div>
   </div>
@@ -17,7 +18,7 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'eigen-values-form',
   computed: {
-    ...mapState('settings', ['simulation'])
+    ...mapState('SimSettings', ['simulation'])
   },
   data () {
     return {
@@ -25,15 +26,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('settings', ['setNumCores'])
-  },
-  watch: {
-    ncores: {
-      handler: function () {
-        this.setNumCores(parseInt(this.ncores))
-      },
-      deep: true
-    }
+    ...mapActions('SimSettings', ['setNumCores'])
   }
 }
 </script>

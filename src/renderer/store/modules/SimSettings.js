@@ -26,7 +26,53 @@ const state = {
     ncores: 1,
     task: {
       name: 'Default',
-      task_details: {}
+      taskDetails: {
+        // for field profile
+        emrRange: {
+          begin: 0,
+          end: 0,
+          step: 0
+        },
+        emrs: [],
+        fieldRange: {
+          begin: 0,
+          end: 0,
+          step: 0
+        },
+        fields: [],
+
+        // scans
+        scanTypes: [
+          'GammaB1', 'EmrPhase', 'EmrLength'
+        ],
+        // for scan1d
+        type: '',
+        spin: '',
+        name: '',
+        range: {
+          begin: 0,
+          end: 0,
+          step: 0
+        },
+
+        // for scan2d
+        type1: '',
+        spin1: '',
+        name1: '',
+        range1: {
+          begin: 0,
+          end: 0,
+          step: 0
+        },
+        type2: '',
+        spin2: '',
+        name2: '',
+        range2: {
+          begin: 0,
+          end: 0,
+          step: 0
+        }
+      }
     }
   },
 
@@ -70,6 +116,102 @@ const mutations = {
 
   updateTaskName: (state, name) => {
     state.simulation.task.name = name.slice(0, name.length)
+  },
+
+  setEmrRangeBegin: (state, value) => {
+    state.simulation.taskDetails.emrRange.begin = parseFloat(value)
+  },
+
+  setEmrRangeEnd: (state, value) => {
+    state.simulation.taskDetails.emrRange.end = parseFloat(value)
+  },
+
+  setEmrRangeStep: (state, value) => {
+    state.simulation.taskDetails.emrRange.step = parseFloat(value)
+  },
+
+  setFieldRangeBegin: (state, value) => {
+    state.simulation.taskDetails.fieldRange.begin = parseFloat(value)
+  },
+
+  setFieldRangeEnd: (state, value) => {
+    state.simulation.taskDetails.fieldRange.end = parseFloat(value)
+  },
+
+  setFieldRangeStep: (state, value) => {
+    state.simulation.taskDetails.fieldRange.step = parseFloat(value)
+  },
+
+  setScanType: (state, t) => {
+    state.simulation.taskDetails.type = t.slice(0, t.length)
+  },
+
+  setScanType1: (state, t) => {
+    state.simulation.taskDetails.type1 = t.slice(0, t.length)
+  },
+
+  setScanType2: (state, t) => {
+    state.simulation.taskDetails.type2 = t.slice(0, t.length)
+  },
+
+  setScanSpin: (state, spin) => {
+    state.simulation.taskDetails.spin = spin.slice(0, spin.length)
+  },
+
+  setScanSpin1: (state, spin) => {
+    state.simulation.taskDetails.spin1 = spin.slice(0, spin.length)
+  },
+
+  setScanSpin2: (state, spin) => {
+    state.simulation.taskDetails.spin2 = spin.slice(0, spin.length)
+  },
+
+  setScanName: (state, name) => {
+    state.simulation.name = name.slice(0, name.length)
+  },
+
+  setScanName1: (state, name) => {
+    state.simulation.name1 = name.slice(0, name.length)
+  },
+
+  setScanName2: (state, name) => {
+    state.simulation.name2 = name.slice(0, name.length)
+  },
+
+  setScanRangeBegin: (state, value) => {
+    state.simulation.range.begin = parseFloat(value)
+  },
+
+  setScanRangeEnd: (state, value) => {
+    state.simulation.range.end = parseFloat(value)
+  },
+
+  setScanRangeStep: (state, value) => {
+    state.simulation.range.step = parseFloat(value)
+  },
+
+  setScanRange1Begin: (state, value) => {
+    state.simulation.range1.begin = parseFloat(value)
+  },
+
+  setScanRange1End: (state, value) => {
+    state.simulation.range1.end = parseFloat(value)
+  },
+
+  setScanRange1Step: (state, value) => {
+    state.simulation.range1.step = parseFloat(value)
+  },
+
+  setScanRange2Begin: (state, value) => {
+    state.simulation.range2.begin = parseFloat(value)
+  },
+
+  setScanRange2End: (state, value) => {
+    state.simulation.range2.end = parseFloat(value)
+  },
+
+  setScanRange2Step: (state, value) => {
+    state.simulation.range2.step = parseFloat(value)
   },
 
   // sample settings
@@ -130,6 +272,78 @@ const actions = {
   },
   setTaskName ({ commit }, name) {
     commit('updateTaskName', name)
+  },
+  setEmrRangeBegin ({ commit }, value) {
+    commit('setEmrRangeBegin', value)
+  },
+  setEmrRangeEnd ({ commit }, value) {
+    commit('setEmrRangeEnd', value)
+  },
+  setEmrRangeStep ({ commit }, value) {
+    commit('setEmrRangeStep', value)
+  },
+  setFieldRangeBegin ({ commit }, value) {
+    commit('setFieldRangeBegin', value)
+  },
+  setFieldRangeEnd ({ commit }, value) {
+    commit('setFieldRangeEnd', value)
+  },
+  setFieldRangeStep ({ commit }, value) {
+    commit('setFieldRangeStep', value)
+  },
+  setScanType ({ commit }, t) {
+    commit('setScanType', t)
+  },
+  setScanType1 ({ commit }, t) {
+    commit('setScanType1', t)
+  },
+  setScanType2 ({ commit }, t) {
+    commit('setScanType2', t)
+  },
+  setScanSpin ({ commit }, spin) {
+    commit('setScanSpin', spin)
+  },
+  setScanSpin1 ({ commit }, spin) {
+    commit('setScanSpin1', spin)
+  },
+  setScanSpin2 ({ commit }, spin) {
+    commit('setScanSpin2', spin)
+  },
+  setScanName ({ commit }, name) {
+    commit('setScanName', name)
+  },
+  setScanName1 ({ commit }, name) {
+    commit('setScanName1', name)
+  },
+  setScanName2 ({ commit }, name) {
+    commit('setScanName2', name)
+  },
+  setScanRangeBegin ({ commit }, value) {
+    commit('setScanRangeBegin', value)
+  },
+  setScanRangeEnd ({ commit }, value) {
+    commit('setScanRangeEnd', value)
+  },
+  setScanRangeStep ({ commit }, value) {
+    commit('setScanRangeStep', value)
+  },
+  setScanRange1Begin ({ commit }, value) {
+    commit('setScanRange1Begin', value)
+  },
+  setScanRange1End ({ commit }, value) {
+    commit('setScanRange1End', value)
+  },
+  setScanRange1Step ({ commit }, value) {
+    commit('setScanRange1Step', value)
+  },
+  setScanRange2Begin ({ commit }, value) {
+    commit('setScanRange2Begin', value)
+  },
+  setScanRange2End ({ commit }, value) {
+    commit('setScanRange2End', value)
+  },
+  setScanRange2Step ({ commit }, value) {
+    commit('setScanRange2Step', value)
   },
 
   // sample settings
