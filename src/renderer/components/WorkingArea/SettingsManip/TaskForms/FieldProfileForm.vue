@@ -27,6 +27,62 @@
         Gyrotron Frequency
       </label>
     </div>
+    <div v-if="['b0','emr'].includes(scanOption)"
+      class="card"
+    >
+      <div class="card-body">
+        <div v-if="scanOption==='b0'"
+          class="card-title"
+        >
+          Field Range (T)
+        </div>
+        <div v-if="scanOption==='emr'"
+          class="card-title"
+        >
+          Emr Range (GHz)
+        </div>
+        <div
+          class="form-group mb-0"
+        >
+          <label for="input-range-begin" 
+            class="col-form-label"
+          >
+            Begin
+          </label>
+          <input type="number" step="any"
+            class="col-md-3"
+            name="input-range-begin" 
+            id="input-range-begin"
+            v-model="range.begin"
+            @change="updateRangeBegin"
+          >
+          <label for="input-range-end" 
+            class="col-form-label"
+          >
+            End
+          </label>
+          <input type="number" step="any"
+            class="col-md-3"
+            name="input-range-end"
+            id="input-range-end"
+            v-model="range.end"
+            @change="updateRangeEnd"
+          >
+          <label for="input-range-Step" 
+            class="col-form-label"
+          >
+            Step
+          </label>
+          <input type="number"
+            class="col-md-3"
+            name="input-range-step" 
+            id="input-range-step"
+            v-model="range.step"
+            @change="updateRangeStep"
+          >
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -38,11 +94,43 @@ export default {
   data () {
     return {
       ncores: 1,
-      scanOption: ''
+      scanOption: '',
+      range: {
+        begin: 0,
+        end: 0,
+        step: 0
+      }
     }
   },
   methods: {
-    ...mapActions('SimSettings', ['setNumCores'])
+    ...mapActions('SimSettings', [
+      'setNumCores',
+      'setEmrRangeBegin', 'setEmrRangeEnd',
+      'setEmrRangeStep',
+      'setFieldRangeBegin', 'setFieldRangeEnd',
+      'setFIeldRangeStep'
+    ]),
+    updateRangeBegin () {
+      if (this.scanOption === 'b0') {
+        this.setFieldRangeBegin(this.range.begin)
+      } else if (this.scanOption === 'emr') {
+        this.setEmrRangeBegin(this.range.begin)
+      }
+    },
+    updateRangeEnd () {
+      if (this.scanOption === 'b0') {
+        this.setFieldRangeEnd(this.range.end)
+      } else if (this.scanOption === 'emr') {
+        this.setEmrRangeBegin(this.range.end)
+      }
+    },
+    updateRangeStep () {
+      if (this.scanOption === 'b0') {
+        this.setFieldRangeStep(this.range.step)
+      } else if (this.scanOption === 'emr') {
+        this.setEmrRangeStep(this.range.step)
+      }
+    }
   }
 }
 </script>

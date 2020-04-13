@@ -79,10 +79,10 @@ const state = {
   taskOptions: [
     { name: 'Eigen Values', task: 'EigenValues' },
     { name: 'Intensity', task: 'Intensity' },
-    { name: 'Intensity Of Powder', task: 'PowderIntensity' },
+    { name: 'Powder Intensity', task: 'PowderIntensity' },
     { name: 'Field Profile', task: 'FieldProfile' },
     { name: 'BuildUp', task: 'BuildUp' },
-    { name: 'BuildUp Of Powder', task: 'PowderBuildUp' },
+    { name: 'Powder BuildUp', task: 'PowderBuildUp' },
     { name: 'Scan1d', task: 'scan1d' },
     { name: 'Scan2d', task: 'scan2d' }
   ],
@@ -119,99 +119,99 @@ const mutations = {
   },
 
   setEmrRangeBegin: (state, value) => {
-    state.simulation.taskDetails.emrRange.begin = parseFloat(value)
+    state.simulation.task.taskDetails.emrRange.begin = parseFloat(value)
   },
 
   setEmrRangeEnd: (state, value) => {
-    state.simulation.taskDetails.emrRange.end = parseFloat(value)
+    state.simulation.task.taskDetails.emrRange.end = parseFloat(value)
   },
 
   setEmrRangeStep: (state, value) => {
-    state.simulation.taskDetails.emrRange.step = parseFloat(value)
+    state.simulation.task.taskDetails.emrRange.step = parseFloat(value)
   },
 
   setFieldRangeBegin: (state, value) => {
-    state.simulation.taskDetails.fieldRange.begin = parseFloat(value)
+    state.simulation.task.taskDetails.fieldRange.begin = parseFloat(value)
   },
 
   setFieldRangeEnd: (state, value) => {
-    state.simulation.taskDetails.fieldRange.end = parseFloat(value)
+    state.simulation.task.taskDetails.fieldRange.end = parseFloat(value)
   },
 
   setFieldRangeStep: (state, value) => {
-    state.simulation.taskDetails.fieldRange.step = parseFloat(value)
+    state.simulation.task.taskDetails.fieldRange.step = parseFloat(value)
   },
 
   setScanType: (state, t) => {
-    state.simulation.taskDetails.type = t.slice(0, t.length)
+    state.simulation.task.taskDetails.type = t.slice(0, t.length)
   },
 
   setScanType1: (state, t) => {
-    state.simulation.taskDetails.type1 = t.slice(0, t.length)
+    state.simulation.task.taskDetails.type1 = t.slice(0, t.length)
   },
 
   setScanType2: (state, t) => {
-    state.simulation.taskDetails.type2 = t.slice(0, t.length)
+    state.simulation.task.taskDetails.type2 = t.slice(0, t.length)
   },
 
   setScanSpin: (state, spin) => {
-    state.simulation.taskDetails.spin = spin.slice(0, spin.length)
+    state.simulation.task.taskDetails.spin = spin.slice(0, spin.length)
   },
 
   setScanSpin1: (state, spin) => {
-    state.simulation.taskDetails.spin1 = spin.slice(0, spin.length)
+    state.simulation.task.taskDetails.spin1 = spin.slice(0, spin.length)
   },
 
   setScanSpin2: (state, spin) => {
-    state.simulation.taskDetails.spin2 = spin.slice(0, spin.length)
+    state.simulation.task.taskDetails.spin2 = spin.slice(0, spin.length)
   },
 
   setScanName: (state, name) => {
-    state.simulation.name = name.slice(0, name.length)
+    state.simulation.task.taskDetails.name = name.slice(0, name.length)
   },
 
   setScanName1: (state, name) => {
-    state.simulation.name1 = name.slice(0, name.length)
+    state.simulation.task.taskDetails.name1 = name.slice(0, name.length)
   },
 
   setScanName2: (state, name) => {
-    state.simulation.name2 = name.slice(0, name.length)
+    state.simulation.task.taskDetails.name2 = name.slice(0, name.length)
   },
 
   setScanRangeBegin: (state, value) => {
-    state.simulation.range.begin = parseFloat(value)
+    state.simulation.task.taskDetails.range.begin = parseFloat(value)
   },
 
   setScanRangeEnd: (state, value) => {
-    state.simulation.range.end = parseFloat(value)
+    state.simulation.task.taskDetails.range.end = parseFloat(value)
   },
 
   setScanRangeStep: (state, value) => {
-    state.simulation.range.step = parseFloat(value)
+    state.simulation.task.taskDetails.range.step = parseFloat(value)
   },
 
   setScanRange1Begin: (state, value) => {
-    state.simulation.range1.begin = parseFloat(value)
+    state.simulation.task.taskDetails.range1.begin = parseFloat(value)
   },
 
   setScanRange1End: (state, value) => {
-    state.simulation.range1.end = parseFloat(value)
+    state.simulation.task.taskDetails.range1.end = parseFloat(value)
   },
 
   setScanRange1Step: (state, value) => {
-    state.simulation.range1.step = parseFloat(value)
+    state.simulation.task.taskDetails.range1.step = parseFloat(value)
   },
 
   setScanRange2Begin: (state, value) => {
-    state.simulation.range2.begin = parseFloat(value)
+    state.simulation.task.taskDetails.range2.begin = parseFloat(value)
   },
 
   setScanRange2End: (state, value) => {
-    state.simulation.range2.end = parseFloat(value)
+    state.simulation.task.taskDetails.range2.end = parseFloat(value)
   },
 
   setScanRange2Step: (state, value) => {
-    state.simulation.range2.step = parseFloat(value)
+    state.simulation.task.taskDetails.range2.step = parseFloat(value)
   },
 
   // sample settings
