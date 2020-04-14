@@ -1,4 +1,5 @@
 const state = {
+  name: '',
   increment: 1.0e-9,
   emrs: [],
   sections: [],
@@ -23,6 +24,9 @@ const getters = {
 }
 
 const mutations = {
+  setName: (state, name) => {
+    state.name = name.slice(0, name.length)
+  },
   newEmr: (state, emr) => state.emrs.push(emr),
   removeEmrByName: (state, name) =>
     (state.emrs = state.emrs.filter(tmpEmr => tmpEmr.name !== name)),
@@ -62,6 +66,9 @@ const mutations = {
 }
 
 const actions = {
+  setName ({ commit }, name) {
+    commit('setName', name)
+  },
   addEmr ({ commit }, emr) {
     commit('newEmr', emr)
   },
