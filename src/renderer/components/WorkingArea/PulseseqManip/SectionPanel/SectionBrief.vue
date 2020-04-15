@@ -42,7 +42,7 @@
     <edit-section
       v-bind:section="section"
       v-bind:purpose="'edit'"
-      v-on:edit-finish="editing=false"
+      v-on:edit-section-finish="editing=false"
     >
     </edit-section>
   </div>

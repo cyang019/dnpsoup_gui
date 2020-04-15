@@ -50,6 +50,14 @@ const mutations = {
       interaction => idNotInEntries(interaction.entries, spinId)
     )
   },
+  updateSpin: (state, spin) => {
+    const index = state.spins.findIndex(tmpSpin => tmpSpin.id === spin.id)
+    if (index !== -1) {
+      state.spins.splice(index, 1, spin)
+    } else {
+      state.spins.push(spin)
+    }
+  },
   newOneSpinInteraction: (state, payload) => {
     let spin = state.spins.find(spin => spin.id === payload.spinId)
     let interaction = {
@@ -106,6 +114,9 @@ const actions = {
   },
   removeSpin ({ commit }, spinId) {
     commit('deleteSpin', spinId)
+  },
+  updateSpin ({ commit }, spin) {
+    commit('updateSpin', spin)
   },
   addOneSpinInteraction ({ commit }, payload) {
     commit('newOneSpinInteraction', payload)

@@ -23,7 +23,7 @@
       <form id='addinteraction-form' 
         @submit.prevent='onSubmit'
         class='border border-primary'>
-        <div class="form-row">
+        <div class="d-flex flex-row">
           <div class="btn-group btn-group-sm btn-group-toggle" role="group">
             <label class="btn btn-light btn-sm"
               :class="{'active': category === 'oneSpin'}"
@@ -52,8 +52,8 @@
             </div>
           </div>
         </div>
-        <div v-if="category === 'oneSpin'">
-          <div class="form-row">
+        <div v-if="category === 'oneSpin'" class="d-flex flex-column">
+          <div class="form-group mb-0">
             <label for='interaction-name' class='col-form-label'>Name:</label>
             <select name='name' id='interaction-name'
               v-model='interaction.name'>
@@ -64,7 +64,10 @@
               </option>
             </select>
           </div>
-          <div class="form-row">
+          <small v-if="spinId1Error.length > 0" class="text-danger">
+            {{spinId1Error}}
+          </small>
+          <div class="form-group mb-0">
             <label for='spin-id' class='col-form-label'>Spin Id:</label>
             <select name='spin-id' id='spin-id'
               v-model='interaction.id1'>
@@ -75,14 +78,14 @@
             </select>
           </div>
           <div v-if="interaction.name === 'Shielding'">
-            <div class="form-row" >
+            <div class="form-group mb-0" >
               <label for='gxx' class='col-form-label'>g<sub>xx</sub></label>
               <input 
                 type='number' 
                 id='gxx' 
                 placeholder='2.003' 
                 v-model.number='interaction.tensor.xx' 
-                class="col-sm-2 col-lg-1"
+                class="col-md-2"
                 step="any">
               <label for='gyy' class='col-form-label'>g<sub>yy</sub></label>
               <input 
@@ -90,26 +93,20 @@
                 id='gyy' 
                 placeholder='2.003' 
                 v-model.number='interaction.tensor.yy' 
-                class="col-sm-2"
-                step="any">
-              <label for='gzz' class='col-form-label'>g<sub>zz</sub></label>
-              <input 
-                type='number' 
-                id='gzz' 
-                placeholder='2.003' 
-                v-model.number='interaction.tensor.zz' 
-                class="col-sm-2"
+                class="col-md-2"
+                step="any">oneSpinsor.zz' 
+                class="col-md-2"
                 step="any">
             </div>
           </div>
           <div v-else>
-            <div class="form-row">
+            <div class="form-group mb-0">
               <label for='csaxx' class='col-form-label'>csa<sub>xx</sub></label>
               <input 
                 type='number' 
                 id='csaxx' placeholder='0.0' 
                 v-model.number='interaction.tensor.xx'
-                class="col-sm-2"
+                class="col-md-2"
                 step="any">
               <label for='csayy' class='col-form-label'>csa<sub>yy</sub></label>
               <input 
@@ -117,7 +114,7 @@
                 id='csayy' 
                 placeholder='0.0' 
                 v-model.number='interaction.tensor.yy' 
-                class="col-sm-2"
+                class="col-md-2"
                 step="any">
               <label for='csazz' class='col-form-label'>csa<sub>zz</sub></label>
               <input 
@@ -125,11 +122,11 @@
                 id='csazz' 
                 placeholder='0.0' 
                 v-model.number='interaction.tensor.zz' 
-                class="col-sm-2"
+                class="col-md-2"
                 step="any">
             </div>
           </div>
-          <div class="form-row">
+          <div class="form-group mb-0">
             <label class="col-form-label">Euler Angle: </label>
 
             <label for="euler-alpha" class="col-form-label">{{decode(msgAlpha)}}</label>
@@ -137,25 +134,25 @@
               type="number" 
               id="euler-alpha" 
               v-model.number="interaction.euler.alpha" 
-              class="col-sm-2"
+              class="col-md-2"
               step="any">
 
             <label for="euler-beta" class="col-form-label">{{decode(msgBeta)}}</label>
             <input 
               type="number" id="euler-beta" v-model.number="interaction.euler.beta"
-              class="col-sm-2"
+              class="col-md-2"
               step="any">
 
             <label for="euler-gamma" class="col-form-label">{{decode(msgGamma)}}</label>
             <input 
               type="number" id="euler-gamma" v-model.number="interaction.euler.gamma"
-              class="col-sm-2"
+              class="col-md-2"
               step="any">
           </div>
         </div>
         <div v-else>
           <!-- 2 spins -->
-          <div class="form-row">
+          <div class="form-group mb-0">
             <label for='interaction-name' class='col-form-label'>Name:</label>
             <select name='name' id='interaction-name'
               v-model='interaction.name'>
@@ -165,7 +162,10 @@
               </option>
             </select>
           </div>
-          <div class="form-row">
+          <small v-if="spinId1Error.length > 0" class="text-danger">
+            {{spinId1Error}}
+          </small>
+          <div class="form-group mb-0">
             <label for='spin-id1' class='col-form-label'>Spin Id1:</label>
             <select name='spin-id1' id='spin-id1'
               v-model='interaction.id1'>
@@ -175,7 +175,10 @@
               </option>
             </select>
           </div>
-          <div class="form-row">
+          <small v-if="spinId2Error.length > 0" class="text-danger">
+            {{spinId2Error}}
+          </small>
+          <div class="form-group mb-0">
             <label for='spin-id2' class='col-form-label'>Spin Id2:</label>
             <select name='spin-id2' id='spin-id2'
               v-model='interaction.id2'>
@@ -188,7 +191,7 @@
               </option>
             </select>
           </div>
-          <div v-if="interaction.name === 'Scalar'" class="form-row">
+          <div v-if="interaction.name === 'Scalar'" class="form-group mb-0">
             <label for="scalar-value" class="col-form-label">Value :</label>
             <input 
               type="number" id="scalar-value" v-model.number="interaction.value"
@@ -198,7 +201,7 @@
           </div>
         </div>
         
-        <div class='form-row'>
+        <div class='form-group mb-0'>
           <input type='submit' value='Add' class='btn btn-primary btn-sm col-4 btn-submit'>
           <input type="cancel" value='Cancel'
             class="btn btn-light btn-sm col-4 btn-submit"
@@ -250,7 +253,9 @@ export default {
         'Scalar',
         'Dipolar',
         'Hyperfine'
-      ]
+      ],
+      spinId1Error: '',
+      spinId2Error: ''
     }
   },
   computed: {
@@ -263,8 +268,28 @@ export default {
     decode (str) {
       return decode(str)
     },
-
+    validate () {
+      let success = true
+      if (this.category === 'oneSpin') {
+        if (this.interaction.id1 < 0) {
+          this.spinId1Error = 'Need to set a spin id.'
+          success = false
+        }
+      } else if (this.category === 'twoSpin') {
+        if (this.interaction.id1 < 0) {
+          this.spinId1Error = 'Need to set spin id 1.'
+          success = false
+        }
+        if (this.interaction.id2 < 0) {
+          this.spinId2Error = 'Need to set spin id 2.'
+          success = false
+        }
+      }
+      return success
+    },
     onSubmit (e) {
+      let success = this.validate()
+      if (!success) return
       this.adding = false
 
       switch (this.interaction.name) {

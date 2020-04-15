@@ -1,7 +1,19 @@
 <template>
-  <div id="control-area">
+  <div id="control-area" class="d-flex flex-column">
     <p><strong>Execute Tasks</strong></p>
-    <button class='btn btn-primary btn-md'>Run</button>
+    <div class="d-flex flex-row justify-content-between">
+      <button class="btn btn-secondary btn-md">
+        Save to File
+      </button>
+      <buttn class="btn btn-secondary btn-md">
+        Load from File
+      </buttn>
+      <button class="btn btn-primary btn-md">
+        <span>
+          Run
+        </span>
+      </button>
+    </div>
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <div id='pulseseq-panel' class='flex-fill'>
     <div class='d-flex flex-column'>
-      <div class="d-flex flex-row">
+      <div class="form-group">
         <label for="pulseseq-name" class="col-form-label">
           Name:
         </label>
@@ -62,10 +62,6 @@ export default {
 
 .card-body {
   padding: 0;
-}
-
-.panel-secondary {
-  min-height: 100px;
 }
 
 .pulseseq-header {

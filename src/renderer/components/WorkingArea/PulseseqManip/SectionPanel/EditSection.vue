@@ -308,17 +308,17 @@ export default {
 
       if (this.purpose === 'edit') {
         this.updateSection(committedSection)
-        this.$emit('edit-finish', true)
+        this.$emit('edit-section-finish', true)
       } else {
         this.addSection(committedSection)
-        this.$emit('add-finish', true)
+        this.$emit('add-section-finish', true)
       }
     },
     cancelClicked () {
       if (this.purpose === 'edit') {
-        this.$emit('edit-finish', false)
+        this.$emit('edit-section-finish', false)
       } else {
-        this.$emit('add-finish', false)
+        this.$emit('add-section-finish', false)
       }
     }
   },

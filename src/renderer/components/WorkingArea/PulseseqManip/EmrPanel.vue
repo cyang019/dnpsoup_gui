@@ -1,14 +1,12 @@
 <template>
-  <div class="d-flex flex-column">
+  <div class="d-flex flex-row">
+    <emr-brief
+      v-for="emr in emrs"
+      :key="emr.name"
+      :emr="emr"
+    >
+    </emr-brief>
     <add-emr/>
-    <div class="d-flex flex-wrap">
-      <emr-brief
-        v-for="emr in emrs"
-        :key="emr.name"
-        :emr="emr"
-      >
-      </emr-brief>
-    </div>
   </div>
 </template>
 

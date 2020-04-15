@@ -7,26 +7,35 @@
     >
       <span class='p-1'>[{{spin.id}}] {{spin.spinType}}</span>
     </div>
-    <div v-else
-      class='details rounded align-middle text-center border border-primary text-primary'
-    >
-      <div class="container">
-        <div class="col">
-          <div class="row p-1 brief-header text-left" @click="showDetails=false">
+    <div v-else>
+      <div v-if="!editing" class='border border-primary text-primary card'>
+        <div class="card-body">
+          <div class="card-title" @click="showDetails=false">
             [{{spin.id}}] {{spin.spinType}}
           </div>
-          <div class="row p-1">x: {{spin.x}}, y: {{spin.y}}, z: {{spin.z}}</div>
-          <div class="row p-1">t1: {{spin.t1}}, t2: {{spin.t2}}</div>
-          <div class="row">
-            <div class="col-8"></div>
-            <div class="col-4 p-1 align-middle">
-              <span @click="removeSpin(spin.id)">
-                <i class="far fa-trash-alt delete"></i>
-              </span>
+          <div class="d-flex flex-column">
+            <div class="p">x: {{spin.x}}, y: {{spin.y}}, z: {{spin.z}}</div>
+            <div class="p">t1: {{spin.t1}}, t2: {{spin.t2}}</div>
+            <div class="d-flex flex-row justify-content-end">
+              <div class="btn btn-light btn-sm"
+                @click="editClicked"
+              >
+                <span class="text-secondary"><i class='fas fa-pen'></i></span>
+              </div>
+              <div class="btn btn-light btn-sm"
+                @click="removeSpin(spin.id)"
+              >
+                <span class="text-secondary"><i class='far fa-trash-alt'></i></span>
+              </div>
             </div>
           </div>
-          
         </div>
+      </div>
+      <div v-else>
+        <edit-spin
+          :spin="spin"
+          v-on:edit-spin-finish="editing=false"
+        ></edit-spin>
       </div>
     </div>
   </div>
@@ -34,16 +43,25 @@
 
 <script>
 import { mapActions } from 'vuex'
+import EditSpin from './EditSpin'
 
 export default {
+  name: 'spin-brief',
+  components: {
+    EditSpin
+  },
   props: ['spin'],
   data () {
     return {
-      showDetails: false
+      showDetails: false,
+      editing: false
     }
   },
   methods: {
-    ...mapActions('spinsys', ['removeSpin'])
+    ...mapActions('spinsys', ['removeSpin']),
+    editClicked () {
+      this.editing = true
+    }
   }
 }
 </script>
@@ -60,26 +78,16 @@ export default {
   margin: 1px 2px;
 }
 
-.brief-header {
+.card-title {
+  font-size: 0.9rem;
+  height: 1.4rem;
+  margin: 1px 2px;
   background-color: #efefef;
 }
 
-.details {
-  font-size: 0.8rem;
+.card-body {
+  font-size: 0.9rem;
   margin: 1px 2px;
-  width: 8rem;
-}
-
-.container {
-  padding: 1px;
-}
-
-.col {
-  margin: 0;
-  padding: 0 1px;
-}
-.row {
-  margin: 0;
-  padding: 0;
+  padding: 2px;
 }
 </style>

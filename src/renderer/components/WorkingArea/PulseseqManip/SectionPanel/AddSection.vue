@@ -4,14 +4,14 @@
     @click="adding=true"
     class="d-flex flex-row"
   >
-    <btn-add-vertical >
+    <btn-add-vertical>
     </btn-add-vertical>
   </div>
   <div v-else id='add-section'>
     <edit-section 
       v-bind:section="defaultSection"
       v-bind:purpose="'add'"
-      v-on:add-finish="adding=false"
+      v-on:add-section-finish="adding=false"
     >
     </edit-section>
   </div>

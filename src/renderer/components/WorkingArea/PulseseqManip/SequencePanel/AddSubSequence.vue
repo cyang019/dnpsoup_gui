@@ -4,7 +4,11 @@
     @click="adding=true"
     class="d-flex flex-row"
   >
-    <btn-add-vertical></btn-add-vertical>
+    <div class="btn btn-primary">
+      <span class="text-white">
+        <i class="fas fa-plus"></i>
+      </span>
+    </div>
   </div>
   <div v-else class="d-flex flex-row">
     <select 
