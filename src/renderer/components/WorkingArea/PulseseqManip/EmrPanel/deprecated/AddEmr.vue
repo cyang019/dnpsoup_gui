@@ -149,7 +149,7 @@ export default {
     ...mapState('pulseseq', ['emrs', 'channelOptions'])
   },
   methods: {
-    ...mapActions('pulseseq', ['addEmr']),
+    ...mapActions('pulseseq', ['addEmr', 'deleteEmrByName', 'updateEmr']),
 
     validateName () {
       if (this.emr.name.length === 0) {

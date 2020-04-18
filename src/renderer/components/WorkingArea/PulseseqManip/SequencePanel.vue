@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-row">
     <section-abstract
-      v-for="name in sequence" :key="name"
+      v-for="(name, index) in sequence" :key="index"
       v-bind:sectionName="name"
       v-on:remove-subsequence-name="deleteNameInSequence($event)"
     >

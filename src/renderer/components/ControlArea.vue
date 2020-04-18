@@ -35,13 +35,143 @@ export default {
   },
   methods: {
     prepareSpinsysOutput () {
-      return '{}'
+      let result = {
+        euler: {
+          alpha: parseFloat(this.euler.alpha) / 180.0 * Math.PI,
+          beta: parseFloat(this.euler.beta) / 180.0 * Math.PI,
+          gamma: parseFloat(this.euler.gamma) / 180.0 * Math.PI
+        },
+        interactions: [],
+        spins: {},
+        irradiation: []
+      }
+      for (const spin of this.spins) {
+        let tempSpin = {
+          type: spin.spinType,
+          x: spin.x,
+          y: spin.y,
+          z: spin.z,
+          t1: parseFloat(spin.t1),
+          t2: parseFloat(spin.t2)
+        }
+        result.spins[spin.id] = Object.assign({}, tempSpin)
+      }
+      for (const interaction of this.interactions) {
+        result.interactions.push(Object.assign({}, interaction))
+      }
+      for (const emr of this.emrs) {
+        for (const channel of emr.channels) {
+          let channelName = channel.spinType
+          if (!result.irradiation.includes(channelName)) {
+            result.irradiation.push(channelName)
+          }
+        }
+      }
+      return result
     },
     preparePulseseqOutput () {
-      return '{}'
+      let result = {
+        increment: parseFloat(this.increment),
+        components: {},
+        sections: {},
+        sequence: Object.assign([], this.sequence)
+      }
+      for (const emr of this.emrs) {
+        let emrContent = {}
+        for (const channel of emr.channels) {
+          let tempChannel = {
+            frequency: parseFloat(channel.frequency),
+            phase: parseFloat(channel.phase),
+            offset: parseFloat(channel.offset)
+          }
+          emrContent[channel.spinType] = tempChannel
+        }
+        result.components[emr.name] = emrContent
+      }
+      for (const section of this.sections) {
+        let sectionContent = {
+          type: section.type,
+          size: section.size,
+          names: Object.assign([], section.names),
+          params: Object.assign({}, section.params)
+        }
+        if (section.hasOwnProperty('phase0')) {
+          sectionContent['phase0'] = Object.assign({}, section.phase0)
+        }
+      }
+      return result
     },
     prepareSettingsOutput () {
-      return '{}'
+      let result = {
+        euler: {
+          alpha: parseFloat(this.sample.euler.alpha) / 180.0 * Math.PI,
+          beta: parseFloat(this.sample.euler.beta) / 180.0 * Math.PI,
+          gamma: parseFloat(this.sample.euler.gamma) / 180.0 * Math.PI
+        },
+        ncores: parseInt(this.simulation.ncores),
+        acq: this.hardware.probe.acq,
+        Magnet: {
+          b0: parseFloat(this.hardware.magnet.b0)
+        },
+        Gyrotron: {
+          em_frequency: parseFloat(this.hardware.gyrotron.emFrequency)
+        },
+        Probe: {
+          mas_frequency: parseFloat(this.hardware.probe.masFrequency),
+          temperature: parseFloat(this.hardware.probe.temperature),
+          mas_increment: parseFloat(this.hardware.probe.masIncrement)
+        },
+        task: this.simulation.task.name
+      }
+      if (['zcw', 'eulers'].includes(this.sample.eulerOption)) {
+        if (this.sample.eulerOption === 'zcw') {
+          result['euler_scheme']['zcw'] = parseInt(this.sample.eulerScheme.zcw)
+        } else {
+          result.eulers = []
+          for (const euler of this.sample.eulers) {
+            let tempEuler = {
+              alpha: parseFloat(euler.alpha) / 180.0 * Math.PI,
+              beta: parseFloat(euler.beta) / 180.0 * Math.PI,
+              gamma: parseFloat(euler.gamma) / 180.0 * Math.PI
+            }
+            result.eulers.push(tempEuler)
+          }
+        }
+      }
+      switch (result.task) {
+        case 'EigenValues':
+          break
+        case 'BuildUp':
+          break
+        case 'Intensity':
+          break
+        case 'PowderIntensity':
+          break
+        case 'PowderBuildUp':
+          break
+        case 'FieldProfile':
+          if (this.simulation.task.taskDetails.fieldRange.begin === 0 &&
+            this.simulation.task.taskDetails.fieldRange.end === 0 &&
+            this.simulation.task.taskDetails.fieldRange.step === 0
+          ) {
+            result['emr range'] = Object.assign(
+              {}, this.simulation.task.taskDetails.emrRange
+            )
+          } else {
+            result['field range'] = Object.assign(
+              {}, this.simulation.task.taskDetails.fieldRange
+            )
+          }
+          break
+        case 'scan1d': case 'scan2d':
+          result['task details'] = Object.assign(
+            {}, this.simulation.task.taskDetails
+          )
+          break
+        default:
+          break
+      }
+      return result
     },
     prepareOutput () {
       const spinsysStr = this.prepareSpinsysOutput()

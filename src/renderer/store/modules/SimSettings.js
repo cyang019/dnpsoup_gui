@@ -119,26 +119,56 @@ const mutations = {
   },
 
   setEmrRangeBegin: (state, value) => {
+    state.simulation.task.taskDetails.fieldRange = {
+      begin: 0,
+      end: 0,
+      step: 0
+    }
     state.simulation.task.taskDetails.emrRange.begin = parseFloat(value)
   },
 
   setEmrRangeEnd: (state, value) => {
+    state.simulation.task.taskDetails.fieldRange = {
+      begin: 0,
+      end: 0,
+      step: 0
+    }
     state.simulation.task.taskDetails.emrRange.end = parseFloat(value)
   },
 
   setEmrRangeStep: (state, value) => {
+    state.simulation.task.taskDetails.fieldRange = {
+      begin: 0,
+      end: 0,
+      step: 0
+    }
     state.simulation.task.taskDetails.emrRange.step = parseFloat(value)
   },
 
   setFieldRangeBegin: (state, value) => {
+    state.simulation.task.taskDetails.emrRange = {
+      begin: 0,
+      end: 0,
+      step: 0
+    }
     state.simulation.task.taskDetails.fieldRange.begin = parseFloat(value)
   },
 
   setFieldRangeEnd: (state, value) => {
+    state.simulation.task.taskDetails.emrRange = {
+      begin: 0,
+      end: 0,
+      step: 0
+    }
     state.simulation.task.taskDetails.fieldRange.end = parseFloat(value)
   },
 
   setFieldRangeStep: (state, value) => {
+    state.simulation.task.taskDetails.emrRange = {
+      begin: 0,
+      end: 0,
+      step: 0
+    }
     state.simulation.task.taskDetails.fieldRange.step = parseFloat(value)
   },
 
