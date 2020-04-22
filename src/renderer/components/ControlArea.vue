@@ -228,6 +228,15 @@ export default {
       let configurations = JSON.parse(content)
       console.log(`prepareInput: ${configurations}`)
     },
+    populateSpinsys (spinsys) {
+      this.resetSpinsys()
+    },
+    populatePulseseq (pulseseq) {
+      this.resetPulseesq()
+    },
+    populateSettings (settings) {
+
+    },
     saveToFileClicked () {
       let content = this.prepareOutput()
       dialog.showSaveDialog({}
