@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 const { dialog } = require('electron').remote
 const fs = require('fs')
 
@@ -34,6 +34,28 @@ export default {
     ])
   },
   methods: {
+    ...mapActions('spinsys', [
+      'addSpin', 'addOneSpinInteraction', 'addTwoSpinInteraction', 'resetSpinsys'
+    ]),
+    ...mapActions('pulseseq', [
+      'setName', 'addEmr', 'addSection', 'addSectionToSequence', 'resetPulseseq'
+    ]),
+    ...mapActions('SimSettings', [
+      'setNumCores', 'setTaskName',
+      'setEmrRangeBegin', 'setEmrRangeEnd', 'setEmrRangeStep',
+      'setFieldRangeBegin', 'setFieldRangeEnd', 'setFieldRangeStep',
+      'setScanType', 'setScanType1', 'setScanType2',
+      'setScanSpin', 'setScanSpin1', 'setScanSpin2',
+      'setScanName', 'setScanName1', 'setScanName2',
+      'setScanRangeBegin', 'setScanRangeEnd', 'setScanRangeStep',
+      'setScanRange1Begin', 'setScanRange1End', 'setScanRange1Step',
+      'setScanRange2Begin', 'setScanRange2End', 'setScanRange2Step',
+      'setXtalEulerAlpha', 'setXtalEulerBeta', 'setXtalEulerGamma',
+      'setSampleEuler', 'setEulerPowderOption', 'setEulerZCWValue', 'addEuler',
+      'setMagneticField', 'setGyrotronFrequency', 'setProbe', 'setMas', 'setTemperature',
+      'setIncrement', 'setAcq'
+    ]),
+
     prepareSpinsysOutput () {
       let result = {
         euler: {
@@ -98,6 +120,7 @@ export default {
         if (section.hasOwnProperty('phase0')) {
           sectionContent['phase0'] = Object.assign({}, section.phase0)
         }
+        result.sections[section.name] = sectionContent
       }
       return result
     },
@@ -125,7 +148,9 @@ export default {
       }
       if (['zcw', 'eulers'].includes(this.sample.eulerOption)) {
         if (this.sample.eulerOption === 'zcw') {
-          result['euler_scheme']['zcw'] = parseInt(this.sample.eulerScheme.zcw)
+          result['euler_scheme'] = {
+            zcw: parseInt(this.sample.eulerScheme.zcw)
+          }
         } else {
           result.eulers = []
           for (const euler of this.sample.eulers) {
@@ -163,10 +188,25 @@ export default {
             )
           }
           break
-        case 'scan1d': case 'scan2d':
-          result['task details'] = Object.assign(
-            {}, this.simulation.task.taskDetails
-          )
+        case 'scan1d':
+          result['task details'] = {
+            type: this.simulation.task.taskDetails.type,
+            spin: this.simulation.task.taskDetails.spin,
+            name: this.simulation.task.taskDetails.name,
+            range: Object.assign({}, this.simulation.task.taskDetails.range)
+          }
+          break
+        case 'scan2d':
+          result['task details'] = {
+            type1: this.simulation.task.taskDetails.type1,
+            spin1: this.simulation.task.taskDetails.spin1,
+            name1: this.simulation.task.taskDetails.name1,
+            range1: Object.assign({}, this.simulation.task.taskDetails.range1),
+            type2: this.simulation.task.taskDetails.type2,
+            spin2: this.simulation.task.taskDetails.spin2,
+            name2: this.simulation.task.taskDetails.name2,
+            range2: Object.assign({}, this.simulation.task.taskDetails.range2)
+          }
           break
         default:
           break
@@ -184,8 +224,9 @@ export default {
       }
       return JSON.stringify(result, null, 2)
     },
-    prepareInput () {
-
+    prepareInput (content) {
+      let configurations = JSON.parse(content)
+      console.log(`prepareInput: ${configurations}`)
     },
     saveToFileClicked () {
       let content = this.prepareOutput()
@@ -206,7 +247,18 @@ export default {
       })
     },
     loadFromFileClicked () {
-
+      dialog.showOpenDialog({}
+      ).then(
+        result => {
+          let filepath = result.filePaths[0]
+          fs.readFile(filepath, (err, data) => {
+            if (err) {
+              console.log(err)
+            }
+            this.prepareInput(data)
+          })
+        }
+      )
     },
     runClicked () {
 
