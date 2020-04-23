@@ -35,7 +35,8 @@ export default {
   },
   methods: {
     ...mapActions('spinsys', [
-      'addSpin', 'addOneSpinInteraction', 'addTwoSpinInteraction', 'resetSpinsys'
+      'addSpin', 'addOneSpinInteraction', 'addTwoSpinInteraction', 'resetSpinsys',
+      'setSpinsysEuler'
     ]),
     ...mapActions('pulseseq', [
       'setName', 'addEmr', 'addSection', 'addSectionToSequence', 'resetPulseseq'
@@ -53,7 +54,8 @@ export default {
       'setXtalEulerAlpha', 'setXtalEulerBeta', 'setXtalEulerGamma',
       'setSampleEuler', 'setEulerPowderOption', 'setEulerZCWValue', 'addEuler',
       'setMagneticField', 'setGyrotronFrequency', 'setProbe', 'setMas', 'setTemperature',
-      'setIncrement', 'setAcq'
+      'setIncrement', 'setAcq',
+      'resetSimSettings'
     ]),
 
     prepareSpinsysOutput () {
@@ -226,16 +228,34 @@ export default {
     },
     prepareInput (content) {
       let configurations = JSON.parse(content)
-      console.log(`prepareInput: ${configurations}`)
+      let spinsys = configurations['spinsys']
+      let pulseseq = configurations['pulseseq']
+      let settings = configurations['settings']
+      this.populateSpinsys(spinsys)
+      this.populatePulseseq(pulseseq)
+      this.populateSettings(settings)
     },
     populateSpinsys (spinsys) {
       this.resetSpinsys()
+      this.setSpinsysEuler(spinsys.euler)
+      for (const spinId in spinsys.spins) {
+        let spin = {
+          id: spinId,
+          x: parseFloat(spinsys.spins[spinId].x),
+          y: parseFloat(spinsys.spins[spinId].y),
+          z: parseFloat(spinsys.spins[spinId].z),
+          spinType: spinsys.spins[spinId].type,
+          t1: parseFloat(spinsys.spins[spinId].t1),
+          t2: parseFloat(spinsys.spins[spinId].t2)
+        }
+        this.addSpin(spin)
+      }
     },
     populatePulseseq (pulseseq) {
-      this.resetPulseesq()
+      this.resetPulseseq()
     },
     populateSettings (settings) {
-
+      this.resetSimSettings()
     },
     saveToFileClicked () {
       let content = this.prepareOutput()

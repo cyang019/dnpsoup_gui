@@ -111,6 +111,88 @@ const getters = {
 }
 
 const mutations = {
+  resetSimSettings: (state) => {
+    state.sample = {
+      euler: {
+        alpha: 0.0,
+        beta: 0.0,
+        gamma: 0.0
+      },
+      eulerOption: '',
+      eulerScheme: {
+        zcw: 0
+      },
+      eulers: []
+    }
+    state.simulation = {
+      ncores: 1,
+      task: {
+        name: 'Default',
+        taskDetails: {
+          // for field profile
+          emrRange: {
+            begin: 0,
+            end: 0,
+            step: 0
+          },
+          emrs: [],
+          fieldRange: {
+            begin: 0,
+            end: 0,
+            step: 0
+          },
+          fields: [],
+
+          // scans
+          scanTypes: [
+            'GammaB1', 'EmrPhase', 'EmrLength'
+          ],
+          // for scan1d
+          type: '',
+          spin: '',
+          name: '',
+          range: {
+            begin: 0,
+            end: 0,
+            step: 0
+          },
+
+          // for scan2d
+          type1: '',
+          spin1: '',
+          name1: '',
+          range1: {
+            begin: 0,
+            end: 0,
+            step: 0
+          },
+          type2: '',
+          spin2: '',
+          name2: '',
+          range2: {
+            begin: 0,
+            end: 0,
+            step: 0
+          }
+        }
+      }
+    }
+    state.hardware = {
+      magnet: {
+        b0: 3.35
+      },
+      gyrotron: {
+        emFrequency: 94.1976e9
+      },
+      probe: {
+        masFrequency: 0.0,
+        temperature: 80.0,
+        masIncrement: 1e-3,
+        acq: 'H'
+      }
+    }
+  },
+
   // task settings
   setNCores: (state, n) => (state.simulation.ncores = parseInt(n)),
 
@@ -423,6 +505,9 @@ const actions = {
   },
   setAcq ({ commit }, acq) {
     commit('setAcq', acq)
+  },
+  resetSimSettings ({ commit }) {
+    commit('resetSimSettings')
   }
 }
 

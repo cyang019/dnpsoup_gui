@@ -105,6 +105,9 @@ const mutations = {
   },
   incInteractionId: (state) => {
     ++state.interactionId
+  },
+  setSpinsysEuler: (state, euler) => {
+    state.euler = Object.assign({}, euler)
   }
 }
 
@@ -135,6 +138,9 @@ const actions = {
   },
   incrementInteractionId ({ commit }) {
     commit('incInteractionId')
+  },
+  setSpinsysEuler ({ commit }, euler) {
+    commit('setSpinsysEuler', euler)
   }
 }
 
