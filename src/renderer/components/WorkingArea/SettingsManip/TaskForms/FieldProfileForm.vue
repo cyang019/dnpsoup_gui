@@ -87,19 +87,15 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'field-profile-form',
   data () {
     return {
-      ncores: 1,
-      scanOption: '',
-      range: {
-        begin: 0,
-        end: 0,
-        step: 0
-      }
+      ncores: this.getNumCores(),
+      scanOption: this.getFieldProfileScanOption(),
+      range: this.getFieldProfileRange()
     }
   },
   methods: {
@@ -108,7 +104,11 @@ export default {
       'setEmrRangeBegin', 'setEmrRangeEnd',
       'setEmrRangeStep',
       'setFieldRangeBegin', 'setFieldRangeEnd',
-      'setFIeldRangeStep'
+      'setFieldRangeStep'
+    ]),
+    ...mapGetters('SimSettings', [
+      'getFieldProfileScanOption', 'getNumCores',
+      'getFieldProfileRange'
     ]),
     updateRangeBegin () {
       if (this.scanOption === 'b0') {
@@ -121,7 +121,7 @@ export default {
       if (this.scanOption === 'b0') {
         this.setFieldRangeEnd(this.range.end)
       } else if (this.scanOption === 'emr') {
-        this.setEmrRangeBegin(this.range.end)
+        this.setEmrRangeEnd(this.range.end)
       }
     },
     updateRangeStep () {

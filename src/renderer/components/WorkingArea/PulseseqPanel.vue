@@ -5,11 +5,17 @@
         <label for="pulseseq-name" class="col-form-label">
           Name:
         </label>
-        <input type="text" id="pulseseq-name" v-model="name">
+        <input type="text" id="pulseseq-name" 
+          v-model="name"
+          @change="setName(name)"
+        >
         <label for="increment" class="col-form-label">
           Increment:
         </label>
-        <input type="number" id="increment" step="any" v-model="increment">
+        <input type="number" id="increment" step="any" 
+          v-model="increment"
+          @change="setIncrement(increment)"
+        >
       </div>
       <div class="card">
         <div class="card-header pulseseq-header">
@@ -34,6 +40,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 import EmrPanel from './PulseseqManip/EmrPanel'
 import SectionPanel from './PulseseqManip/SectionPanel'
 import SequencePanel from './PulseseqManip/SequencePanel'
@@ -50,6 +58,9 @@ export default {
     EmrPanel,
     SectionPanel,
     SequencePanel
+  },
+  methods: {
+    ...mapActions('pulseseq', ['setName', 'setIncrement'])
   }
 }
 </script>

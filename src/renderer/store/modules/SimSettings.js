@@ -107,7 +107,44 @@ const state = {
 }
 
 const getters = {
-
+  getB0: state => state.hardware.magnet.b0,
+  getEmFreq: state => state.hardware.gyrotron.emFrequency,
+  getMas: state => state.hardware.probe.masFrequency,
+  getTemperature: state => state.hardware.probe.temperature,
+  getMasInc: state => state.hardware.probe.masIncrement,
+  getAcq: state => state.hardware.probe.acq,
+  getXtalEuler: state => state.sample.euler,
+  getPowderOption: state => state.sample.eulerOption,
+  getEulerSchemeZcw: state => state.sample.eulerScheme.zcw,
+  getEulers: state => state.sample.eulers,
+  getTaskName: state => state.simulation.task.name,
+  getFieldProfileScanOption: state => {
+    if (state.simulation.task.name !== 'FieldProfile') {
+      return ''
+    } else {
+      if (state.simulation.task.taskDetails.emrRange.begin !== 0 ||
+        state.simulation.task.taskDetails.emrRange.end !== 0 ||
+        state.simulation.task.taskDetails.emrRange.step !== 0) {
+        return 'emr'
+      } else {
+        return 'b0'
+      }
+    }
+  },
+  getNumCores: state => state.simulation.ncores,
+  getFieldProfileRange: state => {
+    if (state.simulation.task.name !== 'FieldProfile') {
+      return {begin: 0, end: 0, step: 0}
+    } else {
+      if (state.simulation.task.taskDetails.emrRange.begin !== 0 ||
+        state.simulation.task.taskDetails.emrRange.end !== 0 ||
+        state.simulation.task.taskDetails.emrRange.step !== 0) {
+        return state.simulation.task.taskDetails.emrRange
+      } else {
+        return state.simulation.task.taskDetails.fieldRange
+      }
+    }
+  }
 }
 
 const mutations = {

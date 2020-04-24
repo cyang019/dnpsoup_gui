@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'hardware-settings',
@@ -115,6 +115,10 @@ export default {
     ...mapActions('SimSettings', [
       'setMagneticField', 'setGyrotronFrequency',
       'setMas', 'setTemperature', 'setIncrement', 'setAcq'
+    ]),
+    ...mapGetters('SimSettings', [
+      'getB0', 'getEmFreq',
+      'getMas', 'getTemperature', 'getMasInc', 'getAcq'
     ]),
 
     setFieldFreq (fieldValue, freqValue) {
@@ -142,12 +146,12 @@ export default {
   },
   data () {
     return {
-      magneticField: 0.0,
-      gyrotronFrequency: 0.0,
-      masFrequency: 0.0,
-      increment: 1.0,
-      temperature: 100,
-      acq: 'e'
+      magneticField: this.getB0(),
+      gyrotronFrequency: this.getEmFreq(),
+      masFrequency: this.getMas(),
+      increment: this.getMasInc(),
+      temperature: this.getTemperature(),
+      acq: this.getAcq()
     }
   }
 }

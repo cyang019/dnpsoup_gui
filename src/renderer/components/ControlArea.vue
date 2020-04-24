@@ -27,7 +27,7 @@ export default {
   computed: {
     ...mapState('spinsys', ['euler', 'spins', 'interactions']),
     ...mapState('pulseseq', [
-      'increment', 'emrs', 'sections', 'sequence'
+      'increment', 'emrs', 'sections', 'sequence', 'name'
     ]),
     ...mapState('SimSettings', [
       'sample', 'simulation', 'hardware'
@@ -39,7 +39,8 @@ export default {
       'setSpinsysEuler'
     ]),
     ...mapActions('pulseseq', [
-      'setName', 'addEmr', 'addSection', 'addSectionToSequence', 'resetPulseseq'
+      'setName', 'setIncrement',
+      'addEmr', 'addSection', 'addSectionToSequence', 'resetPulseseq'
     ]),
     ...mapActions('SimSettings', [
       'setNumCores', 'setTaskName',
@@ -53,10 +54,14 @@ export default {
       'setScanRange2Begin', 'setScanRange2End', 'setScanRange2Step',
       'setXtalEulerAlpha', 'setXtalEulerBeta', 'setXtalEulerGamma',
       'setSampleEuler', 'setEulerPowderOption', 'setEulerZCWValue', 'addEuler',
-      'setMagneticField', 'setGyrotronFrequency', 'setProbe', 'setMas', 'setTemperature',
-      'setIncrement', 'setAcq',
+      'setMagneticField', 'setGyrotronFrequency',
+      'setProbe', 'setMas', 'setTemperature',
+      'setAcq',
       'resetSimSettings'
     ]),
+    ...mapActions('SimSettings', {
+      'setSimIncrement': state => state.setIncrement
+    }),
 
     prepareSpinsysOutput () {
       let result = {
@@ -95,6 +100,7 @@ export default {
     },
     preparePulseseqOutput () {
       let result = {
+        name: this.name,
         increment: parseFloat(this.increment),
         components: {},
         sections: {},
@@ -237,10 +243,15 @@ export default {
     },
     populateSpinsys (spinsys) {
       this.resetSpinsys()
-      this.setSpinsysEuler(spinsys.euler)
+      let euler = {
+        alpha: parseFloat(spinsys.euler.alpha) / Math.PI * 180.0,
+        beta: parseFloat(spinsys.euler.beta) / Math.PI * 180.0,
+        gamma: parseFloat(spinsys.euler.gamma) / Math.PI * 180.0
+      }
+      this.setSpinsysEuler(euler)
       for (const spinId in spinsys.spins) {
         let spin = {
-          id: spinId,
+          id: parseInt(spinId),
           x: parseFloat(spinsys.spins[spinId].x),
           y: parseFloat(spinsys.spins[spinId].y),
           z: parseFloat(spinsys.spins[spinId].z),
@@ -250,12 +261,158 @@ export default {
         }
         this.addSpin(spin)
       }
+      for (const interaction of spinsys.interactions) {
+        switch (interaction.name) {
+          case 'shielding': case 'Shielding': case 'csa' : case 'CSA':
+            let temp1 = {
+              name: interaction.name.toLowerCase(),
+              tensor: {
+                x: parseFloat(interaction.entries.x),
+                y: parseFloat(interaction.entries.y),
+                z: parseFloat(interaction.entries.z)
+              },
+              spinId: parseInt(interaction.entries.id),
+              euler: {
+                alpha: parseFloat(interaction.entries.euler.alpha) / Math.PI * 180.0,
+                beta: parseFloat(interaction.entries.euler.beta) / Math.PI * 180.0,
+                gamma: parseFloat(interaction.entries.euler.gamma) / Math.PI * 180.0
+              }
+            }
+            this.addOneSpinInteraction(temp1)
+            break
+          default:
+            let temp2 = {
+              name: interaction.name.toLowerCase(),
+              spinId1: parseInt(interaction.entries.id1),
+              spinId2: parseInt(interaction.entries.id2)
+            }
+            if (interaction.entries.hasOwnProperty('value')) {
+              temp2['value'] = parseFloat(interaction.entries.value)
+            }
+            this.addTwoSpinInteraction(temp2)
+            break
+        }
+      }
     },
     populatePulseseq (pulseseq) {
       this.resetPulseseq()
+      if (pulseseq.hasOwnProperty('name')) {
+        this.setName(pulseseq.name)
+      } else {
+        this.setName('Default')
+      }
+      this.setIncrement(parseFloat(pulseseq.increment))
+      for (const compName in pulseseq.components) {
+        let tempEmr = {
+          name: compName,
+          channels: []
+        }
+        for (const channelName in pulseseq.components[compName]) {
+          let tempChannel = {
+            frequency: parseFloat(pulseseq.components[compName][channelName].frequency),
+            offset: parseFloat(pulseseq.components[compName][channelName].offset),
+            phase: parseFloat(pulseseq.components[compName][channelName].phase),
+            spinType: channelName
+          }
+          tempEmr.channels.push(tempChannel)
+        }
+        this.addEmr(tempEmr)
+      }
+      for (const secName in pulseseq.sections) {
+        let tempSection = Object.assign({}, pulseseq.sections.secName)
+        tempSection['name'] = secName
+        this.addSection(tempSection)
+      }
+      for (const subseq of pulseseq.sequence) {
+        this.addSectionToSequence(subseq)
+      }
     },
     populateSettings (settings) {
       this.resetSimSettings()
+      let tempSimEuler = {
+        alpha: parseFloat(settings.euler.alpha) / Math.PI * 180.0,
+        beta: parseFloat(settings.euler.beta) / Math.PI * 180.0,
+        gamma: parseFloat(settings.euler.gamma) / Math.PI * 180.0
+      }
+      this.setSampleEuler(tempSimEuler)
+      if (settings.hasOwnProperty('euler_scheme')) {
+        this.setEulerPowderOption('zcw')
+        this.setEulerZCWValue(parseInt(settings.euler_scheme.zcw))
+      } else if (settings.hasOwnProperty('eulers')) {
+        this.setEulerPowderOption('eulers')
+        for (const tempPowderEuler of settings.eulers) {
+          let tempPowderEulerDegree = {
+            alpha: parseFloat(tempPowderEuler.alpha) / Math.PI * 180.0,
+            beta: parseFloat(tempPowderEuler.beta) / Math.PI * 180.0,
+            gamma: parseFloat(tempPowderEuler.gamma) / Math.PI * 180.0
+          }
+          this.addEuler(tempPowderEulerDegree)
+        }
+      }
+      this.setNumCores(parseInt(settings.ncores))
+      this.setAcq(settings.acq)
+      this.setTaskName(settings.task)
+      if (settings.hasOwnProperty('Magnet')) {
+        this.setMagneticField(parseFloat(settings.Magnet.b0))
+      }
+      if (settings.hasOwnProperty('Gyrotron')) {
+        this.setGyrotronFrequency(parseFloat(settings.Gyrotron.em_frequency))
+      }
+      this.setSimIncrement(parseFloat(settings.Probe.mas_increment))
+      this.setTemperature(parseFloat(settings.Probe.temperature))
+      this.setMas(parseFloat(settings.Probe.mas_frequency))
+      switch (settings.task) {
+        case 'FieldProfile':
+          if (settings.hasOwnProperty('field range')) {
+            this.setFieldRangeBegin(parseFloat(settings['field range'].begin))
+            this.setFieldRangeEnd(parseFloat(settings['field range'].end))
+            this.setFieldRangeStep(parseFloat(settings['field range'].step))
+          } else if (settings.hasOwnProperty('emr range')) {
+            this.setEmrRangeBegin(parseFloat(settings['emr range'].begin))
+            this.setEmrRangeEnd(parseFloat(settings['emr range'].end))
+            this.setEmrRangeStep(parseFloat(settings['emr range'].step))
+          }
+          break
+        case 'scan1d': case 'Scan1d':
+          this.setScanType(settings['task details'].type)
+          this.setScanName(settings['task details'].name)
+          this.setScanRangeBegin(parseFloat(settings['task details'].range.begin))
+          this.setScanRangeEnd(parseFloat(settings['task details'].range.end))
+          this.setScanRangeStep(parseFloat(settings['task details'].range.step))
+          if (settings['task details'].hasOwnProperty('spin')) {
+            this.setScanSpin(settings['task details'].spin)
+          }
+          break
+        case 'scan2d': case 'Scan2d':
+          this.setScanType1(settings['task details'].type1)
+          this.setScanName1(settings['task details'].name1)
+          this.setScanRange1Begin(parseFloat(settings['task details'].range1.begin))
+          this.setScanRange1End(parseFloat(settings['task details'].range1.end))
+          this.setScanRange1Step(parseFloat(settings['task details'].range1.step))
+          if (settings['task details'].hasOwnProperty('spin1')) {
+            this.setScanSpin1(settings['task details'].spin1)
+          }
+          this.setScanType2(settings['task details'].type2)
+          this.setScanName2(settings['task details'].name2)
+          this.setScanRange2Begin(parseFloat(settings['task details'].range2.begin))
+          this.setScanRange2End(parseFloat(settings['task details'].range2.end))
+          this.setScanRange2Step(parseFloat(settings['task details'].range2.step))
+          if (settings['task details'].hasOwnProperty('spin2')) {
+            this.setScanSpin(settings['task details'].spin2)
+          }
+          break
+        default:
+          break
+      }
+      if (settings.hasOwnProperty('field range')) {
+        this.setFieldRangeBegin(parseFloat(settings['field range'].begin))
+        this.setFieldRangeEnd(parseFloat(settings['field range'].end))
+        this.setFieldRangeStep(parseFloat(settings['field range'].step))
+      } else if (settings.hasOwnProperty('emr range')) {
+        this.setEmrRangeBegin(parseFloat(settings['emr range'].begin))
+        this.setEmrRangeEnd(parseFloat(settings['emr range'].end))
+        this.setEmrRangeStep(parseFloat(settings['emr range'].step))
+      }
     },
     saveToFileClicked () {
       let content = this.prepareOutput()

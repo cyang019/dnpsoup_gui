@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import DefaultForm from './TaskForms/DefaultForm'
 import BuildUpForm from './TaskForms/BuildUpForm'
 import EigenValuesForm from './TaskForms/EigenValuesForm'
@@ -61,11 +61,12 @@ export default {
   },
   data () {
     return {
-      taskName: 'Default'
+      taskName: this.getTaskName()
     }
   },
   methods: {
-    ...mapActions('SimSettings', ['setTaskName'])
+    ...mapActions('SimSettings', ['setTaskName']),
+    ...mapGetters('SimSettings', ['getTaskName'])
   }
 }
 </script>

@@ -27,6 +27,9 @@ const mutations = {
   setName: (state, name) => {
     state.name = name.slice(0, name.length)
   },
+  setIncrement: (state, inc) => {
+    state.increment = parseFloat(inc)
+  },
   newEmr: (state, emr) => state.emrs.push(emr),
   removeEmrByName: (state, name) =>
     (state.emrs = state.emrs.filter(tmpEmr => tmpEmr.name !== name)),
@@ -68,6 +71,9 @@ const mutations = {
 const actions = {
   setName ({ commit }, name) {
     commit('setName', name)
+  },
+  setIncrement ({ commit }, inc) {
+    commit('setIncrement', inc)
   },
   addEmr ({ commit }, emr) {
     commit('newEmr', emr)

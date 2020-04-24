@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import { decode } from 'he'
 
 export default {
@@ -149,17 +149,13 @@ export default {
   },
   data () {
     return {
-      xtalEuler: {
-        alpha: 0.0,
-        beta: 0.0,
-        gamma: 0.0
-      },
+      xtalEuler: this.getXtalEuler(),
       eulerScheme: {
-        zcw: 0
+        zcw: this.getEulerSchemeZcw()
       },
-      powderOption: '',
+      powderOption: this.getPowderOption(),
       // a list of {alpha, beta, gamma}'s
-      customEulers: [],
+      customEulers: this.getEulers(),
       tempEuler: {
         alpha: 0.0,
         beta: 0.0,
@@ -176,6 +172,9 @@ export default {
       'setXtalEulerAlpha', 'setXtalEulerBeta', 'setXtalEulerGamma',
       'setEulerPowderOption',
       'setEulerZCWValue', 'addEuler', 'removeEuler'
+    ]),
+    ...mapGetters('SimSettings', [
+      'getXtalEuler', 'getPowderOption', 'getEulerSchemeZcw', 'getEulers'
     ]),
 
     decode (str) {

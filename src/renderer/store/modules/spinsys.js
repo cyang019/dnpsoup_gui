@@ -1,6 +1,6 @@
 import defaultEllipsoidAngles from './angles/ellipsoid'
 
-function initDefaultState () {
+function initDefaultSpinState () {
   return {
     euler: {
       alpha: 0.0,
@@ -27,7 +27,7 @@ function idNotInEntries (entries, spinId) {
   }
 }
 
-const state = initDefaultState()
+const state = initDefaultSpinState()
 
 const getters = {
   getSpinId: state => state.spinId,
