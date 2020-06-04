@@ -10,11 +10,11 @@
           @change="setName(name)"
         >
         <label for="increment" class="col-form-label">
-          Increment:
+          Increment (ns):
         </label>
         <input type="number" id="increment" step="any" 
           v-model="increment"
-          @change="setIncrement(increment)"
+          @change="setIncrement(increment * 1.0e-9)"
         >
       </div>
       <div class="card">
@@ -50,7 +50,7 @@ export default {
   name: 'pulseseq-panel',
   data () {
     return {
-      increment: 1.0e-9,
+      increment: 1.0,
       name: ''
     }
   },

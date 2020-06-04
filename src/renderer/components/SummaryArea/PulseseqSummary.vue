@@ -3,7 +3,7 @@
     <small class="text-muted">Pulse Sequence Summary</small>
     <div v-if="name.length > 0" class="d-flex flex-column">
       <span class="p">{{name}}</span>
-      <span class="p">increment: {{increment}} ns</span>
+      <span class="p">increment: {{increment * 1e9}} ns</span>
       <span v-for="section in sequence">
         {{section.name}}
       </span>

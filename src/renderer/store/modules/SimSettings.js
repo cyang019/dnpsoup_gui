@@ -82,7 +82,7 @@ const state = {
     { name: 'Powder Intensity', task: 'PowderIntensity' },
     { name: 'Field Profile', task: 'FieldProfile' },
     { name: 'BuildUp', task: 'BuildUp' },
-    { name: 'Powder BuildUp', task: 'PowderBuildUp' },
+    { name: 'Powder BuildUp', task: 'PowderBuildUpEnhancement' },
     { name: 'Scan1d', task: 'scan1d' },
     { name: 'Scan2d', task: 'scan2d' }
   ],
@@ -90,17 +90,17 @@ const state = {
 
   hardware: {
     magnet: {
-      b0: 3.35
+      b0: 0
     },
 
     gyrotron: {
-      emFrequency: 94.1976e9
+      emFrequency: 0
     },
 
     probe: {
       masFrequency: 0.0,
-      temperature: 80.0,
-      masIncrement: 1e-3,
+      temperature: 77.0,
+      masIncrement: 1e-6,
       acq: 'H'
     }
   }

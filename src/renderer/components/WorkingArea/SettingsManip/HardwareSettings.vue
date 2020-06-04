@@ -22,7 +22,7 @@
             id="input-magnet-field"
             class="col-md-3"
             v-model="magneticField"
-            @change="setFieldState(magneticField)"
+            @change="setFieldState"
           >
           <label for="input-magnet-field" class="col-form-label">T</label>
         </div>
@@ -34,7 +34,7 @@
             id="input-gyrotron-frequency"
             class="col-md-3"
             v-model="gyrotronFrequency"
-            @change="setGyrotronFrequencyState(gyrotronFrequency)"
+            @change="setGyrotronFrequencyState"
           >
           <label for="input-gyrotron-frequency" class="col-form-label">GHz</label>
         </div>
@@ -46,7 +46,7 @@
             <div class="d-flex flex-column">
               <div class="form-group mb-0">
                 <label for="input-mas" class="col-form-label">
-                  MAS frequency (kHz)
+                  MAS frequency (Hz)
                 </label>
                 <input type="number" step="any" name="input-mas" id="input-mas"
                   v-model="masFrequency"
@@ -100,7 +100,15 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   name: 'hardware-settings',
   computed: {
-    ...mapState('SimSettings', ['refMagnets']),
+    ...mapState('SimSettings', {
+      'refMagnets': state => state.refMagnets,
+      'stateB0': state => state.hardware.magnet.b0,
+      'stateGyrotronFrequency': state => state.hardware.gyrotron.emFrequency,
+      'stateProbeMas': state => state.hardware.probe.masFrequency,
+      'stateProbeTemperature': state => state.hardware.probe.temperature,
+      'stateProbeMasIncrement': state => state.hardware.probe.masIncrement,
+      'stateProbeAcq': state => state.hardware.probe.acq
+    }),
     ...mapState('spinsys', ['spins']),
 
     spinTypes () {
@@ -112,6 +120,15 @@ export default {
     }
   },
   methods: {
+    init () {
+      this.magneticField = parseFloat(this.stateB0)
+      this.gyrotronFrequency = parseFloat(this.stateGyrotronfrequency) / 1.0e9
+      this.masFrequency = parseFloat(this.stateProbeMas)
+      this.increment = parseFloat(this.stateProbeMasIncrement) * 1.0e9
+      this.temperature = parseFloat(this.stateProbeTemperature)
+      this.acq = this.stateProbeAcq
+    },
+
     ...mapActions('SimSettings', [
       'setMagneticField', 'setGyrotronFrequency',
       'setMas', 'setTemperature', 'setIncrement', 'setAcq'
@@ -123,13 +140,15 @@ export default {
 
     setFieldFreq (fieldValue, freqValue) {
       this.magneticField = parseFloat(fieldValue)
+      this.setFieldState()
       this.gyrotronFrequency = parseFloat(freqValue)
+      this.setGyrotronFrequencyState()
     },
     setFieldState () {
       this.setMagneticField(parseFloat(this.magneticField))
     },
     setGyrotronFrequencyState () {
-      this.setGyrotronFrequency(parseFloat(this.gyrotronFrequency))
+      this.setGyrotronFrequency(parseFloat(this.gyrotronFrequency) * 1.0e9)
     },
     setMasFrequencyState () {
       this.setMas(this.masFrequency)
@@ -138,7 +157,7 @@ export default {
       this.setTemperature(this.temperature)
     },
     setIncrementState () {
-      this.setIncrement(this.increment)
+      this.setIncrement(this.increment * 1.0e-9)
     },
     setAcqState () {
       this.setAcq(this.acq)
@@ -146,12 +165,32 @@ export default {
   },
   data () {
     return {
-      magneticField: this.getB0(),
-      gyrotronFrequency: this.getEmFreq(),
-      masFrequency: this.getMas(),
-      increment: this.getMasInc(),
-      temperature: this.getTemperature(),
-      acq: this.getAcq()
+      magneticField: 0.0,
+      gyrotronFrequency: 0.0,
+      masFrequency: 0.0,
+      increment: 1e-9,
+      temperature: 77,
+      acq: 'H1'
+    }
+  },
+  mounted () {
+    this.init()
+  },
+  watch: {
+    stateB0 (newValue, oldValue) {
+      this.magneticField = parseFloat(newValue)
+    },
+    stateGyrotronFrequency (newValue, oldValue) {
+      this.gyrotronFrequency = parseFloat(newValue) / 1.0e9
+    },
+    stateProbeMas (newValue, oldValue) {
+      this.masFrequency = parseFloat(newValue)
+    },
+    stateProbeMasIncrement (newValue, oldValue) {
+      this.increment = parseFloat(newValue) * 1.0e9
+    },
+    stateProbeAcq (newValue, oldValue) {
+      this.acq = newValue
     }
   }
 }

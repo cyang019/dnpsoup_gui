@@ -53,11 +53,13 @@ export default {
   },
   methods: {
     ...mapActions('spinsys', ['resetSpinsys']),
-    ...mapActions('pulseseq', ['resetPulseseq'])
+    ...mapActions('pulseseq', ['resetPulseseq']),
+    ...mapActions('SimSettings', ['resetSimSettings'])
   },
   mounted () {
     this.resetSpinsys()
     this.resetPulseseq()
+    this.resetSimSettings()
   }
 }
 </script>

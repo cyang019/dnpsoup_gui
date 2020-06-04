@@ -87,18 +87,36 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'field-profile-form',
   data () {
     return {
-      ncores: this.getNumCores(),
-      scanOption: this.getFieldProfileScanOption(),
-      range: this.getFieldProfileRange()
+      ncores: 1,
+      scanOption: 'b0',
+      range: {
+        begin: 0.0,
+        end: 0.0,
+        step: 1.0
+      }
     }
   },
+  computed: {
+    ...mapState('SimSettings', ['taskOptions'])
+  },
+  mounted () {
+    this.init()
+  },
   methods: {
+    init () {
+      let stateRange = this.getFieldProfileRange()
+      this.range.begin = stateRange.begin
+      this.range.end = stateRange.end
+      this.range.step = stateRange.end
+      this.scanOption = this.getFieldProfileScanOption()
+      this.ncores = this.getNumCores()
+    },
     ...mapActions('SimSettings', [
       'setNumCores',
       'setEmrRangeBegin', 'setEmrRangeEnd',

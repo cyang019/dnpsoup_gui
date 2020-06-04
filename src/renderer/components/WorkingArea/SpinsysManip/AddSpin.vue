@@ -271,6 +271,9 @@ export default {
       this.resetPhysicalProperties()
     },
     validateSpin () {
+      this.t1Error = ''
+      this.t2Error = ''
+      this.coordinateError = ''
       let success = true
       if (this.spins.length > 0) {
         let tempDist = 0.0

@@ -320,6 +320,7 @@ export default {
           })
           break
         default:
+          console.log('unknown interaction: ' + this.interaction.name)
           break
       }
       this.resetInteraction()

@@ -123,7 +123,8 @@ export default {
   name: 'sample-settings',
   computed: {
     ...mapState('SimSettings', {
-      taskName: state => state.simulation.task.name
+      taskName: state => state.simulation.task.name,
+      stateSampleEuler: state => state.sample.euler
     }),
 
     showPowderOptions () {
@@ -149,7 +150,11 @@ export default {
   },
   data () {
     return {
-      xtalEuler: this.getXtalEuler(),
+      xtalEuler: {
+        alpha: 0.0,
+        beta: 0.0,
+        gamma: 0.0
+      },
       eulerScheme: {
         zcw: this.getEulerSchemeZcw()
       },
@@ -177,6 +182,13 @@ export default {
       'getXtalEuler', 'getPowderOption', 'getEulerSchemeZcw', 'getEulers'
     ]),
 
+    init () {
+      let angles = this.getXtalEuler()
+      this.xtalEuler.alpha = parseFloat(angles.alpha)
+      this.xtalEuler.beta = parseFloat(angles.beta)
+      this.xtalEuler.gamma = parseFloat(angles.gamma)
+    },
+
     decode (str) {
       return decode(str)
     },
@@ -194,6 +206,18 @@ export default {
     removeCustomEuler (eulerId) {
       this.customEulers = this.customEulers.filter(euler => euler.id !== eulerId)
       this.removeEuler(eulerId)
+    }
+  },
+  mounted () {
+    this.init()
+  },
+  watch: {
+    stateSampleEuler: {
+      handler: function () {
+        this.xtalEuler.alpha = parseFloat(this.stateSampleEuler.alpha)
+        this.xtalEuler.beta = parseFloat(this.stateSampleEuler.beta)
+        this.xtalEuler.gamma = parseFloat(this.stateSampleEuler.gamma)
+      }
     }
   }
 }

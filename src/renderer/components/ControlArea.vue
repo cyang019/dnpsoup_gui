@@ -6,11 +6,14 @@
         Save to File
       </button>
       <button class="btn btn-secondary btn-md" @click="loadFromFileClicked">
-        Load from File
+        Load from File (In Development)
       </button>
-      <button class="btn btn-primary btn-md" @click="runClicked">
+      <button class="btn btn-secondary btn-md" @click="resetClicked">
+        Reset
+      </button>
+      <button class="btn btn-primary btn-md disabled" @click="runClicked">
         <span>
-          Run
+          Run (Not Available)
         </span>
       </button>
     </div>
@@ -86,7 +89,31 @@ export default {
         result.spins[spin.id] = Object.assign({}, tempSpin)
       }
       for (const interaction of this.interactions) {
-        result.interactions.push(Object.assign({}, interaction))
+        if (!interaction.hasOwnProperty('entries')) {
+          // unknown interaction
+          result.interactions.push(Object.assign({}, interaction))
+        } else if (interaction.entries.hasOwnProperty('id1')) {
+          // two spin interaction
+          result.interactions.push(Object.assign({}, interaction))
+        } else {
+          // one spin interaction
+          let tempInteraction = {
+            name: interaction['name'],
+            id: parseInt(interaction.id)
+          }
+          tempInteraction['entries'] = {
+            x: parseFloat(interaction.entries.x),
+            y: parseFloat(interaction.entries.y),
+            z: parseFloat(interaction.entries.z),
+            id: parseInt(interaction.entries.id),
+            euler: {
+              alpha: parseFloat(interaction.entries.euler.alpha) / 180.0 * Math.PI,
+              beta: parseFloat(interaction.entries.euler.beta) / 180.0 * Math.PI,
+              gamma: parseFloat(interaction.entries.euler.gamma) / 180.0 * Math.PI
+            }
+          }
+          result.interactions.push(Object.assign({}, tempInteraction))
+        }
       }
       for (const emr of this.emrs) {
         for (const channel of emr.channels) {
@@ -446,8 +473,13 @@ export default {
         }
       )
     },
+    resetClicked () {
+      this.resetSpinsys()
+      this.resetPulseseq()
+      this.resetSimSettings()
+    },
     runClicked () {
-
+      console.log('Not Implemented Yet.')
     }
   }
 }

@@ -12,7 +12,7 @@
         {{eulers.length}} customized angles
       </span>
       <span v-if="mas > 0">
-        MAS {{mas}} kHz
+        MAS {{mas}} Hz
       </span>
     </div>
   </div>
