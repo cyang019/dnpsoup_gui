@@ -4,6 +4,7 @@
       <span>sample settings</span>
     </div>
     <div class="card-body">
+      <div v-on:require-sync-state="syncState"></div>
       <div class="d-flex flex-column">
         <div>Sample Euler</div>
         <div class="form-group mb-0">
@@ -156,11 +157,11 @@ export default {
         gamma: 0.0
       },
       eulerScheme: {
-        zcw: this.getEulerSchemeZcw()
+        zcw: 0
       },
-      powderOption: this.getPowderOption(),
+      powderOption: '',
       // a list of {alpha, beta, gamma}'s
-      customEulers: this.getEulers(),
+      customEulers: [],
       tempEuler: {
         alpha: 0.0,
         beta: 0.0,
@@ -187,6 +188,13 @@ export default {
       this.xtalEuler.alpha = parseFloat(angles.alpha)
       this.xtalEuler.beta = parseFloat(angles.beta)
       this.xtalEuler.gamma = parseFloat(angles.gamma)
+      this.eulerScheme.zcw = this.getEulerSchemeZcw()
+      this.powderOption = this.getPowderOption()
+      this.customEulers = this.getEulers()
+    },
+
+    syncState () {
+      this.init()
     },
 
     decode (str) {

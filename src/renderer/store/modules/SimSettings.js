@@ -76,6 +76,12 @@ const state = {
     }
   },
 
+  taskCandidates: [
+    'EigenValues', 'Intensity', 'PowderIntensity',
+    'FieldProfile', 'BuildUp', 'PowderBuildUpEnhancement',
+    'scan1d', 'scan2d'
+  ],
+
   taskOptions: [
     { name: 'Eigen Values', task: 'EigenValues' },
     { name: 'Intensity', task: 'Intensity' },
@@ -101,9 +107,11 @@ const state = {
       masFrequency: 0.0,
       temperature: 77.0,
       masIncrement: 1e-6,
-      acq: 'H'
+      acq: 'H1'
     }
-  }
+  },
+
+  syncStateRequired: false
 }
 
 const getters = {
@@ -224,8 +232,8 @@ const mutations = {
       probe: {
         masFrequency: 0.0,
         temperature: 80.0,
-        masIncrement: 1e-3,
-        acq: 'H'
+        masIncrement: 1e-6,
+        acq: 'H1'
       }
     }
   },
@@ -233,8 +241,18 @@ const mutations = {
   // task settings
   setNCores: (state, n) => (state.simulation.ncores = parseInt(n)),
 
-  updateTaskName: (state, name) => {
-    state.simulation.task.name = name.slice(0, name.length)
+  setTaskName: (state, name) => {
+    state.simulation.task.name = name
+  },
+
+  setTaskNameByValue: (state, value) => {
+    for (const key in state.taskOptions) {
+      if (state.taskOptions[key] === value) {
+        state.simulation.task.name = key
+        return
+      }
+    }
+    state.simulation.task.name = ''
   },
 
   setEmrRangeBegin: (state, value) => {
@@ -410,7 +428,10 @@ const mutations = {
     state.hardware.probe.masIncrement = parseFloat(inc)
   },
   setAcq: (state, acq) => {
-    state.hardware.probe.acq = acq.slice(0, acq.length)
+    state.hardware.probe.acq = acq
+  },
+  setSyncStateRequired: (state, val) => {
+    state.syncStateRequired = val
   }
 }
 
@@ -420,7 +441,10 @@ const actions = {
     commit('setNCores', n)
   },
   setTaskName ({ commit }, name) {
-    commit('updateTaskName', name)
+    commit('setTaskName', name)
+  },
+  setTaskNameByValue ({ commit }, name) {
+    commit('setTaskNameByValue', name)
   },
   setEmrRangeBegin ({ commit }, value) {
     commit('setEmrRangeBegin', value)
@@ -545,6 +569,9 @@ const actions = {
   },
   resetSimSettings ({ commit }) {
     commit('resetSimSettings')
+  },
+  setSyncStateRequired ({ commit }, val) {
+    commit('setSyncStateRequired', val)
   }
 }
 

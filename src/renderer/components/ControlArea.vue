@@ -267,6 +267,8 @@ export default {
       this.populateSpinsys(spinsys)
       this.populatePulseseq(pulseseq)
       this.populateSettings(settings)
+      this.$emit('require-sync-state', true)
+      console.log('sync state emitted.')
     },
     populateSpinsys (spinsys) {
       this.resetSpinsys()
@@ -379,6 +381,7 @@ export default {
       this.setNumCores(parseInt(settings.ncores))
       this.setAcq(settings.acq)
       this.setTaskName(settings.task)
+      // console.log(`settings.task: ${settings.task}`)
       if (settings.hasOwnProperty('Magnet')) {
         this.setMagneticField(parseFloat(settings.Magnet.b0))
       }
@@ -477,6 +480,7 @@ export default {
       this.resetSpinsys()
       this.resetPulseseq()
       this.resetSimSettings()
+      this.$emit('require-sync-state', true)
     },
     runClicked () {
       console.log('Not Implemented Yet.')

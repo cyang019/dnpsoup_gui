@@ -14,7 +14,7 @@
             {{magnet.name}}
           </button>
         </div>
-        <div class="form-group mb-0">
+        <div class="form-group mb-0" @click="editB0=false">
           <label for="input-magnet-field" class="col-form-label">
             Magnetic Field:
           </label>
@@ -26,6 +26,7 @@
           >
           <label for="input-magnet-field" class="col-form-label">T</label>
         </div>
+
         <div class="form-group mb-0">
           <label for="input-gyrotron-frequency">
             Gyrotron Frequency
@@ -71,20 +72,34 @@
                   @change="setTemperatureState"
                 >
               </div>
-              <div class="form-group mb-0">
-                <label for="input-acq" class="col-form-label">
-                  Acquisition:
-                </label>
+              <div v-if="editAcq" class="d-flex flex-row">
+                <div class="p m-2">
+                  <span>Acquisition: </span>
+                </div>
                 <select name="input-acq" id="input-acq"
                   v-model="acq"
-                  @change="setAcqState"
                 >
-                  <option v-for="spinType in spinTypes" :key=spinType
+                  <option v-for="spinType in spinTypes"
+                    :key=spinType
                     :value="spinType"
                   >
                     {{spinType}}
                   </option>
                 </select>
+                <div class="btn btn-light p-2" @click="editAcqOkClicked">
+                  <i class="fas fa-check"></i>    
+                </div>
+                <div class="btn btn-light p-2" @click="editAcqCancelClicked">
+                  <i class="fas fa-ban"></i>    
+                </div>
+              </div>
+              <div v-else class="d-flex flex-row">
+                <div class="p m-2">
+                  <span>Acquisition: {{stateProbeAcq}}</span>
+                </div>
+                <div class="btn btn-light" @click="editAcqClicked">
+                  <i class="fas fa-pen"></i>    
+                </div>
               </div>
             </div>
           </div>
@@ -107,7 +122,8 @@ export default {
       'stateProbeMas': state => state.hardware.probe.masFrequency,
       'stateProbeTemperature': state => state.hardware.probe.temperature,
       'stateProbeMasIncrement': state => state.hardware.probe.masIncrement,
-      'stateProbeAcq': state => state.hardware.probe.acq
+      'stateProbeAcq': state => state.hardware.probe.acq,
+      'syncStateRequired': state => state.syncStateRequired
     }),
     ...mapState('spinsys', ['spins']),
 
@@ -122,7 +138,7 @@ export default {
   methods: {
     init () {
       this.magneticField = parseFloat(this.stateB0)
-      this.gyrotronFrequency = parseFloat(this.stateGyrotronfrequency) / 1.0e9
+      this.gyrotronFrequency = parseFloat(this.stateGyrotronFrequency) / 1.0e9
       this.masFrequency = parseFloat(this.stateProbeMas)
       this.increment = parseFloat(this.stateProbeMasIncrement) * 1.0e9
       this.temperature = parseFloat(this.stateProbeTemperature)
@@ -131,12 +147,17 @@ export default {
 
     ...mapActions('SimSettings', [
       'setMagneticField', 'setGyrotronFrequency',
-      'setMas', 'setTemperature', 'setIncrement', 'setAcq'
+      'setMas', 'setTemperature', 'setIncrement', 'setAcq',
+      'setSyncStateRequired'
     ]),
     ...mapGetters('SimSettings', [
       'getB0', 'getEmFreq',
       'getMas', 'getTemperature', 'getMasInc', 'getAcq'
     ]),
+
+    syncState () {
+      this.init()
+    },
 
     setFieldFreq (fieldValue, freqValue) {
       this.magneticField = parseFloat(fieldValue)
@@ -159,8 +180,15 @@ export default {
     setIncrementState () {
       this.setIncrement(this.increment * 1.0e-9)
     },
-    setAcqState () {
+    editAcqClicked () {
+      this.editAcq = true
+    },
+    editAcqOkClicked () {
       this.setAcq(this.acq)
+      this.editAcq = false
+    },
+    editAcqCancelClicked () {
+      this.editAcq = false
     }
   },
   data () {
@@ -170,27 +198,23 @@ export default {
       masFrequency: 0.0,
       increment: 1e-9,
       temperature: 77,
-      acq: 'H1'
+      acq: 'H1',
+      editAcq: false,
+
+      editB0: false
     }
   },
   mounted () {
     this.init()
   },
   watch: {
-    stateB0 (newValue, oldValue) {
-      this.magneticField = parseFloat(newValue)
-    },
-    stateGyrotronFrequency (newValue, oldValue) {
-      this.gyrotronFrequency = parseFloat(newValue) / 1.0e9
-    },
-    stateProbeMas (newValue, oldValue) {
-      this.masFrequency = parseFloat(newValue)
-    },
-    stateProbeMasIncrement (newValue, oldValue) {
-      this.increment = parseFloat(newValue) * 1.0e9
-    },
-    stateProbeAcq (newValue, oldValue) {
-      this.acq = newValue
+    syncStateRequired: {
+      handler: function () {
+        if (this.syncStateRequired) {
+          this.syncState()
+          this.setSyncStateRequired(false)
+        }
+      }
     }
   }
 }
