@@ -1,51 +1,19 @@
 <template>
   <div id='pulseseq-panel' class='flex-fill'>
     <div class='d-flex flex-column'>
-      <div v-if="editName" class='d-flex flex-row'>
-        <div class="p m-2">
-          <span>Name: </span>
-        </div>
-        <input type="text" id="pulseseq-name" 
-          v-model="name"
-        >
-        <div class="btn btn-light p-2" @click="editNameOkClicked">
-          <i class="fas fa-check"></i>    
-        </div>
-        <div class="btn btn-light p-2" @click="editNameCancelClicked">
-          <i class="fas fa-ban"></i>    
-        </div>
-      </div>
-      <div v-else class='d-flex flex-row'>
-        <div class="p m-2">
-          <span>Name: {{stateName}}</span>
-        </div>
-        <div class="btn btn-light" @click="editNameClicked">
-          <i class="fas fa-pen"></i>    
-        </div>
-      </div>
-      <div v-if="editIncrement" class='d-flex flex-row'>
-        <div class="p m-2">
-          <span>Increment (ns): </span>
-        </div>
-        <input type="number" id="pulseseq-name" step="any"
-          v-model="increment"
-        >
-        <div class="btn btn-light p-2" @click="editIncrementOkClicked">
-          <i class="fas fa-check"></i>    
-        </div>
-        <div class="btn btn-light p-2" @click="editIncrementCancelClicked">
-          <i class="fas fa-ban"></i>    
-        </div>
-      </div>
-      <div v-else class='d-flex flex-row'>
-        <div class="p m-2">
-          <span>Increment (ns): {{stateIncrement}}</span>
-        </div>
-        <div class="btn btn-light" @click="editIncrementClicked">
-          <i class="fas fa-pen"></i>    
-        </div>
-      </div>
-      
+      <input-sync-state
+        :name="'Name'"
+        :stateValue="stateName"
+        :type="'text'"
+        v-on:input-sync-state-ok-clicked="setName"
+      >
+      </input-sync-state>
+      <input-sync-state
+        :name="'Increment (ns)'"
+        :stateValue="stateIncrement * 1e9"
+        v-on:input-sync-state-ok-clicked="setIncrementState"
+      >
+      </input-sync-state>  
       <div class="card">
         <div class="card-header pulseseq-header">
           <span class="panel-title">ElectroMagnetic Radiations</span>
@@ -74,6 +42,7 @@ import { mapActions, mapState } from 'vuex'
 import EmrPanel from './PulseseqManip/EmrPanel'
 import SectionPanel from './PulseseqManip/SectionPanel'
 import SequencePanel from './PulseseqManip/SequencePanel'
+import InputSyncState from './common/InputSyncState'
 
 export default {
   name: 'pulseseq-panel',
@@ -95,7 +64,8 @@ export default {
   components: {
     EmrPanel,
     SectionPanel,
-    SequencePanel
+    SequencePanel,
+    InputSyncState
   },
   methods: {
     ...mapActions('pulseseq', ['setName', 'setIncrement']),
@@ -104,35 +74,8 @@ export default {
       this.increment = parseFloat(this.stateIncrement) * 1e9
       this.name = this.stateName
     },
-
-    editNameClicked () {
-      this.name = this.stateName
-      this.editName = true
-    },
-    editNameCancelClicked () {
-      this.name = this.stateName
-      this.editName = false
-    },
-    editNameOkClicked () {
-      this.setName(this.name)
-      this.editName = false
-    },
-
-    editIncrementClicked () {
-      this.increment = parseFloat(this.stateIncrement) * 1e9
-      this.editIncrement = true
-    },
-    editIncrementCancelClicked () {
-      this.increment = parseFloat(this.stateIncrement) * 1e9
-      this.editIncrement = false
-    },
-    editIncrementOkClicked () {
-      this.setIncrement(parseFloat(this.increment) * 1e-9)
-      this.editIncrement = false
-    },
-
-    syncState () {
-      this.init()
+    setIncrementState (value) {
+      this.setIncrement(parseFloat(value) * 1.0e-9)
     }
   },
   mounted () {

@@ -255,6 +255,17 @@ const mutations = {
     state.simulation.task.name = ''
   },
 
+  setEmrRange: (state, value) => {
+    state.simulation.task.taskDetails.fieldRange = {
+      begin: 0,
+      end: 0,
+      step: 0
+    }
+    state.simulation.task.taskDetails.emrRange.begin = parseFloat(value.begin)
+    state.simulation.task.taskDetails.emrRange.end = parseFloat(value.end)
+    state.simulation.task.taskDetails.emrRange.step = parseFloat(value.step)
+  },
+
   setEmrRangeBegin: (state, value) => {
     state.simulation.task.taskDetails.fieldRange = {
       begin: 0,
@@ -280,6 +291,17 @@ const mutations = {
       step: 0
     }
     state.simulation.task.taskDetails.emrRange.step = parseFloat(value)
+  },
+
+  setFieldRange: (state, value) => {
+    state.simulation.task.taskDetails.emrRange = {
+      begin: 0,
+      end: 0,
+      step: 0
+    }
+    state.simulation.task.taskDetails.fieldRange.begin = parseFloat(value.begin)
+    state.simulation.task.taskDetails.fieldRange.end = parseFloat(value.end)
+    state.simulation.task.taskDetails.fieldRange.step = parseFloat(value.step)
   },
 
   setFieldRangeBegin: (state, value) => {
@@ -446,6 +468,9 @@ const actions = {
   setTaskNameByValue ({ commit }, name) {
     commit('setTaskNameByValue', name)
   },
+  setEmrRange ({ commit }, value) {
+    commit('setEmrRange', value)
+  },
   setEmrRangeBegin ({ commit }, value) {
     commit('setEmrRangeBegin', value)
   },
@@ -454,6 +479,9 @@ const actions = {
   },
   setEmrRangeStep ({ commit }, value) {
     commit('setEmrRangeStep', value)
+  },
+  setFieldRange ({ commit }, value) {
+    commit('setFieldRange', value)
   },
   setFieldRangeBegin ({ commit }, value) {
     commit('setFieldRangeBegin', value)

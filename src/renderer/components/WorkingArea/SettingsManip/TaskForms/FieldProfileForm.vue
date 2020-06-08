@@ -1,14 +1,11 @@
 <template>
   <div id="field-profile-form" class="d-flex flex-column">
-    <div class="form-group mb-0">
-      <label for="input-ncores" class="col-form-label">
-        <span>ncores:</span>
-      </label>
-      <input type="number" step="1" min="1"
-        v-model="ncores"
-        @change="setNumCores(ncores)"
-      >
-    </div>
+    <input-sync-state
+      :name="'ncores'"
+      :stateValue="stateNCores"
+      v-on:input-sync-state-ok-clicked="setNumCores"
+    >
+    </input-sync-state>
     <div class="form-group mb-0">
       <input type="radio" name="radio-input-scan-option" 
         id="radio-input-scan-option"
@@ -41,45 +38,51 @@
         >
           Emr Range (GHz)
         </div>
-        <div
-          class="form-group mb-0"
+        <div v-if="editRange" class="d-flex flex-column">
+          <div class="input-group">
+            <span class="input-group-text col-2">Begin: </span>
+            <input type="number" step="any"
+              v-model="range.begin"
+            >
+          </div>
+          <div class="input-group">
+            <span class="input-group-text col-2">End: </span>
+            <input type="number" step="any"
+              v-model="range.end"
+            >
+          </div>
+          <div class="input-group">
+            <span class="input-group-text col-2">Step: </span>
+            <input type="number" step="any"
+              v-model="range.step"
+            >
+          </div>
+          <div class="d-flex flex-row">
+            <div class="btn btn-light btn-sm" @click="editRangeOkClicked">
+              <i class="fas fa-check text-success"></i>
+              <span>OK</span>    
+            </div>
+            <div class="btn btn-light btn-sm" @click="editRangeCancelClicked">
+              <i class="fas fa-ban text-danger"></i>
+              <span>Cancel</span>    
+            </div>
+          </div>
+        </div>
+        <div v-else class="d-flex flex-row"
+          @click="editRangeClicked"
         >
-          <label for="input-range-begin" 
-            class="col-form-label"
-          >
-            Begin
-          </label>
-          <input type="number" step="any"
-            class="col-md-3"
-            name="input-range-begin" 
-            id="input-range-begin"
-            v-model="range.begin"
-            @change="updateRangeBegin"
-          >
-          <label for="input-range-end" 
-            class="col-form-label"
-          >
-            End
-          </label>
-          <input type="number" step="any"
-            class="col-md-3"
-            name="input-range-end"
-            id="input-range-end"
-            v-model="range.end"
-            @change="updateRangeEnd"
-          >
-          <label for="input-range-Step" 
-            class="col-form-label"
-          >
-            Step
-          </label>
-          <input type="number"
-            class="col-md-3"
-            name="input-range-step" 
-            id="input-range-step"
-            v-model="range.step"
-            @change="updateRangeStep"
-          >
+          <div class="p mr-2">
+            <span>Begin: </span>
+            <span class="bg-light pr-2">{{stateRange.begin}}</span>
+          </div>
+          <div class="p mr-2">
+            <span>End: </span>
+            <span class="bg-light pr-2">{{stateRange.end}}</span>
+          </div>
+          <div>
+            <span>Step: </span>
+            <span class="bg-light pr-2">{{stateRange.step}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -88,9 +91,13 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
+import InputSyncState from '../../common/InputSyncState'
 
 export default {
   name: 'field-profile-form',
+  components: {
+    InputSyncState
+  },
   data () {
     return {
       ncores: 1,
@@ -99,11 +106,18 @@ export default {
         begin: 0.0,
         end: 0.0,
         step: 1.0
-      }
+      },
+      editRange: false
     }
   },
   computed: {
-    ...mapState('SimSettings', ['taskOptions'])
+    ...mapState('SimSettings', ['taskOptions']),
+    ...mapState('SimSettings', {
+      stateNCores: state => state.simulation.ncores
+    }),
+    stateRange: function () {
+      return this.getFieldProfileRange()
+    }
   },
   mounted () {
     this.init()
@@ -119,35 +133,29 @@ export default {
     },
     ...mapActions('SimSettings', [
       'setNumCores',
-      'setEmrRangeBegin', 'setEmrRangeEnd',
-      'setEmrRangeStep',
-      'setFieldRangeBegin', 'setFieldRangeEnd',
-      'setFieldRangeStep'
+      'setEmrRange', 'setFieldRange'
     ]),
     ...mapGetters('SimSettings', [
       'getFieldProfileScanOption', 'getNumCores',
       'getFieldProfileRange'
     ]),
-    updateRangeBegin () {
+    editRangeClicked () {
+      let range = this.getFieldProfileRange()
+      this.range.begin = parseFloat(range.begin)
+      this.range.end = parseFloat(range.end)
+      this.range.step = parseFloat(range.step)
+      this.editRange = true
+    },
+    editRangeOkClicked () {
+      this.editRange = false
       if (this.scanOption === 'b0') {
-        this.setFieldRangeBegin(this.range.begin)
-      } else if (this.scanOption === 'emr') {
-        this.setEmrRangeBegin(this.range.begin)
+        this.setFieldRange(Object.assign({}, this.range))
+      } else {
+        this.setEmrRange(Object.assign({}, this.range))
       }
     },
-    updateRangeEnd () {
-      if (this.scanOption === 'b0') {
-        this.setFieldRangeEnd(this.range.end)
-      } else if (this.scanOption === 'emr') {
-        this.setEmrRangeEnd(this.range.end)
-      }
-    },
-    updateRangeStep () {
-      if (this.scanOption === 'b0') {
-        this.setFieldRangeStep(this.range.step)
-      } else if (this.scanOption === 'emr') {
-        this.setEmrRangeStep(this.range.step)
-      }
+    editRangeCancelClicked () {
+      this.editRange = false
     }
   }
 }

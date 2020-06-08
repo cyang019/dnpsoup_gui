@@ -8,14 +8,19 @@
       <div class="p m-1">
         <span>{{name}}: </span>
       </div>
-      <input type="number" id="temp-value-input" step="any"
+      <input v-if="type==='text'" 
+        type="text" id="temp-value-input"
+        v-model="tempValue"
+      >
+      <input v-else 
+        type="number" id="temp-value-input" step="any"
         v-model="tempValue"
       >
       <div class="btn btn-light btn-sm" @click="editValueOkClicked">
-        <i class="fas fa-check"></i>    
+        <i class="fas fa-check text-success"></i>    
       </div>
       <div class="btn btn-light btn-sm" @click="editValueCancelClicked">
-        <i class="fas fa-ban"></i>    
+        <i class="fas fa-ban text-danger"></i>    
       </div>
     </div>
     <div v-else class="p m-1"
@@ -35,7 +40,7 @@
 <script>
 export default {
   name: 'input-sync-state',
-  props: ['name', 'stateValue'],
+  props: ['name', 'stateValue', 'type'],
   data () {
     return {
       tempValue: 0,

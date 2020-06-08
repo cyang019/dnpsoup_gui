@@ -2,13 +2,13 @@
   <div id="control-area" class="d-flex flex-column">
     <p><strong>Execute Tasks</strong></p>
     <div class="d-flex flex-row justify-content-between">
-      <button class="btn btn-secondary btn-md" @click="saveToFileClicked">
+      <button class="btn btn-primary btn-md" @click="saveToFileClicked">
         Save to File
       </button>
       <button class="btn btn-secondary btn-md" @click="loadFromFileClicked">
         Load from File (In Development)
       </button>
-      <button class="btn btn-secondary btn-md" @click="resetClicked">
+      <button class="btn btn-primary btn-md" @click="resetClicked">
         Reset
       </button>
       <button class="btn btn-primary btn-md disabled" @click="runClicked">

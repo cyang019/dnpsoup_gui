@@ -6,8 +6,8 @@
     <div class="card-body">
       <div class="d-flex flex-column">
         <div v-if="editTaskName" class="d-flex flex-row"
-          @keydown.enter="taskNameOkClicked"
-          @keydown.esc="taskNameCancelClicked"
+          @keydown.enter="editTaskNameOkClicked"
+          @keydown.esc="editTaskNameCancelClicked"
         >
           <span>Task Name:</span>
           <select
@@ -22,10 +22,10 @@
             </option>
           </select>
           <div class="btn btn-light btn-sm" @click="editTaskNameOkClicked">
-            <i class="fas fa-check"></i>    
+            <i class="fas fa-check text-success"></i>    
           </div>
           <div class="btn btn-light btn-sm" @click="editTaskNameCancelClicked">
-            <i class="fas fa-ban"></i>    
+            <i class="fas fa-ban text-danger"></i>    
           </div>
         </div>
         <div v-else class="d-flex flex-row"
@@ -34,7 +34,7 @@
           <div class="p m-1">
             <span>Task Name: </span>
             <span
-              class="bg-light border-bottom border-secondary-bottom pr-4 ml-1"
+              class="bg-light pr-2"
             >
               {{stateTaskName}}
             </span>
@@ -50,7 +50,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import VSelect from 'vue-select'
 import DefaultForm from './TaskForms/DefaultForm'
 import BuildUpForm from './TaskForms/BuildUpForm'
 import EigenValuesForm from './TaskForms/EigenValuesForm'
@@ -65,7 +64,6 @@ import Scan2dForm from './TaskForms/Scan2dForm'
 export default {
   name: 'task-settings',
   components: {
-    VSelect,
     DefaultForm,
     EigenValuesForm,
     FieldProfileForm,

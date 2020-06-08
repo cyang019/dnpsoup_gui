@@ -4,34 +4,56 @@
       <span>sample settings</span>
     </div>
     <div class="card-body">
-      <div v-on:require-sync-state="syncState"></div>
       <div class="d-flex flex-column">
         <div>Sample Euler</div>
-        <div class="form-group mb-0">
-          <label class="col-form-label">
-            {{ decode(msgAlpha) }}
-          </label>
+        <div v-if="editXtalEuler" 
+          class="d-flex flex-row"
+          @keyup.enter="editXtalEulerOkClicked"
+          @keyup.esc="editXtalEulerCancelClicked"
+        >
+          <div class="p m-1">
+            <span>{{decode(msgAlpha)}}</span>
+          </div>
           <input type="number" step="any"
             class="col-md-3"
             v-model="xtalEuler.alpha"
-            @change="setXtalEulerAlpha(xtalEuler.alpha)"
           >
-          <label class="col-form-label">
-            {{ decode(msgBeta) }}
-          </label>
+          <div class="p m-1">
+            <span>{{decode(msgBeta)}}</span>
+          </div>
           <input type="number" step="any"
             class="col-md-3"
             v-model="xtalEuler.beta"
-            @change="setXtalEulerBeta(xtalEuler.beta)"
           >
-          <label class="col-form-label">
-            {{ decode(msgGamma) }}
-          </label>
+          <div class="p m-1">
+            <span>{{decode(msgGamma)}}</span>
+          </div>
           <input type="number" step="any"
             class="col-md-3"
             v-model="xtalEuler.gamma"
-            @change="setXtalEulerGamma(xtalEuler.gamma)"
           >
+          <div class="btn btn-light btn-sm" @click="editXtalEulerOkClicked">
+            <i class="fas fa-check text-success"></i>    
+          </div>
+          <div class="btn btn-light btn-sm" @click="editXtalEulerCancelClicked">
+            <i class="fas fa-ban text-danger"></i>    
+          </div>
+        </div>
+        <div v-else class="d-flex flex-row"
+          @click=editXtalEulerClicked()
+        >
+          <div class="p mx-3">
+            <span>{{ decode(msgAlpha) }}:</span>
+            <span class="bg-light pr-1">{{ stateSampleEuler.alpha }}</span>
+          </div>
+          <div class="p mx-3">
+            <span>{{ decode(msgBeta) }}:</span>
+            <span class="bg-light pr-1">{{ stateSampleEuler.beta }}</span>
+          </div>
+          <div class="p mx-3">
+            <span>{{ decode(msgGamma) }}:</span>
+            <span class="bg-light pr-1">{{ stateSampleEuler.gamma }}</span>
+          </div>
         </div>
         <div v-if="showPowderOptions" 
           class="d-flex flex-column"
@@ -57,17 +79,17 @@
               custom angles
             </label>
           </div>
-          <div v-if="powderOption === 'zcw'" class="form-group mb-0">
-            <label for="zcw-value" class="col-form-label">
-              zcw index
-            </label>
-            <input type="number" step="1" name="zcw-value" id="zcw-value"
-              v-model="eulerScheme.zcw"
-              @change="setEulerZCWValue(eulerScheme.zcw)"
+          <div v-if="stateEulerOption === 'zcw'" class="d-flex flex-row">
+            <input-sync-state
+              :name="'zcw index'"
+              :stateValue="stateZcwValue"
+              v-on:input-sync-state-ok-clicked="setEulerZCWValue"
+              class="mr-2"
             >
+            </input-sync-state>
             <label for="" class="col-form-label">Number of angles: {{zcwCount}}</label>
           </div>
-          <div v-if="powderOption === 'eulers'">
+          <div v-if="stateEulerOption === 'eulers'">
             <div class="form-group mb-0">
               <label class="col-form-label">
                 {{ decode(msgAlpha) }}
@@ -96,7 +118,7 @@
             </div>
             <div class="d-flex flex-wrap">
               <div
-                v-for="euler in customEulers" :key="euler.id" 
+                v-for="euler in stateSampleEulers" :key="euler.id" 
                 class="badge badge-secondary mr-1 mb-1"
               >
                 <span class="mr-1">{{decode(msgAlpha)}} {{euler.alpha}}</span>
@@ -119,29 +141,36 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { decode } from 'he'
+import InputSyncState from '../common/InputSyncState'
 
 export default {
   name: 'sample-settings',
+  components: {
+    InputSyncState
+  },
   computed: {
     ...mapState('SimSettings', {
       taskName: state => state.simulation.task.name,
-      stateSampleEuler: state => state.sample.euler
+      stateSampleEuler: state => state.sample.euler,
+      stateEulerOption: state => state.sample.eulerOption,
+      stateSampleEulers: state => state.sample.eulers,
+      stateZcwValue: state => state.sample.eulerScheme.zcw
     }),
 
     showPowderOptions () {
       return !['BuildUp', 'Intensity', 'EigenValues'].includes(this.taskName)
     },
     zcwCount () {
-      if (this.eulerScheme.zcw === undefined || this.eulerScheme.zcw === '') {
+      if (this.stateZcwValue === undefined || this.stateZcwValue === '') {
         return 0
-      } else if (this.eulerScheme.zcw === 0) {
+      } else if (this.stateZcwValue === 0) {
         return 21
-      } else if (this.eulerScheme.zcw === 1) {
+      } else if (this.stateZcwValue === 1) {
         return 34
       }
       let zcw0 = 8
       let zcw1 = 13
-      for (let i = 1; i < parseInt(this.eulerScheme.zcw) + 2; ++i) {
+      for (let i = 1; i < parseInt(this.stateZcwValue) + 2; ++i) {
         let temp = parseInt(zcw0) + parseInt(zcw1)
         zcw0 = parseInt(zcw1)
         zcw1 = parseInt(temp)
@@ -156,12 +185,10 @@ export default {
         beta: 0.0,
         gamma: 0.0
       },
-      eulerScheme: {
-        zcw: 0
-      },
+      editXtalEuler: false,
       powderOption: '',
       // a list of {alpha, beta, gamma}'s
-      customEulers: [],
+      // customEulers: [],
       tempEuler: {
         alpha: 0.0,
         beta: 0.0,
@@ -176,6 +203,7 @@ export default {
   methods: {
     ...mapActions('SimSettings', [
       'setXtalEulerAlpha', 'setXtalEulerBeta', 'setXtalEulerGamma',
+      'setSampleEuler',
       'setEulerPowderOption',
       'setEulerZCWValue', 'addEuler', 'removeEuler'
     ]),
@@ -188,20 +216,14 @@ export default {
       this.xtalEuler.alpha = parseFloat(angles.alpha)
       this.xtalEuler.beta = parseFloat(angles.beta)
       this.xtalEuler.gamma = parseFloat(angles.gamma)
-      this.eulerScheme.zcw = this.getEulerSchemeZcw()
       this.powderOption = this.getPowderOption()
       this.customEulers = this.getEulers()
-    },
-
-    syncState () {
-      this.init()
     },
 
     decode (str) {
       return decode(str)
     },
     addCustomEuler () {
-      this.customEulers.push(Object.assign({}, this.tempEuler))
       this.addEuler(Object.assign({}, this.tempEuler))
       let tempId = parseInt(this.tempEuler.id) + 1
       this.tempEuler = {
@@ -212,21 +234,24 @@ export default {
       }
     },
     removeCustomEuler (eulerId) {
-      this.customEulers = this.customEulers.filter(euler => euler.id !== eulerId)
       this.removeEuler(eulerId)
+    },
+    editXtalEulerClicked () {
+      this.xtalEuler.alpha = parseFloat(this.stateSampleEuler.alpha)
+      this.xtalEuler.beta = parseFloat(this.stateSampleEuler.beta)
+      this.xtalEuler.gamma = parseFloat(this.stateSampleEuler.gamma)
+      this.editXtalEuler = true
+    },
+    editXtalEulerOkClicked () {
+      this.editXtalEuler = false
+      this.setSampleEuler(this.xtalEuler)
+    },
+    editXtalEulerCancelClicked () {
+      this.editXtalEuler = false
     }
   },
   mounted () {
     this.init()
-  },
-  watch: {
-    stateSampleEuler: {
-      handler: function () {
-        this.xtalEuler.alpha = parseFloat(this.stateSampleEuler.alpha)
-        this.xtalEuler.beta = parseFloat(this.stateSampleEuler.beta)
-        this.xtalEuler.gamma = parseFloat(this.stateSampleEuler.gamma)
-      }
-    }
   }
 }
 </script>

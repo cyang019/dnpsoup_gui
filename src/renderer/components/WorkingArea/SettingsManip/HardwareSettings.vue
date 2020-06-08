@@ -18,6 +18,7 @@
           :name="'Magnetic Field (T)'"
           :stateValue="stateB0"
           v-on:input-sync-state-ok-clicked="setMagneticField"
+          class="mt-1"
         >
         </input-sync-state>
         <input-sync-state
@@ -52,7 +53,10 @@
                 v-on:input-sync-state-ok-clicked="setTemperature"
               >
               </input-sync-state>
-              <div v-if="editAcq" class="d-flex flex-row mb-1">
+              <div v-if="editAcq" class="d-flex flex-row mb-1"
+                @keyup.enter="editAcqOkClicked"
+                @keyup.esc="editAcqCancelClicked"
+              >
                 <div class="p m-1">
                   <span>Acquisition: </span>
                 </div>
@@ -67,18 +71,21 @@
                   </option>
                 </select>
                 <div class="btn btn-light btn-sm" @click="editAcqOkClicked">
-                  <i class="fas fa-check"></i>    
+                  <i class="fas fa-check text-success"></i>    
                 </div>
                 <div class="btn btn-light btn-sm" @click="editAcqCancelClicked">
-                  <i class="fas fa-ban"></i>    
+                  <i class="fas fa-ban text-danger"></i>    
                 </div>
               </div>
               <div v-else class="d-flex flex-row mb-1">
-                <div class="p m-1">
-                  <span>Acquisition: {{stateProbeAcq}}</span>
-                </div>
-                <div class="btn btn-light btn-sm" @click="editAcqClicked">
-                  <i class="fas fa-pen"></i>    
+                <div>
+                  <span>Acquisition: </span>
+                  <span
+                    class="p m-1 bg-light pr-2"
+                    @click="editAcqClicked"
+                  >
+                    {{stateProbeAcq}}
+                  </span>
                 </div>
               </div>
             </div>
