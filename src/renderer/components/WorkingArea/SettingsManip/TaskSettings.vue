@@ -5,7 +5,10 @@
     </div>
     <div class="card-body">
       <div class="d-flex flex-column">
-        <div v-if="editTaskName" class="d-flex flex-row">
+        <div v-if="editTaskName" class="d-flex flex-row"
+          @keydown.enter="taskNameOkClicked"
+          @keydown.esc="taskNameCancelClicked"
+        >
           <span>Task Name:</span>
           <select
             name="task-input-name" id="task-input-name" 
@@ -18,19 +21,23 @@
               {{ option }}
             </option>
           </select>
-          <div class="btn btn-light p-2" @click="editTaskNameOkClicked">
+          <div class="btn btn-light btn-sm" @click="editTaskNameOkClicked">
             <i class="fas fa-check"></i>    
           </div>
-          <div class="btn btn-light p-2" @click="editTaskNameCancelClicked">
+          <div class="btn btn-light btn-sm" @click="editTaskNameCancelClicked">
             <i class="fas fa-ban"></i>    
           </div>
         </div>
-        <div v-else class="d-flex flex-row">
-          <div class="p m-2">
-            <span>Task Name: {{stateTaskName}}</span>
-          </div>
-          <div class="btn btn-light" @click="editTaskNameClicked">
-            <i class="fas fa-pen"></i>    
+        <div v-else class="d-flex flex-row"
+          @click="editTaskNameClicked"
+        >
+          <div class="p m-1">
+            <span>Task Name: </span>
+            <span
+              class="bg-light border-bottom border-secondary-bottom pr-4 ml-1"
+            >
+              {{stateTaskName}}
+            </span>
           </div>
         </div>
 
@@ -77,7 +84,7 @@ export default {
       'stateTaskName': state => state.simulation.task.name
     }),
     currentTaskForm () {
-      return this.taskName + 'Form'
+      return this.stateTaskName + 'Form'
     }
   },
   data () {
@@ -94,6 +101,7 @@ export default {
     },
 
     editTaskNameClicked () {
+      this.taskName = String(this.stateTaskName)
       this.editTaskName = true
     },
     editTaskNameOkClicked () {

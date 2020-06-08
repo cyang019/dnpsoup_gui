@@ -14,66 +14,46 @@
             {{magnet.name}}
           </button>
         </div>
-        <div class="form-group mb-0" @click="editB0=false">
-          <label for="input-magnet-field" class="col-form-label">
-            Magnetic Field:
-          </label>
-          <input type="number" step="any"
-            id="input-magnet-field"
-            class="col-md-3"
-            v-model="magneticField"
-            @change="setFieldState"
-          >
-          <label for="input-magnet-field" class="col-form-label">T</label>
-        </div>
+        <input-sync-state
+          :name="'Magnetic Field (T)'"
+          :stateValue="stateB0"
+          v-on:input-sync-state-ok-clicked="setMagneticField"
+        >
+        </input-sync-state>
+        <input-sync-state
+          :name="'Gyrotron Frequency (GHz)'"
+          :stateValue="stateGyrotronFrequency / 1.0e9"
+          v-on:input-sync-state-ok-clicked="setGyrotronFrequencyState"
+          class="mb-1"
+        >
+        </input-sync-state>
 
-        <div class="form-group mb-0">
-          <label for="input-gyrotron-frequency">
-            Gyrotron Frequency
-          </label>
-          <input type="number" step="any"
-            id="input-gyrotron-frequency"
-            class="col-md-3"
-            v-model="gyrotronFrequency"
-            @change="setGyrotronFrequencyState"
-          >
-          <label for="input-gyrotron-frequency" class="col-form-label">GHz</label>
-        </div>
         <div class="card">
           <div class="card-body">
             <div class="card-title">
               Probe
             </div>
             <div class="d-flex flex-column">
-              <div class="form-group mb-0">
-                <label for="input-mas" class="col-form-label">
-                  MAS frequency (Hz)
-                </label>
-                <input type="number" step="any" name="input-mas" id="input-mas"
-                  v-model="masFrequency"
-                  @change="setMasFrequencyState"
-                >
-              </div>
-              <div class="form-group mb-0">
-                <label for="input-increment" class="col-form-label">
-                  Increment (ns)
-                </label>
-                <input type="number" step="any" id="input-increment" min="0"
-                  v-model="increment"
-                  @change="setIncrementState"
-                >
-              </div>
-              <div class="form-group mb-0">
-                <label for="input-temperature" class="col-form-label">
-                  Temperature (K)
-                </label>
-                <input type="number" step="any" id="input-temperature" min="0"
-                  v-model="temperature"
-                  @change="setTemperatureState"
-                >
-              </div>
-              <div v-if="editAcq" class="d-flex flex-row">
-                <div class="p m-2">
+              <input-sync-state
+                :name="'MAS Frequency (Hz)'"
+                :stateValue="stateProbeMas"
+                v-on:input-sync-state-ok-clicked="setMas"
+              >
+              </input-sync-state>
+              <input-sync-state
+                :name="'Increment (ns)'"
+                :stateValue="stateProbeMasIncrement * 1.0e9"
+                v-on:input-sync-state-ok-clicked="setIncrementState"
+              >
+              </input-sync-state>
+              <input-sync-state
+                :name="'Temperature (K)'"
+                :stateValue="stateProbeTemperature"
+                v-on:input-sync-state-ok-clicked="setTemperature"
+              >
+              </input-sync-state>
+              <div v-if="editAcq" class="d-flex flex-row mb-1">
+                <div class="p m-1">
                   <span>Acquisition: </span>
                 </div>
                 <select name="input-acq" id="input-acq"
@@ -86,18 +66,18 @@
                     {{spinType}}
                   </option>
                 </select>
-                <div class="btn btn-light p-2" @click="editAcqOkClicked">
+                <div class="btn btn-light btn-sm" @click="editAcqOkClicked">
                   <i class="fas fa-check"></i>    
                 </div>
-                <div class="btn btn-light p-2" @click="editAcqCancelClicked">
+                <div class="btn btn-light btn-sm" @click="editAcqCancelClicked">
                   <i class="fas fa-ban"></i>    
                 </div>
               </div>
-              <div v-else class="d-flex flex-row">
-                <div class="p m-2">
+              <div v-else class="d-flex flex-row mb-1">
+                <div class="p m-1">
                   <span>Acquisition: {{stateProbeAcq}}</span>
                 </div>
-                <div class="btn btn-light" @click="editAcqClicked">
+                <div class="btn btn-light btn-sm" @click="editAcqClicked">
                   <i class="fas fa-pen"></i>    
                 </div>
               </div>
@@ -111,9 +91,13 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
+import InputSyncState from '../common/InputSyncState'
 
 export default {
   name: 'hardware-settings',
+  components: {
+    InputSyncState
+  },
   computed: {
     ...mapState('SimSettings', {
       'refMagnets': state => state.refMagnets,
@@ -122,8 +106,7 @@ export default {
       'stateProbeMas': state => state.hardware.probe.masFrequency,
       'stateProbeTemperature': state => state.hardware.probe.temperature,
       'stateProbeMasIncrement': state => state.hardware.probe.masIncrement,
-      'stateProbeAcq': state => state.hardware.probe.acq,
-      'syncStateRequired': state => state.syncStateRequired
+      'stateProbeAcq': state => state.hardware.probe.acq
     }),
     ...mapState('spinsys', ['spins']),
 
@@ -147,8 +130,7 @@ export default {
 
     ...mapActions('SimSettings', [
       'setMagneticField', 'setGyrotronFrequency',
-      'setMas', 'setTemperature', 'setIncrement', 'setAcq',
-      'setSyncStateRequired'
+      'setMas', 'setTemperature', 'setIncrement', 'setAcq'
     ]),
     ...mapGetters('SimSettings', [
       'getB0', 'getEmFreq',
@@ -160,25 +142,14 @@ export default {
     },
 
     setFieldFreq (fieldValue, freqValue) {
-      this.magneticField = parseFloat(fieldValue)
-      this.setFieldState()
-      this.gyrotronFrequency = parseFloat(freqValue)
-      this.setGyrotronFrequencyState()
+      this.setMagneticField(parseFloat(fieldValue))
+      this.setGyrotronFrequencyState(parseFloat(freqValue))
     },
-    setFieldState () {
-      this.setMagneticField(parseFloat(this.magneticField))
+    setGyrotronFrequencyState (value) {
+      this.setGyrotronFrequency(parseFloat(value) * 1.0e9)
     },
-    setGyrotronFrequencyState () {
-      this.setGyrotronFrequency(parseFloat(this.gyrotronFrequency) * 1.0e9)
-    },
-    setMasFrequencyState () {
-      this.setMas(this.masFrequency)
-    },
-    setTemperatureState () {
-      this.setTemperature(this.temperature)
-    },
-    setIncrementState () {
-      this.setIncrement(this.increment * 1.0e-9)
+    setIncrementState (value) {
+      this.setIncrement(parseFloat(value) * 1.0e-9)
     },
     editAcqClicked () {
       this.editAcq = true
@@ -193,8 +164,6 @@ export default {
   },
   data () {
     return {
-      magneticField: 0.0,
-      gyrotronFrequency: 0.0,
       masFrequency: 0.0,
       increment: 1e-9,
       temperature: 77,
@@ -206,16 +175,6 @@ export default {
   },
   mounted () {
     this.init()
-  },
-  watch: {
-    syncStateRequired: {
-      handler: function () {
-        if (this.syncStateRequired) {
-          this.syncState()
-          this.setSyncStateRequired(false)
-        }
-      }
-    }
   }
 }
 </script>
