@@ -267,8 +267,6 @@ export default {
       this.populateSpinsys(spinsys)
       this.populatePulseseq(pulseseq)
       this.populateSettings(settings)
-      this.$emit('require-sync-state', true)
-      console.log('sync state emitted.')
     },
     populateSpinsys (spinsys) {
       this.resetSpinsys()
@@ -348,9 +346,22 @@ export default {
         this.addEmr(tempEmr)
       }
       for (const secName in pulseseq.sections) {
-        let tempSection = Object.assign({}, pulseseq.sections.secName)
-        tempSection['name'] = secName
-        this.addSection(tempSection)
+        let tempSection = {
+          name: secName
+        }
+        if (pulseseq.sections[secName].hasOwnProperty('type')) {
+          tempSection['type'] = pulseseq.sections[secName]['type']
+        }
+        if (pulseseq.sections[secName].hasOwnProperty('size')) {
+          tempSection['size'] = parseInt(pulseseq.sections[secName]['size'])
+        }
+        if (pulseseq.sections[secName].hasOwnProperty('names')) {
+          tempSection['names'] = Object.assign([], pulseseq.sections[secName]['names'])
+        }
+        if (pulseseq.sections[secName].hasOwnProperty('params')) {
+          tempSection['params'] = Object.assign([], pulseseq.sections[secName]['params'])
+        }
+        this.addSection(Object.assign({}, tempSection))
       }
       for (const subseq of pulseseq.sequence) {
         this.addSectionToSequence(subseq)
@@ -480,7 +491,6 @@ export default {
       this.resetSpinsys()
       this.resetPulseseq()
       this.resetSimSettings()
-      this.$emit('require-sync-state', true)
     },
     runClicked () {
       console.log('Not Implemented Yet.')

@@ -87,18 +87,18 @@ export default {
       this.deleteSectionByName(this.section.name)
     },
     copySection (section) {
-      this.tempSection.name = this.section.name.slice(0, this.section.name.length)
-      this.tempSection.type = this.section.type.slice(0, this.section.type.length)
-      this.tempSection.size = parseInt(this.section.size)
-      if (this.section.hasOwnProperty('names')) {
-        this.tempSection.names = Object.assign([], this.section.names)
+      this.tempSection.name = section.name.slice(0, section.name.length)
+      this.tempSection.type = section.type.slice(0, section.type.length)
+      this.tempSection.size = parseInt(section.size)
+      if (section.hasOwnProperty('names')) {
+        this.tempSection.names = Object.assign([], section.names)
       }
-      if (this.section.hasOwnProperty('span')) {
-        this.tempSection.span = parseInt(this.section.span)
-        this.tempSection.spinType = this.section.spinType.slice(0, this.section.spinType.length)
+      if (section.hasOwnProperty('span')) {
+        this.tempSection.span = parseInt(section.span)
+        this.tempSection.spinType = section.spinType.slice(0, section.spinType.length)
       }
-      if (this.section.hasOwnProperty('phase0')) {
-        this.tempSection.phase0 = Object.assign({}, this.section.phase0)
+      if (section.hasOwnProperty('phase0')) {
+        this.tempSection.phase0 = Object.assign({}, section.phase0)
       }
     }
   }
