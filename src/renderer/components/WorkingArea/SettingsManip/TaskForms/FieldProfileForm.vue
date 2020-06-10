@@ -73,15 +73,21 @@
         >
           <div class="p mr-2">
             <span>Begin: </span>
-            <span class="bg-light pr-2">{{stateRange.begin}}</span>
+            <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
+              {{stateRange.begin}}
+            </span>
           </div>
           <div class="p mr-2">
             <span>End: </span>
-            <span class="bg-light pr-2">{{stateRange.end}}</span>
+            <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
+              {{stateRange.end}}
+            </span>
           </div>
           <div>
             <span>Step: </span>
-            <span class="bg-light pr-2">{{stateRange.step}}</span>
+            <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
+              {{stateRange.step}}
+            </span>
           </div>
         </div>
       </div>

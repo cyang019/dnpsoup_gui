@@ -81,7 +81,7 @@
                 <div>
                   <span>Acquisition: </span>
                   <span
-                    class="p m-1 bg-light pr-2"
+                    class="bg-light px-2 py-1 m-1 border border-info rounded"
                     @click="editAcqClicked"
                   >
                     {{stateProbeAcq}}

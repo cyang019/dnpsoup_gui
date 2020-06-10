@@ -34,7 +34,7 @@
           <div class="p m-1">
             <span>Task Name: </span>
             <span
-              class="bg-light pr-2"
+              class="bg-light m-1 px-2 py-1 border border-info rounded"
             >
               {{stateTaskName}}
             </span>

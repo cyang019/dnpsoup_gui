@@ -44,15 +44,21 @@
         >
           <div class="p mx-3">
             <span>{{ decode(msgAlpha) }}:</span>
-            <span class="bg-light pr-1">{{ stateSampleEuler.alpha }}</span>
+            <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
+              {{ stateSampleEuler.alpha }}
+            </span>
           </div>
           <div class="p mx-3">
             <span>{{ decode(msgBeta) }}:</span>
-            <span class="bg-light pr-1">{{ stateSampleEuler.beta }}</span>
+            <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
+              {{ stateSampleEuler.beta }}
+            </span>
           </div>
           <div class="p mx-3">
             <span>{{ decode(msgGamma) }}:</span>
-            <span class="bg-light pr-1">{{ stateSampleEuler.gamma }}</span>
+            <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
+              {{ stateSampleEuler.gamma }}
+            </span>
           </div>
         </div>
         <div v-if="showPowderOptions" 

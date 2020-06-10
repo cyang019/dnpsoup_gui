@@ -30,7 +30,7 @@
       title="Click to edit"
     >
       <span>{{name}}: </span>
-      <span class="bg-light border-bottom border-secondary-bottom pr-4 ml-1">
+      <span class="bg-light border-bottom border-secondary-bottom pl-1 pr-4 ml-1">
         {{stateValue}}
       </span>
     </div>
