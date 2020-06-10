@@ -10,7 +10,9 @@ Such inputs are separated into three categories:
   
 #### Download
 
+```bash
 git clone https://github.com/cyang019/dnpsoup_gui.git
+```
 
 
 #### Run in Development Mode
