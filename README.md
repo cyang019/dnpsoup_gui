@@ -7,6 +7,24 @@ Such inputs are separated into three categories:
   - Pulse Sequence
   - Simulation Settings
 
+
+#### To Download
+`````bash
+In the directory where you want to put the software
+```bash
+git clone https://github.com/cyang019/dnpsoup_gui.git
+```
+
+#### Run In Development Mode
+
+To run in development mode:
+in the root directory of the dnpsoup_gui,
+```bash
+# install dependencies
+npm install
+````````
+
+
 #### Build Setup
 
 ``` bash

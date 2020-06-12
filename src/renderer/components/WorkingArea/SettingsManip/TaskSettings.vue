@@ -28,21 +28,20 @@
             <i class="fas fa-ban text-danger"></i>    
           </div>
         </div>
-        <div v-else class="d-flex flex-row"
-          @click="editTaskNameClicked"
-        >
+        <div v-else class="d-flex flex-column">
           <div class="p m-1">
             <span>Task Name: </span>
             <span
               class="bg-light m-1 px-2 py-1 border border-info rounded"
+              @click="editTaskNameClicked"
             >
               {{stateTaskName}}
             </span>
           </div>
-        </div>
 
-        <component v-bind:is="currentTaskForm">
-        </component>
+          <component v-bind:is="currentTaskForm">
+          </component>
+        </div>
       </div>
       </div>
   </div>

@@ -6,7 +6,7 @@
         Save to File
       </button>
       <button class="btn btn-secondary btn-md" @click="loadFromFileClicked">
-        Load from File (In Development)
+        Load from File
       </button>
       <button class="btn btn-primary btn-md" @click="resetClicked">
         Reset
