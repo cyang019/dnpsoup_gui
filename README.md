@@ -6,6 +6,24 @@ Such inputs are separated into three categories:
   - Spin System
   - Pulse Sequence
   - Simulation Settings
+  
+  
+#### Download
+
+```bash
+git clone https://github.com/cyang019/dnpsoup_gui.git
+```
+
+
+#### Run in Development Mode
+
+```bash
+# install dependencies
+npm install
+
+# run the software with development tools at localhost:9080
+npm run dev
+```
 
 
 #### To Download
