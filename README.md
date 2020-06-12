@@ -2,45 +2,31 @@
 
 > A Graphic Interface for Preparing [DNP](https://en.wikipedia.org/wiki/Dynamic_nuclear_polarization) Simulation Inputs.
 
-Such inputs are separated into three categories:
+DNP Simulation inputs are separated into three categories:
   - Spin System
   - Pulse Sequence
   - Simulation Settings
-  
+
+The output of this software is a .json file. This file can serve as an input configuration for the command-line DNPSoup (In Development) Simulator.
   
 #### Download
 
-```bash
+``` bash
 git clone https://github.com/cyang019/dnpsoup_gui.git
 ```
 
 
 #### Run in Development Mode
 
-```bash
+Download [Node.js](https://nodejs.org/en/download/) for your platform.
+
+``` bash
 # install dependencies
 npm install
 
 # run the software with development tools at localhost:9080
 npm run dev
 ```
-
-
-#### To Download
-`````bash
-In the directory where you want to put the software
-```bash
-git clone https://github.com/cyang019/dnpsoup_gui.git
-```
-
-#### Run In Development Mode
-
-To run in development mode:
-in the root directory of the dnpsoup_gui,
-```bash
-# install dependencies
-npm install
-````````
 
 
 #### Build Setup
@@ -54,7 +40,6 @@ npm run dev
 
 # build electron application for production
 npm run build
-
 
 # lint all JS/Vue component files in `src/`
 npm run lint
