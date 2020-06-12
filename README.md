@@ -20,6 +20,8 @@ git clone https://github.com/cyang019/dnpsoup_gui.git
 
 Download [Node.js](https://nodejs.org/en/download/) for your platform.
 
+```cd``` into the dnpsoup_gui root directory.
+
 ``` bash
 # install dependencies
 npm install
