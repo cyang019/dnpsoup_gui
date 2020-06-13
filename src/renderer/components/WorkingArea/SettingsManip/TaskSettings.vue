@@ -13,6 +13,7 @@
           <select
             name="task-input-name" id="task-input-name" 
             v-model="taskName"
+            @change="taskNameChanged"
           >
             <option v-for="(option, index) in taskCandidates"
               :value="option"
@@ -21,12 +22,12 @@
               {{ option }}
             </option>
           </select>
-          <div class="btn btn-light btn-sm" @click="editTaskNameOkClicked">
+          <!-- <div class="btn btn-light btn-sm" @click="editTaskNameOkClicked">
             <i class="fas fa-check text-success"></i>    
           </div>
           <div class="btn btn-light btn-sm" @click="editTaskNameCancelClicked">
             <i class="fas fa-ban text-danger"></i>    
-          </div>
+          </div> -->
         </div>
         <div v-else class="d-flex flex-column">
           <div class="p m-1">
@@ -96,7 +97,10 @@ export default {
     init () {
       this.taskName = String(this.stateTaskName)
     },
-
+    taskNameChanged () {
+      this.editTaskNameOkClicked()
+      this.editTaskName = false
+    },
     editTaskNameClicked () {
       this.taskName = String(this.stateTaskName)
       this.editTaskName = true
