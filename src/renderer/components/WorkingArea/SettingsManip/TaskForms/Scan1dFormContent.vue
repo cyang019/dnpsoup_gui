@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div v-if="editScan" class="d-flex flex-column">
+  <div class="card">
+    <div v-if="editScan || (stateScanType.length === 0)" class="d-flex flex-column">
       <div class="d-flex flex-row">
         <label for="select-scan-type" 
           class="col-form-label"
@@ -39,7 +39,7 @@
           </option>
         </select>
       </div>
-      <div v-if="['GammaB1', 'EmrPhase'].includes(scanType)" 
+      <div v-else
         class="form-group mb-0"
       >
         <label for="select-scan-name" class="col-form-label">
@@ -78,17 +78,12 @@
       <div v-if="scanType !== ''" class="card">
         <div class="card-body">
           <div class="card-title">
-            Range
+            <span class="mr-1">Range</span>
+            <span v-if="rangeUnit.length > 0">({{rangeUnit}})</span>
           </div>
           <div class="d-flex flex-column">
             <div class="input-group">
-              <div class="input-group-text" v-if="scanType==='GammaB1'">
-                Begin (MHz)
-              </div>
-              <div class="input-group-text" v-if="scanType==='EmrPhase'">
-                Begin (Degree)
-              </div>
-              <div class="input-group-text" v-if="scanType==='EmrLength'">
+              <div class="input-group-text">
                 Begin
               </div>
               <input v-if="scanType === 'EmrLength'" 
@@ -101,13 +96,7 @@
               >
             </div>
             <div class="input-group">
-              <div class="input-group-text" v-if="scanType === 'GammaB1'">
-                End (MHz)
-              </div>
-              <div class="input-group-text" v-if="scanType === 'EmrPhase'">
-                End (Degree)
-              </div>
-              <div class="input-group-text" v-if="scanType === 'EmrLength'">
+              <div class="input-group-text">
                 End
               </div>
               <input v-if="scanType === 'EmrLength'" 
@@ -126,13 +115,7 @@
               {{rangeStepError}}
             </small>
             <div class="input-group">
-              <div class="input-group-text" v-if="scanType === 'GammaB1'">
-                Step (MHz)
-              </div>
-              <div class="input-group-text" v-if="scanType === 'EmrPhase'">
-                Step (Degree)
-              </div>
-              <div class="input-group-text" v-if="scanType === 'EmrLength'">
+              <div class="input-group-text">
                 Step
               </div>
               <input v-if="scanType === 'EmrLength'" 
@@ -161,90 +144,53 @@
       </div>
     </div>
     <!-- otherwise show state values -->
-    <div v-else @click="editScanClicked" class="d-flex flex-column">
-      <div class="d-flex flex-row my-1">
-        <span>scan type: </span>
-        <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
-          {{stateScanType}}
-        </span>
-      </div>
-      <div v-if="stateScanType === 'EmrLength'" class="d-flex flex-row my-1">
-        <span>section name: </span>
-        <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
-          {{stateScanName}}
-        </span>
-      </div>
-      <div v-else-if="stateScanType === 'GammaB1'" class="d-flex flex-row my-1">
-        <span>emr name: </span>
-        <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
-          {{stateScanName}}
-        </span>
-      </div>
-      <div v-else class="d-flex flex-row my-1">
-        <span>emr name: </span>
-        <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
-          {{stateScanName}}
-        </span>
-      </div>
-      <div v-if="stateScanType === 'EmrPhase' || stateScanType === 'GammaB1'"
-        class="d-flex flex-row my-1"
-      >
-        <span>spin: </span>
-        <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
-          {{stateScanSpin}}
-        </span>
-      </div>
-      <div class="d-flex flex-column my-1">
-        <div class="d-flex flex-row">
-          <span>Begin</span>
-          <span v-if="scanType === 'GammaB1'" class="mx-1">
-            (MHz):
-          </span>
-          <span v-else-if="scanType === 'EmrPhase'" class="mx-1">
-            (Degree):
-          </span>
-          <span v-if="stateScanType === 'GammaB1'"
-            class="ml-1 mr-2 pl-2 pr-4 bg-light border-bottom border-bottom-secondary"
-          >
-            {{stateScanRange.begin / 1.0e6}}
-          </span>
-          <span v-else class="ml-1 mr-2 pl-2 pr-4 bg-light border-bottom border-bottom-secondary">
-            {{stateScanRange.begin}}
+    <div v-else class="card-body" @click="editScanClicked"
+      data-toggle="tooltip" data-placement="top" title="Click to edit"
+      @mouseover="hoverScanContent=true"
+      @mouseleave="hoverScanContent=false"
+      :class="{ 'bg-light': hoverScanContent }"
+    >
+      <div class="d-flex flex-row justify-content-between">
+        <div class="card-title bg-light">
+          <span>scan type: </span>
+          <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
+            {{stateScanType}}
           </span>
         </div>
-        <div class="d-flex flex-row">
-          <span>End</span>
-          <span v-if="scanType === 'GammaB1'" class="mx-1">
-            (MHz):
+      </div>
+      <div class="d-flex flex-column">
+        <div class="d-flex flex-row my-1">
+          <span v-if="stateScanType === 'EmrLength'">
+            section name:
           </span>
-          <span v-else-if="scanType === 'EmrPhase'" class="mx-1">
-            (Degree):
+          <span v-else>
+            emr name:
           </span>
-          <span v-if="stateScanType === 'GammaB1'"
-            class="ml-1 mr-2 pl-2 pr-4 bg-light border-bottom border-bottom-secondary"
-          >
-            {{stateScanRange.end / 1.0e6}}
-          </span>
-          <span v-else class="ml-1 mr-2 pl-2 pr-4 bg-light border-bottom border-bottom-secondary">
-            {{stateScanRange.end}}
+          <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
+            {{stateScanName}}
           </span>
         </div>
-        <div class="d-flex flex-row">
-          <span>Step</span>
-          <span v-if="scanType === 'GammaB1'" class="mx-1">
-            (MHz):
+        <div v-if="stateScanType === 'EmrPhase' || stateScanType === 'GammaB1'"
+          class="d-flex flex-row my-1"
+        >
+          <span>spin: </span>
+          <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
+            {{stateScanSpin}}
           </span>
-          <span v-else-if="scanType === 'EmrPhase'" class="mx-1">
-            (Degree):
-          </span>
-          <span v-if="stateScanType === 'GammaB1'"
-            class="ml-1 mr-2 pl-2 pr-4 bg-light border-bottom border-bottom-secondary"
-          >
-            {{stateScanRange.step / 1.0e6}}
-          </span>
-          <span v-else class="ml-1 mr-2 pl-2 pr-4 bg-light border-bottom border-bottom-secondary">
-            {{stateScanRange.step}}
-          </span>
+        </div>
+        <div class="border border-light rounded p-2">
+          <div class="p mt-2 mb-1 bg-light">
+            <span class="mr-1">Range</span>
+            <span v-if="stateRangeUnit.length > 0">({{stateRangeUnit}})</span>
+          </div>
+          <div class="p">
+            <span class="mr-1">Begin: </span>
+            <span class="mr-2 px-2 border-bottom border-bottom-light">{{rangeShown.begin}}</span>
+            <span class="mr-1">End: </span>
+            <span class="mr-2 px-2 border-bottom border-bottom-light">{{rangeShown.end}}</span>
+            <span class="mr-1">Step: </span>
+            <span class="px-2 border-bottom border-bottom-light">{{rangeShown.step}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -283,13 +229,46 @@ export default {
     },
     rangeEndError: function () {
       return ''
+    },
+    rangeUnit: function () {
+      if (this.scanType === 'GammaB1') {
+        return 'MHz'
+      } else if (this.scanType === 'EmrPhase') {
+        return 'Degree'
+      } else {
+        return ''
+      }
+    },
+    stateRangeUnit: function () {
+      if (this.stateScanType === 'GammaB1') {
+        return 'MHz'
+      } else if (this.stateScanType === 'EmrPhase') {
+        return 'Degree'
+      } else {
+        return ''
+      }
+    },
+    rangeShown: function () {
+      if (this.stateScanType === 'GammaB1') {
+        const newRange = {
+          begin: this.stateScanRange.begin / 1.0e6,
+          end: this.stateScanRange.end / 1.0e6,
+          step: this.stateScanRange.step / 1.0e6
+        }
+        return newRange
+      } else {
+        return this.stateScanRange
+      }
     }
   },
   methods: {
     ...mapGetters('pulseseq', [
       'getEmrByName', 'getSectionByName'
     ]),
+    // during editing
     scanTypeChanged () {
+      this.name = ''
+      this.spin = ''
       this.resetRange()
     },
     nameChanged () {
@@ -338,18 +317,21 @@ export default {
       }
     },
     editScanClicked () {
+      this.getStateValues()
       this.editScan = true
     },
     editScanOkClicked () {
       this.editScan = false
       this.setStateValues()
+      this.resetTempValues()
     },
     editScanCancelClicked () {
       this.editScan = false
+      this.resetTempValues()
     },
     getStateValues () {
       this.scanType = this.stateScanType
-      this.type = this.stateScanName
+      this.name = this.stateScanName
       this.spin = this.stateScanSpin
       if (this.scanType === 'GammaB1') {
         this.range.begin = parseFloat(this.stateScanRange.begin) / 1.0e6
@@ -370,6 +352,12 @@ export default {
       this.updateRangeBegin()
       this.updateRangeEnd()
       this.updateRangeStep()
+    },
+    resetTempValues () {
+      this.scanType = ''
+      this.name = ''
+      this.spin = ''
+      this.resetRange()
     }
   },
   data () {
@@ -377,7 +365,6 @@ export default {
       editRange: false,
 
       scanType: '',
-      type: '',
       spin: '',
       name: '',
       range: {
@@ -385,7 +372,8 @@ export default {
         end: 0,
         step: 1
       },
-      editScan: false,
+      editScan: true,
+      hoverScanContent: false,
 
       tempChannels: []
     }

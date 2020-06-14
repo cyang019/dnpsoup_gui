@@ -30,7 +30,11 @@
       title="Click to edit"
     >
       <span>{{name}}: </span>
-      <span class="bg-light border-bottom border-secondary-bottom pl-1 pr-4 ml-1">
+      <span class="border-bottom border-secondary-bottom pl-1 pr-4 ml-1"
+        @mouseover="hoverInputArea=true"
+        @mouseleave="hoverInputArea=false"
+        :class="{ 'bg-light': hoverInputArea }"
+      >
         {{stateValue}}
       </span>
     </div>
@@ -44,7 +48,8 @@ export default {
   data () {
     return {
       tempValue: 0,
-      editValue: false
+      editValue: false,
+      hoverInputArea: false
     }
   },
   methods: {

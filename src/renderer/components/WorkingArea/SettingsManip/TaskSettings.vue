@@ -5,6 +5,15 @@
     </div>
     <div class="card-body">
       <div class="d-flex flex-column">
+        <div class="d-flex flex-wrap mb-2">
+          <button v-for="(option, index) in taskCandidates" 
+            :key="index"
+            @click="taskNameSelected(option)"
+            class="badge badge-light mr-1 badge-default-btn"
+          >
+            {{option}}
+          </button>
+        </div>
         <div v-if="editTaskName" class="d-flex flex-row"
           @keydown.enter="editTaskNameOkClicked"
           @keydown.esc="editTaskNameCancelClicked"
@@ -22,19 +31,12 @@
               {{ option }}
             </option>
           </select>
-          <!-- <div class="btn btn-light btn-sm" @click="editTaskNameOkClicked">
-            <i class="fas fa-check text-success"></i>    
-          </div>
-          <div class="btn btn-light btn-sm" @click="editTaskNameCancelClicked">
-            <i class="fas fa-ban text-danger"></i>    
-          </div> -->
         </div>
         <div v-else class="d-flex flex-column">
           <div class="p m-1">
             <span>Task Name: </span>
             <span
-              class="bg-light m-1 px-2 py-1 border border-info rounded"
-              @click="editTaskNameClicked"
+              class="bg-light m-1 px-2 py-1"
             >
               {{stateTaskName}}
             </span>
@@ -97,12 +99,17 @@ export default {
     init () {
       this.taskName = String(this.stateTaskName)
     },
+    taskNameSelected (name) {
+      this.setTaskName(name)
+      this.taskName = String(this.stateTaskName)
+      this.editTaskName = false
+    },
     taskNameChanged () {
       this.editTaskNameOkClicked()
       this.editTaskName = false
     },
     editTaskNameClicked () {
-      this.taskName = String(this.stateTaskName)
+      this.taskName = ''
       this.editTaskName = true
     },
     editTaskNameOkClicked () {
