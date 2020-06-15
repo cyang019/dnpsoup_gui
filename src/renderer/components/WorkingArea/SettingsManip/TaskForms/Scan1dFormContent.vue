@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div v-if="editScan || (stateScanType.length === 0)" class="d-flex flex-column">
+    <div v-if="editScan || (stateScanType.length === 0)" class="card-body d-flex flex-column">
       <div class="d-flex flex-row">
         <label for="select-scan-type" 
           class="col-form-label"
