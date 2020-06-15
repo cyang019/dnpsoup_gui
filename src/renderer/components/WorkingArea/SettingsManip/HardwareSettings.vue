@@ -14,20 +14,25 @@
             {{magnet.name}}
           </button>
         </div>
-        <input-sync-state
-          :name="'Magnetic Field (T)'"
-          :stateValue="stateB0"
-          v-on:input-sync-state-ok-clicked="setMagneticField"
-          class="mt-1"
-        >
-        </input-sync-state>
+        <div class="d-flex flex-column mt-1">
+          <input-sync-state
+            :name="'Magnetic Field (T)'"
+            :stateValue="stateB0"
+            v-on:input-sync-state-ok-clicked="setMagneticField"
+          />
+          <small class="ml-2 p text-info">
+            <span>H Freq {{fieldHFreq}} MHz</span>
+          </small>
+          <small class="ml-2 p text-info">
+            <span>e Freq {{fieldEFreq}} GHz</span>
+          </small>
+        </div>
         <input-sync-state
           :name="'Gyrotron Frequency (GHz)'"
           :stateValue="stateGyrotronFrequency / 1.0e9"
           v-on:input-sync-state-ok-clicked="setGyrotronFrequencyState"
           class="mb-1"
-        >
-        </input-sync-state>
+        />
 
         <div class="card">
           <div class="card-body">
@@ -123,6 +128,16 @@ export default {
         result.push(spin.spinType)
       }
       return [...new Set(result)]
+    },
+    fieldHFreq () {
+      const gyroH = 42.577478518 // MHz * T^-1
+      const freq = parseFloat(this.stateB0) * gyroH
+      return freq
+    },
+    fieldEFreq () {
+      const gyroEVacuum = 28.02495164 // GHz * T^-1
+      const freq = parseFloat(this.stateB0) * gyroEVacuum
+      return freq
     }
   },
   methods: {

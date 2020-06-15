@@ -34,11 +34,33 @@ const mutations = {
   removeEmrByName: (state, name) =>
     (state.emrs = state.emrs.filter(tmpEmr => tmpEmr.name !== name)),
   updateEmr: (state, emr) => {
-    const index = state.emrs.findIndex(tmpEmr => tmpEmr.name === emr.name)
-    if (index !== -1) {
-      state.emrs.splice(index, 1, emr)
+    const updatedEmr = {
+      spinType: 'e',
+      name: emr.name,
+      channels: Object.assign([], emr.channels)
+    }
+    if (emr.hasOwnProperty('edit')) {
+      if (emr.edit === 'add') {
+        state.emrs.push(updatedEmr)
+      } else { // 'edit'
+        if (emr.hasOwnProperty('index')) {
+          state.emrs.splice(emr.index, 1, updatedEmr)
+        } else { // otherwise derive index from name
+          const index = state.emrs.findIndex(tmpEmr => tmpEmr.name === emr.name)
+          if (index !== -1) { // if it was actually in the list
+            state.emrs.splice(index, 1, updatedEmr)
+          } else {
+            state.emrs.push(updatedEmr)
+          }
+        }
+      }
     } else {
-      state.emrs.push(emr)
+      const index = state.emrs.findIndex(tmpEmr => tmpEmr.name === emr.name)
+      if (index !== -1) { // if it was actually in the list
+        state.emrs.splice(index, 1, updatedEmr)
+      } else {
+        state.emrs.push(updatedEmr)
+      }
     }
   },
 

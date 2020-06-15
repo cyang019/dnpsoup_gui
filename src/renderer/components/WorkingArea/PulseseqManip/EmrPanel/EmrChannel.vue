@@ -4,18 +4,18 @@
       <div class="card-body">
         <div class="d-flex flex-row">
           <div class="ml-2 mr-2">
-            <span>{{tempChannel.spinType}}</span>
+            <span>{{channel.spinType}}</span>
           </div>
           <div class="mr-2">
             <span class="mr-1">{{decode(msgGamma)}}B1</span>
-            <span>{{tempChannel.frequency}}</span>
+            <span>{{channel.frequency}}</span>
             <span>Hz</span>
           </div>
           <div class="mr-2">
             <span class="mr-1">Phase</span>
-            <span>{{tempChannel.phase}}</span>
+            <span>{{channel.phase}}</span>
           </div>
-          <div class="btn" @click="editing=true">
+          <div class="btn" @click="editClicked">
             <i class='fas fa-pen'></i>
           </div>
           <div class="btn" @click="removeChannel">
@@ -68,19 +68,30 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'emr-channel',
-  props: ['channel'],
+  props: ['channel', 'channelIndex'],
   computed: {
     ...mapState('pulseseq', ['channelOptions'])
   },
   data () {
     return {
       editing: false,
-      tempChannel: this.copyChannel(),
+      tempChannel: {
+        spinType: '',
+        frequency: 0.0,
+        phase: 0.0,
+        offset: 0.0
+      },
       msgGamma: '&#x3B3;',
       gammaB1Error: ''
     }
   },
+  mounted () {
+    this.init()
+  },
   methods: {
+    init () {
+      this.copyChannel()
+    },
     copyChannel () {
       let result = {
         spinType: this.channel.spinType,
@@ -96,16 +107,26 @@ export default {
     okClicked () {
       let success = this.validate()
       if (!success) return
-      this.channel = Object.assign({}, this.tempChannel)
+      this.commitChannelChanges()
       this.editing = false
     },
-    cancelClicked () {
+    editClicked () {
       this.tempChannel = this.copyChannel()
+      this.editing = true
+    },
+    cancelClicked () {
       this.editing = false
     },
     removeChannel () {
       this.editing = false
-      this.$emit('emr-channel-remove', true)
+      this.$emit('emr-channel-remove', this.channelIndex)
+    },
+    commitChannelChanges () {
+      this.$emit('emr-channel-change', {
+        channelIndex: this.channelIndex,
+        channelValue: Object.assign({}, this.tempChannel)
+      })
+      this.editing = false
     },
     validate () {
       let success = true

@@ -1,9 +1,10 @@
 <template>
   <div class="d-flex flex-row">
     <emr-brief
-      v-for="emr in emrs"
-      :key="emr.name"
+      v-for="(emr, index) in emrs"
+      :key="index"
       :emr="emr"
+      :emrIndex="index"
     >
     </emr-brief>
     <add-emr/>

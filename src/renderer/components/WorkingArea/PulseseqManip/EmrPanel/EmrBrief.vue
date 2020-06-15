@@ -34,7 +34,8 @@
     </div>
     <div v-else class="d-flex flex-row">
       <edit-emr
-        :emr=emr
+        :emr="emr"
+        :emrIndex="emrIndex"
         :purpose="'edit'"
         v-on:edit-emr-finish="editing=false"
       >
@@ -50,7 +51,7 @@ import EditEmr from './EditEmr'
 
 export default {
   name: 'emr-brief',
-  props: ['emr'],
+  props: ['emr', 'emrIndex'],
   components: {
     EditEmr
   },

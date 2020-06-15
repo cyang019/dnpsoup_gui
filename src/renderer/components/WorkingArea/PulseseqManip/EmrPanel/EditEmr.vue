@@ -13,7 +13,7 @@
       <div v-if="!addingChannel">
         <div class="btn btn-primary btn-sm" @click="addChannel">
           <i class="fas fa-plus"></i>
-          Add Channel
+          <span>Add Channel</span>
         </div>
       </div>
       <div v-else class="card">
@@ -61,7 +61,9 @@
       <div v-for="(channel, index) in tempEmr.channels" :key=index>
         <emr-channel
           :channel="channel"
-          v-on:emr-channel-remove="removeChannel(index)"
+          :channelIndex="index"
+          v-on:emr-channel-remove="removeChannel"
+          v-on:emr-channel-change="changeChannel"
         >
         </emr-channel>
       </div>
@@ -86,7 +88,7 @@ import { decode } from 'he'
 
 export default {
   name: 'edit-emr',
-  props: ['purpose', 'emr'],
+  props: ['purpose', 'emr', 'emrIndex'],
   components: {
     EmrChannel
   },
@@ -100,7 +102,11 @@ export default {
       nameError: '',
       gammaB1Error: '',
 
-      tempEmr: this.copyEmr(),
+      tempEmr: {
+        channels: [],
+        edit: this.purpose,
+        index: 0
+      },
       tempChannel: {
         spinType: 'e',
         frequency: 0.0, // gamma B1
@@ -115,7 +121,9 @@ export default {
     copyEmr () {
       let result = {
         name: '',
-        channels: []
+        channels: [],
+        edit: this.purpose,
+        index: this.emrIndex
       }
       result.name = this.emr.name.slice(0, this.emr.name.length)
       for (const channel of this.emr.channels) {
@@ -128,11 +136,6 @@ export default {
       let success = this.validateEmr()
       if (!success) return
       let committedEmr = Object.assign({}, this.tempEmr)
-      committedEmr.channels = []
-      for (const channel of this.tempEmr.channels) {
-        let tempC = Object.assign({}, channel)
-        committedEmr.channels.push(tempC)
-      }
       this.updateEmr(committedEmr)
       this.$emit('edit-emr-finish', true)
     },
@@ -154,6 +157,13 @@ export default {
     },
     removeChannel (index) {
       this.tempEmr.channels.splice(index, 1)
+    },
+    changeChannel (event) {
+      let success = this.validateChannel()
+      if (!success) return
+      this.tempEmr.channels.splice(event.channelIndex, 1, event.channelValue)
+      this.addingChannel = false
+      this.resetChannel()
     },
     cancelAddChannel () {
       this.addingChannel = false

@@ -5,6 +5,7 @@
   <div v-else>
     <edit-emr
       :emr="defaultEmr"
+      :emrIndex="0"
       :purpose="'add'"
       v-on:edit-emr-finish="adding=false"
     >

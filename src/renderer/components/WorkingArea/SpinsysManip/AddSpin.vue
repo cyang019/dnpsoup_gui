@@ -48,11 +48,11 @@
             </small>
             <label for='t1' class='col-form-label'>T1:</label>
             <input type='number' id='t1' placeholder='10.0' min='0.0' 
-              class='col-sm-2'
+              class='col-sm-3'
               v-model.number='spin.t1' step="any">
             <label for='t2' class='col-form-label'>T2:</label>
             <input type='number' id='t2' placeholder='1.0e-3' min='0.0' 
-              class='col-sm-2'
+              class='col-sm-3'
               v-model.number='spin.t2' step="any"> 
           </div>
         </div>
@@ -64,7 +64,7 @@
               id='gxx' 
               placeholder='2.003' 
               v-model.number='tensor.x' 
-              class="col-sm-2"
+              class="col-sm-3"
               step="any">
             <label for='gyy' class='col-form-label'>g<sub>yy</sub></label>
             <input 
@@ -72,7 +72,7 @@
               id='gyy' 
               placeholder='2.003' 
               v-model.number='tensor.y' 
-              class="col-sm-2"
+              class="col-sm-3"
               step="any">
             <label for='gzz' class='col-form-label'>g<sub>zz</sub></label>
             <input 
@@ -80,7 +80,7 @@
               id='gzz' 
               placeholder='2.003' 
               v-model.number='tensor.z' 
-              class="col-sm-2"
+              class="col-sm-3"
               step="any">
           </div>
         </div>
