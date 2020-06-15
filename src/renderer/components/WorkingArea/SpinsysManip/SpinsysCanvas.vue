@@ -92,7 +92,7 @@ export default {
         case 'e':
           return 'rgb(0,255,0)'
         case 'H1':
-          return 'rgb(255,255,255)'
+          return 'rgb(200,200,255)'
         case 'D2': case 'H2':
           return 'rgb(255, 255, 160)'
         case 'C13':
