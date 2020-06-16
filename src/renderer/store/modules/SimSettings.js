@@ -77,9 +77,22 @@ const state = {
   },
 
   taskCandidates: [
-    'EigenValues', 'Intensity', 'PowderIntensity',
-    'FieldProfile', 'BuildUp', 'PowderBuildUpEnhancement',
-    'scan1d', 'scan2d'
+    'EigenValues', 'Intensity', 'BuildUp',
+    'PowderIntensity', 'PowderBuildUpEnhancement',
+    'FieldProfile', 'scan1d',
+    'scan2d'
+  ],
+  tasksSingleton: [
+    'EigenValues', 'Intensity', 'BuildUp'
+  ],
+  tasksComposite: [
+    'PowderIntensity', 'PowderBuildUpEnhancement'
+  ],
+  tasks1d: [
+    'FieldProfile', 'scan1d'
+  ],
+  tasks2d: [
+    'scan2d'
   ],
 
   taskOptions: [

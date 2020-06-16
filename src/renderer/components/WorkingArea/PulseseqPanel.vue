@@ -18,19 +18,19 @@
         <div class="card-header pulseseq-header">
           <span class="panel-title">ElectroMagnetic Radiations</span>
         </div>
-        <emr-panel class="card-body panel-secondary"/>
+        <emr-panel class="card-body"/>
       </div>
       <div class="card">
         <div class="card-header pulseseq-header">
           <span class="panel-title">Sections</span>
         </div>
-        <section-panel class="card-body panel-secondary"/>
+        <section-panel class="card-body"/>
       </div>
       <div class="card">
         <div class="card-header pulseseq-header">
           <span class="panel-title">Sequence</span>
         </div>
-        <sequence-panel class="card-body panel-secondary"/>
+        <sequence-panel class="card-body"/>
       </div>
     </div>
   </div>

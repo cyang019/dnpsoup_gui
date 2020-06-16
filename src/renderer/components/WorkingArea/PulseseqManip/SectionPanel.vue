@@ -1,7 +1,11 @@
 <template>
-  <div class='d-flex flex-row'>
-    <div v-for="section in sections" :key="section.name">
-      <section-brief :section="section"></section-brief>
+  <div id="section-panel" class='d-flex flex-row'>
+    <div v-for="section in sections" :key="section.name"
+      class="section-panel-item col-sm-2 d-flex m-0 p-0"
+    >
+      <section-brief
+        :section="section"
+      ></section-brief>
     </div>
     <add-section></add-section>
   </div>
@@ -25,5 +29,7 @@ export default {
 </script>
 
 <style scoped>
-
+#section-panel {
+  overflow-x: scroll
+}
 </style>

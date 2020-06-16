@@ -1,51 +1,49 @@
 <template>
-  <div v-if="!editing">
-    <div class="card">
-      <div class="card-body">
-        <div class="card-title text-light bg-dark text-center">
-          <span>{{ section.name }}</span>
-        </div>
-        <div class="d-flex flex-row">
-          <span class="mr-2">{{ section.type }}</span>
-          <span>{{ section.size }}</span>
-        </div>
-        <div class="d-flex flex-row">
-          <div v-for="name in section.names" class="card">
-            <div class="card-body text-center">
-              {{name}}
-            </div>
-          </div>
-        </div>
-        <div v-if="section.type === 'Chirp'" class="d-flex flex-row">
-          <span>Chirp Span: {{section.span}}Hz</span>
-          <span>on {{section.spinType}}</span>
-        </div>
-        <div v-if="section.type === 'Section'">
-          <span v-if="section.phase0.reset">phase0 reset with seed {{section.phase0.seed}}</span>
-        </div>
-        <div class="d-flex flex-row justify-content-end">
-          <div class="btn btn-light btn-sm"
-            @click="editClicked"
-          >
-            <span class="text-secondary"><i class='fas fa-pen'></i></span>
-          </div>
-          <div class="btn btn-light btn-sm"
-            @click="deleteClicked"
-          >
-            <span class="text-secondary"><i class='far fa-trash-alt'></i></span>
-          </div>
+  <div v-if="!editing" class="section-brief-item card card-body flex-fill">
+    <div class="card-title text-light bg-dark text-center">
+      <span>{{ section.name }}</span>
+    </div>
+    <div class="d-flex flex-row">
+      <span class="mr-2">{{ section.type }}</span>
+    </div>
+    <div class="d-flex flex-row">
+      <span>{{ section.size }}</span>
+    </div>
+    <div class="d-flex flex-row">
+      <div v-for="(name, index) in section.names" class="card" :key="index">
+        <div class="card-body text-center">
+          {{name}}
         </div>
       </div>
     </div>
+    <div v-if="section.type === 'Chirp'" class="d-flex flex-row">
+      <span>Chirp Span: {{section.span}}Hz</span>
+      <span>on {{section.spinType}}</span>
+    </div>
+    <div v-if="section.type === 'Section'">
+      <span v-if="section.phase0.reset">phase0 reset with seed {{section.phase0.seed}}</span>
+    </div>
+    <div class="flex-fill"></div>
+    <div class="d-flex flex-row justify-content-end">
+      <div class="btn btn-light btn-sm"
+        @click="editClicked"
+      >
+        <span class="text-secondary"><i class='fas fa-pen'></i></span>
+      </div>
+      <div class="btn btn-light btn-sm"
+        @click="deleteClicked"
+      >
+        <span class="text-secondary"><i class='far fa-trash-alt'></i></span>
+      </div>
+    </div>
   </div>
-  <div v-else>
-    <edit-section
-      v-bind:section="section"
-      v-bind:purpose="'edit'"
-      v-on:edit-section-finish="editing=false"
-    >
-    </edit-section>
-  </div>
+  <edit-section v-else
+    class="flex-fill"
+    v-bind:section="section"
+    v-bind:purpose="'edit'"
+    v-on:edit-section-finish="editing=false"
+  >
+  </edit-section>
 </template>
 
 <script>
@@ -108,5 +106,9 @@ export default {
 <style scoped>
 .card-body {
   padding: 4px;
+}
+
+.section-brief-item {
+  overflow-x: scroll
 }
 </style>

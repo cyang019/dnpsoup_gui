@@ -1,8 +1,8 @@
 <template>
-  <div v-if="!adding" 
+  <div v-if="!adding"
     id='add-section'
     @click="adding=true"
-    class="d-flex flex-row"
+    class="d-flex flex-row flex-fill"
   >
     <btn-add-vertical>
     </btn-add-vertical>

@@ -11,9 +11,12 @@
       <button class="btn btn-primary btn-md" @click="resetClicked">
         Reset
       </button>
-      <button class="btn btn-primary btn-md disabled" @click="runClicked">
+      <button class="btn btn-primary btn-md disabled" @click="runClicked"
+        data-toggle="tooltip" data-placement="top"
+        title="would execute dnpsoup_cli with the current simulation settings as input"
+      >
         <span>
-          Run (Not Available)
+          Run (Not Available Yet)
         </span>
       </button>
     </div>
@@ -346,21 +349,8 @@ export default {
         this.addEmr(tempEmr)
       }
       for (const secName in pulseseq.sections) {
-        let tempSection = {
-          name: secName
-        }
-        if (pulseseq.sections[secName].hasOwnProperty('type')) {
-          tempSection['type'] = pulseseq.sections[secName]['type']
-        }
-        if (pulseseq.sections[secName].hasOwnProperty('size')) {
-          tempSection['size'] = parseInt(pulseseq.sections[secName]['size'])
-        }
-        if (pulseseq.sections[secName].hasOwnProperty('names')) {
-          tempSection['names'] = Object.assign([], pulseseq.sections[secName]['names'])
-        }
-        if (pulseseq.sections[secName].hasOwnProperty('params')) {
-          tempSection['params'] = Object.assign([], pulseseq.sections[secName]['params'])
-        }
+        let tempSection = Object.assign({}, pulseseq.sections[secName])
+        tempSection['name'] = secName
         this.addSection(Object.assign({}, tempSection))
       }
       for (const subseq of pulseseq.sequence) {

@@ -14,25 +14,7 @@
             {{option}}
           </button>
         </div>
-        <div v-if="editTaskName" class="d-flex flex-row"
-          @keydown.enter="editTaskNameOkClicked"
-          @keydown.esc="editTaskNameCancelClicked"
-        >
-          <span>Task Name:</span>
-          <select
-            name="task-input-name" id="task-input-name" 
-            v-model="taskName"
-            @change="taskNameChanged"
-          >
-            <option v-for="(option, index) in taskCandidates"
-              :value="option"
-              :key="index"
-            >
-              {{ option }}
-            </option>
-          </select>
-        </div>
-        <div v-else class="d-flex flex-column">
+        <div class="d-flex flex-column">
           <div class="p m-1">
             <span>Task Name: </span>
             <span
@@ -81,6 +63,10 @@ export default {
     ...mapState('SimSettings', {
       // 'taskOptions': state => state.taskOptions,
       'taskCandidates': state => state.taskCandidates,
+      'tasksSingleton': state => state.tasksSingleton,
+      'tasksComposite': state => state.tasksComposite,
+      'tasks1d': state => state.tasks1d,
+      'tasks2d': state => state.tasks2d,
       'stateTaskName': state => state.simulation.task.name
     }),
     currentTaskForm () {
@@ -107,10 +93,6 @@ export default {
     taskNameChanged () {
       this.editTaskNameOkClicked()
       this.editTaskName = false
-    },
-    editTaskNameClicked () {
-      this.taskName = ''
-      this.editTaskName = true
     },
     editTaskNameOkClicked () {
       this.setTaskName(this.taskName)

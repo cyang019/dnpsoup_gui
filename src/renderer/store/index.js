@@ -7,6 +7,7 @@ import Vuex from 'vuex'
 import pulseseq from './modules/pulseseq'
 import spinsys from './modules/spinsys'
 import SimSettings from './modules/SimSettings'
+import InputState from './modules/InputState'
 
 Vue.use(Vuex)
 
@@ -14,7 +15,8 @@ export default new Vuex.Store({
   modules: {
     pulseseq,
     spinsys,
-    SimSettings
+    SimSettings,
+    InputState
   },
   plugins: [
     // createPersistedState()

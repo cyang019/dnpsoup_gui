@@ -1,22 +1,27 @@
 <template>
   <div id="powder-buildup-enhancement-form" class="d-flex flex-column">
-    <div class="form-group mb-0">
-      <label for="input-ncores" class="col-form-label">
-        <span>ncores:</span>
-      </label>
-      <input type="number" step="1" min="1"
-        v-model="ncores"
-        @change="setNumCores(ncores)"
-      >
-    </div>
+    <input-sync-state
+      :name="'ncores'"
+      :stateValue="stateNCores"
+      v-on:input-sync-state-ok-clicked="setNumCores"
+    ></input-sync-state>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
+import InputSyncState from '../../common/InputSyncState'
 
 export default {
   name: 'powder-buildup-enhancement-form',
+  components: {
+    InputSyncState
+  },
+  computed: {
+    ...mapState('SimSettings', {
+      stateNCores: state => state.simulation.ncores
+    })
+  },
   methods: {
     ...mapActions('SimSettings', ['setNumCores'])
   },

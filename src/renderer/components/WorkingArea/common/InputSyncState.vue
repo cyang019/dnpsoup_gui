@@ -42,9 +42,21 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'input-sync-state',
   props: ['name', 'stateValue', 'type'],
+  computed: {
+    ...mapState('InputState', ['activeInputCurrent, activeInputPrev']),
+    defaultFinish () {
+      if (this.editValue && !this.activeInput) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   data () {
     return {
       tempValue: 0,
@@ -53,9 +65,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions('InputState', [
+      'setCurrentInputActive', 'setCurrentInputFinished',
+      'setPrevInputActive', 'setPrevInputFinished'
+    ]),
     editClicked () {
-      this.editValue = true
       this.tempValue = this.stateValue
+      this.editValue = true
     },
     editValueOkClicked () {
       this.editValue = false

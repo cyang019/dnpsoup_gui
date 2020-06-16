@@ -50,7 +50,8 @@
           {{memberError}}
         </small>
         <div class="d-flex flex-wrapped">
-          <div v-for="member in tempSection.names"
+          <div v-for="(member, index) in tempSection.names"
+            :key="index"
             class="section-member"
           >
             <section-member-name
