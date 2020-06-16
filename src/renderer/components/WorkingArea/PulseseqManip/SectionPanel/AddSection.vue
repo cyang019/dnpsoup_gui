@@ -2,12 +2,12 @@
   <div v-if="!adding"
     id='add-section'
     @click="adding=true"
-    class="d-flex flex-row flex-fill"
+    class="d-flex"
   >
     <btn-add-vertical>
     </btn-add-vertical>
   </div>
-  <div v-else id='add-section'>
+  <div v-else id='add-section' class="d-flex">
     <edit-section 
       v-bind:section="defaultSection"
       v-bind:purpose="'add'"

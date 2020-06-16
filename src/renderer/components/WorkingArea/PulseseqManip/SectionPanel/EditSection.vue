@@ -3,7 +3,7 @@
     class="p-1 m-0 d-flex flex-column flex-fill border border-secondary rounded"
   >
     <div class="align-self-center">
-      <span class="text-secondary">Edit Section</span>
+      <span class="text-secondary">Section</span>
     </div>
     <small v-if="nameError.length > 0" class="text-danger">
       {{nameError}}
