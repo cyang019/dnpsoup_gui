@@ -9,7 +9,7 @@
           <button v-for="(option, index) in taskCandidates" 
             :key="index"
             @click="taskNameSelected(option)"
-            class="badge badge-light mr-1 badge-default-btn"
+            class="task-quick-btn badge badge-light mr-1 my-1 badge-default-btn"
           >
             {{option}}
           </button>
@@ -109,5 +109,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .task-quick-btn {
+    min-width: 6rem;
+  }
 </style>

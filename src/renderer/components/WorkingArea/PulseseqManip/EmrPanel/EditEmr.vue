@@ -103,9 +103,10 @@ export default {
       gammaB1Error: '',
 
       tempEmr: {
-        channels: [],
+        channels: Object.assign([], this.emr.channels),
         edit: this.purpose,
-        index: 0
+        index: 0,
+        name: this.emr.name.slice(0, this.emr.name.length)
       },
       tempChannel: {
         spinType: 'e',
