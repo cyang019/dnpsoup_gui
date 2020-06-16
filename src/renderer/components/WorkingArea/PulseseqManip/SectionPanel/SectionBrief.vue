@@ -1,6 +1,6 @@
 <template>
   <div v-if="!editing" class="section-brief-item card card-body flex-fill">
-    <div class="card-title text-light bg-dark text-center">
+    <div class="card-title text-light bg-secondary text-center">
       <span>{{ section.name }}</span>
     </div>
     <div class="d-flex flex-row">
@@ -9,9 +9,11 @@
     <div class="d-flex flex-row">
       <span>{{ section.size }}</span>
     </div>
-    <div class="d-flex flex-row">
-      <div v-for="(name, index) in section.names" class="card" :key="index">
-        <div class="card-body text-center">
+    <div class="d-flex flex-row m-1 p-0">
+      <div v-for="(name, index) in section.names" :key="index"
+        class="m-0 p-1 border border-info rounded"
+      >
+        <div>
           {{name}}
         </div>
       </div>
@@ -105,7 +107,7 @@ export default {
 
 <style scoped>
 .card-body {
-  padding: 4px;
+  padding: 3px;
 }
 
 .section-brief-item {

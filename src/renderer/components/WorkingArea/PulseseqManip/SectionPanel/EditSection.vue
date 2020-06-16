@@ -1,161 +1,165 @@
 <template>
-  <div id="edit-section">
-    <div class="d-flex flex-column">
-      <small v-if="nameError.length > 0" class="text-danger">
-        {{nameError}}
-      </small>
-      <div class="form-group mb-0">
-        <label for="name" class="col-form-label">
-          Name:
-        </label>
-        <input type="text" id="name" v-model="tempSection.name">
-      </div>
-      <div class="form-group mb-0">
-        <label for="section-type" class="col-form-label">
-          Type:
-        </label>
-        <select name="section-type" id="section-type" 
-          v-model="tempType"
-        >
-          <option v-for="option in sectionOptions" :key="option"
-            :value="option"
-          >
-            {{option}}
-          </option>
-        </select>
-      </div>
-      <small v-if="sizeError.length > 0" class="text-danger">
-        {{sizeError}}
-      </small>
-      <div class="form-group mb-0">
-        <label for="section-size" class="col-form-label">
-          Size:
-        </label>
-        <input type="number" name="section-size" id="section-size"
-          v-model.number="tempSection.size"
-          step="1"
-        >
-      </div>
-      <!-- per section-type -->
-      <div v-if="['Pulse', 'Chirp', 'Section'].includes(tempType)"
-        class="d-flex flex-column"
+  <div id="edit-section" 
+    class="p-1 m-0 d-flex flex-column flex-fill border border-secondary rounded"
+  >
+    <div class="align-self-center">
+      <span class="text-secondary">Edit Section</span>
+    </div>
+    <small v-if="nameError.length > 0" class="text-danger">
+      {{nameError}}
+    </small>
+    <div class="form-group mb-0">
+      <label for="name" class="col-form-label">
+        Name:
+      </label>
+      <input type="text" id="name" v-model="tempSection.name">
+    </div>
+    <div class="form-group mb-0">
+      <label for="section-type" class="col-form-label">
+        Type:
+      </label>
+      <select name="section-type" id="section-type" 
+        v-model="tempType"
       >
-        <div v-if="['Pulse', 'Chirp'].includes(tempType)" class="p">
-          Member Emr:
-        </div>
-        <div v-if="tempType === 'Section'">
-          Member Sections:
-        </div>
-        <small v-if="memberError.length > 0" class="text-danger">
-          {{memberError}}
-        </small>
-        <div class="d-flex flex-wrapped">
-          <div v-for="(member, index) in tempSection.names"
-            :key="index"
-            class="section-member"
+        <option v-for="option in sectionOptions" :key="option"
+          :value="option"
+        >
+          {{option}}
+        </option>
+      </select>
+    </div>
+    <small v-if="sizeError.length > 0" class="text-danger">
+      {{sizeError}}
+    </small>
+    <div class="form-group mb-0">
+      <label for="section-size" class="col-form-label">
+        Size:
+      </label>
+      <input type="number" name="section-size" id="section-size"
+        v-model.number="tempSection.size"
+        step="1"
+      >
+    </div>
+    <!-- per section-type -->
+    <div v-if="['Pulse', 'Chirp', 'Section'].includes(tempType)"
+      class="d-flex flex-column"
+    >
+      <div v-if="['Pulse', 'Chirp'].includes(tempType)" class="p">
+        Member Emr:
+      </div>
+      <div v-if="tempType === 'Section'">
+        Member Sections:
+      </div>
+      <small v-if="memberError.length > 0" class="text-danger">
+        {{memberError}}
+      </small>
+      <div class="d-flex flex-wrapped">
+        <div v-for="(member, index) in tempSection.names"
+          :key="index"
+          class="section-member"
+        >
+          <section-member-name
+            v-bind:name="member"
+            v-bind:type="tempType"
+            v-bind:nameContainer="tempSection.name"
+            v-on:delete-member-name="deleteMember($event)"
           >
-            <section-member-name
-              v-bind:name="member"
-              v-bind:type="tempType"
-              v-bind:nameContainer="tempSection.name"
-              v-on:delete-member-name="deleteMember($event)"
-            >
-            </section-member-name>
-          </div>
-          <div v-if="tempSection.names.length === 0 || tempType === 'Section'">
-            <div v-if="!addingMember" 
-              @click="addingMember=true"
-              class="btn btn-secondary btn-sm"
-            >
-              <i class='fas fa-plus'></i>
-            </div>
-            <div v-else 
-              class='form-group section-members border border-light'>
-              <div v-if="['Pulse', 'Chirp'].includes(tempType)">
-                <select
-                  name="emr-select-option" id="emr-select-option" 
-                  v-model="tempMember"
-                  @change="addMember"
-                >
-                  <option value="">-</option>
-                  <option 
-                    v-for="emr in emrs" 
-                    :key="emr.name" :value="emr.name">
-                    {{emr.name}}
-                  </option>
-                </select>
-              </div>
-              <div v-if="tempType === 'Section'">
-                <select
-                  name="section-select-option" id="section-select-option" 
-                  v-model="tempMember"
-                  @change="addMember"
-                >
-                  <option value="">-</option>
-                  <option 
-                    v-for="section in sections.filter(section => section.name !== tempSection.name)" 
-                    :key="section.name" :value="section.name">
-                    {{section.name}}
-                  </option>
-                </select>
-              </div>
-            </div>  
-          </div>
+          </section-member-name>
         </div>
-        <div v-if="tempType === 'Chirp'" class="form-group mb-0">
-          <label for="section-span" class="col-form-label">
-            span
-          </label>
-          <input type="number" id="section-span" 
-            step="any" v-model="tempSection.span">
-        </div>
-        <div v-if="tempType === 'Section'" class='card'>
-          <div class='card-body phase0-content'>
-            <div class='card-title'
-              data-toggle="tooltip" data-placement="top" 
-              title="If to reset phase0 to a random number when entering the section."
-            >
-              phase0
-            </div>
-            <div class='form-group mb-0'>
-              <label for="phase0-reset" class="col-form-label">
-                reset:
-              </label>
-              <input type="radio" id="phase0-reset-true" value="true" 
-                v-model="tempSection.phase0.reset">
-              <label for="phase0-reset-true" class="col-form-label">
-                true
-              </label>
-              <input type="radio" id="phase0-reset-false" value="false" 
-                v-model="tempSection.phase0.reset">
-              <label for="phase0-reset-true" class="col-form-label">
-                false
-              </label>
-            </div>
-            <div class='form-group mb-0'>
-              <label for="phase0-seed" class="col-form-label">
-                seed:
-              </label>
-              <input type="number" id="phase0-seed" step="1" 
-                v-model="tempSection.phase0.seed"
+        <div v-if="tempSection.names.length === 0 || tempType === 'Section'">
+          <div v-if="!addingMember" 
+            @click="addingMember=true"
+            class="btn btn-secondary btn-sm"
+          >
+            <i class='fas fa-plus'></i>
+          </div>
+          <div v-else 
+            class='form-group section-members border border-light'>
+            <div v-if="['Pulse', 'Chirp'].includes(tempType)">
+              <select
+                name="emr-select-option" id="emr-select-option" 
+                v-model="tempMember"
+                @change="addMember"
               >
+                <option value="">-</option>
+                <option 
+                  v-for="emr in emrs" 
+                  :key="emr.name" :value="emr.name">
+                  {{emr.name}}
+                </option>
+              </select>
             </div>
+            <div v-if="tempType === 'Section'">
+              <select
+                name="section-select-option" id="section-select-option" 
+                v-model="tempMember"
+                @change="addMember"
+              >
+                <option value="">-</option>
+                <option 
+                  v-for="section in sections.filter(section => section.name !== tempSection.name)" 
+                  :key="section.name" :value="section.name">
+                  {{section.name}}
+                </option>
+              </select>
+            </div>
+          </div>  
+        </div>
+      </div>
+      <div v-if="tempType === 'Chirp'" class="form-group mb-0">
+        <label for="section-span" class="col-form-label">
+          span
+        </label>
+        <input type="number" id="section-span" 
+          step="any" v-model="tempSection.span">
+      </div>
+      <div v-if="tempType === 'Section'" class='card'>
+        <div class='card-body phase0-content'>
+          <div class='card-title'
+            data-toggle="tooltip" data-placement="top" 
+            title="If to reset phase0 to a random number when entering the section."
+          >
+            phase0
+          </div>
+          <div class='form-group mb-0'>
+            <label for="phase0-reset" class="col-form-label">
+              reset:
+            </label>
+            <input type="radio" id="phase0-reset-true" value="true" 
+              v-model="tempSection.phase0.reset">
+            <label for="phase0-reset-true" class="col-form-label">
+              true
+            </label>
+            <input type="radio" id="phase0-reset-false" value="false" 
+              v-model="tempSection.phase0.reset">
+            <label for="phase0-reset-true" class="col-form-label">
+              false
+            </label>
+          </div>
+          <div class='form-group mb-0'>
+            <label for="phase0-seed" class="col-form-label">
+              seed:
+            </label>
+            <input type="number" id="phase0-seed" step="1" 
+              v-model="tempSection.phase0.seed"
+            >
           </div>
         </div>
       </div>
-      <div class="d-flex flex-row justify-content-end">
-        <div class="btn btn-light btn-sm"
-          @click="okClicked"
-        >
-          <span class="text-success"><i class='fas fa-check'></i></span>
-          <span class="p">OK</span>
-        </div>
-        <div class="btn btn-light btn-sm"
-          @click="cancelClicked"
-        >
-          <span class="text-danger"><i class='fas fa-ban'></i></span>
-          <span class="p">Cancel</span>
-        </div>
+    </div>
+    <div class="flex-fill"></div>
+    <div class="d-flex flex-row justify-content-end">
+      <div class="btn btn-light btn-sm"
+        @click="okClicked"
+      >
+        <span class="text-success"><i class='fas fa-check'></i></span>
+        <span class="p">OK</span>
+      </div>
+      <div class="btn btn-light btn-sm"
+        @click="cancelClicked"
+      >
+        <span class="text-danger"><i class='fas fa-ban'></i></span>
+        <span class="p">Cancel</span>
       </div>
     </div>
   </div>
