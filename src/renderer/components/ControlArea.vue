@@ -452,6 +452,10 @@ export default {
         let filename = result.filePath
         if (filename === undefined) {
           // nothing created
+          console.log('saveToFile canceled...')
+          return
+        } else if (filename === '') {
+          console.log('saveToFile got empty filename, do nothing...')
           return
         }
         fs.writeFile(filename, content, (err) => {
@@ -468,6 +472,10 @@ export default {
       ).then(
         result => {
           let filepath = result.filePaths[0]
+          if (filepath === undefined) {
+            console.log('loadFromFile canceled...')
+            return
+          }
           fs.readFile(filepath, (err, data) => {
             if (err) {
               console.log(err)
