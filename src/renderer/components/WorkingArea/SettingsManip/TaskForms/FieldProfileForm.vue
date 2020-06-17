@@ -74,19 +74,34 @@
           <div class="p mr-2">
             <span>Begin: </span>
             <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
-              {{stateRange.begin}}
+              <span v-if="stateScanOption === 'emr'">
+                {{stateRange.begin / 1.0e9}}
+              </span>
+              <span v-else>
+                {{stateRange.begin}}
+              </span>
             </span>
           </div>
           <div class="p mr-2">
             <span>End: </span>
             <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
-              {{stateRange.end}}
+              <span v-if="stateScanOption === 'emr'">
+                {{stateRange.end / 1.0e9}}
+              </span>
+              <span v-else>
+                {{stateRange.end}}
+              </span>
             </span>
           </div>
           <div>
             <span>Step: </span>
             <span class="bg-light pr-2 pl-1 border-bottom border-secondary-bottom">
-              {{stateRange.step}}
+              <span v-if="stateScanOption === 'emr'">
+                {{stateRange.step / 1.0e9}}
+              </span>
+              <span v-else>
+                {{stateRange.step}}
+              </span>
             </span>
           </div>
         </div>
@@ -123,6 +138,9 @@ export default {
     }),
     stateRange: function () {
       return this.getFieldProfileRange()
+    },
+    stateScanOption: function () {
+      return this.getFieldProfileScanOption()
     }
   },
   mounted () {
@@ -130,11 +148,18 @@ export default {
   },
   methods: {
     init () {
-      let stateRange = this.getFieldProfileRange()
-      this.range.begin = stateRange.begin
-      this.range.end = stateRange.end
-      this.range.step = stateRange.end
+      const stateRange = this.getFieldProfileRange()
       this.scanOption = this.getFieldProfileScanOption()
+      if (this.scanOption === 'emr') {
+        this.range.begin = stateRange.begin / 1.0e9
+        this.range.end = stateRange.end / 1.0e9
+        this.range.step = stateRange.step / 1.0e9
+      } else {
+        this.range.begin = stateRange.begin
+        this.range.end = stateRange.end
+        this.range.step = stateRange.step
+      }
+
       this.ncores = this.getNumCores()
     },
     ...mapActions('SimSettings', [
@@ -146,10 +171,16 @@ export default {
       'getFieldProfileRange'
     ]),
     editRangeClicked () {
-      let range = this.getFieldProfileRange()
-      this.range.begin = parseFloat(range.begin)
-      this.range.end = parseFloat(range.end)
-      this.range.step = parseFloat(range.step)
+      const stateRange = this.getFieldProfileRange()
+      if (this.scanOption === 'emr') {
+        this.range.begin = parseFloat(stateRange.begin) / 1.0e9
+        this.range.end = parseFloat(stateRange.end) / 1.0e9
+        this.range.step = parseFloat(stateRange.step) / 1.0e9
+      } else {
+        this.range.begin = parseFloat(stateRange.begin)
+        this.range.end = parseFloat(stateRange.end)
+        this.range.step = parseFloat(stateRange.step)
+      }
       this.editRange = true
     },
     editRangeOkClicked () {
@@ -157,7 +188,12 @@ export default {
       if (this.scanOption === 'b0') {
         this.setFieldRange(Object.assign({}, this.range))
       } else {
-        this.setEmrRange(Object.assign({}, this.range))
+        let rangeHz = {
+          begin: parseFloat(this.range.begin) * 1.0e9,
+          end: parseFloat(this.range.end) * 1.0e9,
+          step: parseFloat(this.range.step) * 1.0e9
+        }
+        this.setEmrRange(Object.assign({}, rangeHz))
       }
     },
     editRangeCancelClicked () {
