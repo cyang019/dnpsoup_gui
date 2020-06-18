@@ -255,6 +255,11 @@ const mutations = {
   setNCores: (state, n) => (state.simulation.ncores = parseInt(n)),
 
   setTaskName: (state, name) => {
+    if (name === 'scan1d') {
+      name = 'Scan1d'
+    } else if (name === 'scan2d') {
+      name = 'Scan2d'
+    }
     state.simulation.task.name = name
   },
 

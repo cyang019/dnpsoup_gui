@@ -184,6 +184,12 @@ export default {
         },
         task: this.simulation.task.name
       }
+      if (result.task === 'Scan1d') {
+        result.task = 'scan1d'
+      }
+      if (result.task === 'Scan2d') {
+        result.task = 'scan2d'
+      }
       if (['zcw', 'eulers'].includes(this.sample.eulerOption)) {
         if (this.sample.eulerOption === 'zcw') {
           result['euler_scheme'] = {
@@ -226,7 +232,7 @@ export default {
             )
           }
           break
-        case 'scan1d':
+        case 'scan1d': case 'Scan1d':
           result['task details'] = {
             type: this.simulation.task.taskDetails.type,
             spin: this.simulation.task.taskDetails.spin,
@@ -234,7 +240,7 @@ export default {
             range: Object.assign({}, this.simulation.task.taskDetails.range)
           }
           break
-        case 'scan2d':
+        case 'scan2d': case 'Scan2d':
           result['task details'] = {
             type1: this.simulation.task.taskDetails.type1,
             spin1: this.simulation.task.taskDetails.spin1,
