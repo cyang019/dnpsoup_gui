@@ -125,12 +125,12 @@
             <label for="phase0-reset" class="col-form-label">
               reset:
             </label>
-            <input type="radio" id="phase0-reset-true" value="true" 
+            <input type="radio" id="phase0-reset-true" :value="true" 
               v-model="tempSection.phase0.reset">
             <label for="phase0-reset-true" class="col-form-label">
               true
             </label>
-            <input type="radio" id="phase0-reset-false" value="false" 
+            <input type="radio" id="phase0-reset-false" :value="false" 
               v-model="tempSection.phase0.reset">
             <label for="phase0-reset-true" class="col-form-label">
               false

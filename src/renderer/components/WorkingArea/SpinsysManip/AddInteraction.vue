@@ -58,7 +58,7 @@
             <select name='name' id='interaction-name'
               v-model='interaction.name'>
               <option value=''>--</option>
-              <option v-for="option in oneSpinOptions" :value='option' :key=option
+              <option v-for="option in oneSpinOptions" :value="option" :key=option
               >
                 {{option}}
               </option>
@@ -70,9 +70,9 @@
           <div class="form-group mb-0">
             <label for='spin-id' class='col-form-label'>Spin Id:</label>
             <select name='spin-id' id='spin-id'
-              v-model='interaction.id1'>
+              v-model="interaction.id1">
               <option value=''>--</option>
-              <option v-for="spin in spins" value=spin.id :key=spin.id>
+              <option v-for="spin in spins" :value="spin.id" :key=spin.id>
                 spin [{{spin.id}}]
               </option>
             </select>
@@ -81,21 +81,24 @@
             <div class="form-group mb-0" >
               <label for='gxx' class='col-form-label'>g<sub>xx</sub></label>
               <input 
-                type='number' 
-                id='gxx' 
-                placeholder='2.003' 
+                type='number'
+                id='gxx'
                 v-model.number='interaction.tensor.xx' 
-                class="col-md-2"
+                class="col-md-3"
                 step="any">
               <label for='gyy' class='col-form-label'>g<sub>yy</sub></label>
               <input 
-                type='number' 
-                id='gyy' 
-                placeholder='2.003' 
+                type='number'
+                id='gyy'
                 v-model.number='interaction.tensor.yy' 
-                class="col-md-2"
-                step="any">oneSpinsor.zz' 
-                class="col-md-2"
+                class="col-md-3"
+                step="any">
+              <label for='gzz' class='col-form-label'>g<sub>zz</sub></label>
+              <input 
+                type='number'
+                id='gzz'
+                v-model.number='interaction.tensor.zz' 
+                class="col-md-3"
                 step="any">
             </div>
           </div>

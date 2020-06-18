@@ -105,7 +105,7 @@ export default {
       tempEmr: {
         channels: Object.assign([], this.emr.channels),
         edit: this.purpose,
-        index: 0,
+        index: parseInt(this.emrIndex),
         name: this.emr.name.slice(0, this.emr.name.length)
       },
       tempChannel: {
