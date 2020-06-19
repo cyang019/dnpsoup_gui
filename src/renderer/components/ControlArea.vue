@@ -42,6 +42,7 @@ export default {
   methods: {
     ...mapActions('spinsys', [
       'addSpin', 'addOneSpinInteraction', 'addTwoSpinInteraction', 'resetSpinsys',
+      'incrementSpinId', 'incrementInteractionId',
       'setSpinsysEuler'
     ]),
     ...mapActions('pulseseq', [
@@ -83,9 +84,9 @@ export default {
       for (const spin of this.spins) {
         let tempSpin = {
           type: spin.spinType,
-          x: spin.x,
-          y: spin.y,
-          z: spin.z,
+          x: parseFloat(spin.x),
+          y: parseFloat(spin.y),
+          z: parseFloat(spin.z),
           t1: parseFloat(spin.t1),
           t2: parseFloat(spin.t2)
         }
@@ -296,6 +297,7 @@ export default {
           t2: parseFloat(spinsys.spins[spinId].t2)
         }
         this.addSpin(spin)
+        this.incrementSpinId()
       }
       for (const interaction of spinsys.interactions) {
         switch (interaction.name) {
@@ -315,6 +317,7 @@ export default {
               }
             }
             this.addOneSpinInteraction(temp1)
+            this.incrementInteractionId()
             break
           default:
             let temp2 = {
@@ -326,6 +329,7 @@ export default {
               temp2['value'] = parseFloat(interaction.entries.value)
             }
             this.addTwoSpinInteraction(temp2)
+            this.incrementInteractionId()
             break
         }
       }
