@@ -274,7 +274,6 @@ export default {
     nameChanged () {
       if (this.scanType === 'EmrLength') {
         this.tempChannels = []
-        this.resetRange()
       } else {
         let emrGetter = this.getEmrByName()
         let tempEmr = emrGetter(this.name)
@@ -372,7 +371,7 @@ export default {
         end: 0,
         step: 1
       },
-      editScan: true,
+      editScan: false,
       hoverScanContent: false,
 
       tempChannels: []
