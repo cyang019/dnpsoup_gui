@@ -283,7 +283,7 @@ export default {
     },
     updateRangeBegin () {
       if (this.scanType === 'EmrLength') {
-        this.$emit('scan1d-set-scan-range-begin', parseInt(this.range.begin))
+        this.$emit('scan1d-set-scan-range-begin', parseInt(parseFloat(this.range.begin)))
       } else if (this.scanType === 'GammaB1') {
         this.$emit('scan1d-set-scan-range-begin', parseFloat(this.range.begin) * 1.0e6)
       } else {
@@ -292,7 +292,7 @@ export default {
     },
     updateRangeEnd () {
       if (this.scanType === 'EmrLength') {
-        this.$emit('scan1d-set-scan-range-end', parseInt(this.range.end))
+        this.$emit('scan1d-set-scan-range-end', parseInt(parseFloat(this.range.end)))
       } else if (this.scanType === 'GammaB1') {
         this.$emit('scan1d-set-scan-range-end', parseFloat(this.range.end) * 1.0e6)
       } else {
@@ -301,7 +301,7 @@ export default {
     },
     updateRangeStep () {
       if (this.scanType === 'EmrLength') {
-        this.$emit('scan1d-set-scan-range-step', parseInt(this.range.step))
+        this.$emit('scan1d-set-scan-range-step', parseInt(parseFloat(this.range.step)))
       } else if (this.scanType === 'GammaB1') {
         this.$emit('scan1d-set-scan-range-step', parseFloat(this.range.step) * 1.0e6)
       } else {
