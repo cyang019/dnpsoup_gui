@@ -1,6 +1,6 @@
 <template>
-  <div id='input-summary'>
-    <div class="container-fuild">
+  <div id='input-summary' class="m-0 p-0">
+    <div class="container-fuild m-0 p-0">
       <div class="col-12 h-100">
         <spinsys-summary class="row-4 summary-item h-33"/>
         <pulseseq-summary class="row-4 summary-item h-33"/>

@@ -1,6 +1,8 @@
 <template>
-  <div id="info-area">
-    <p>Information</p>
+  <div id="info-area" class="m-2 bg-light border flex-fill">
+    <p class="m-2 text-info">
+      Information
+    </p>
   </div>
   
 </template>
@@ -12,8 +14,4 @@ export default {
 </script>
 
 <style scoped>
-  #info-area {
-    margin: 2px;
-    border: 1px solid #aaa;
-  }
 </style>

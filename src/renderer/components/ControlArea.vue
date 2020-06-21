@@ -1,6 +1,6 @@
 <template>
-  <div id="control-area" class="d-flex flex-column">
-    <p><strong>Execute Tasks</strong></p>
+  <div id="control-area" class="d-flex flex-column mx-2 my-1">
+    <!-- <p><strong>Execute Tasks</strong></p> -->
     <div class="d-flex flex-row justify-content-between">
       <button class="btn btn-primary btn-md" @click="saveToFileClicked">
         Save to File
@@ -11,14 +11,16 @@
       <button class="btn btn-primary btn-md" @click="resetClicked">
         Reset
       </button>
-      <button class="btn btn-primary btn-md disabled" @click="runClicked"
+      <div></div>
+      <div></div>
+      <!-- <button class="btn btn-primary btn-md disabled" @click="runClicked"
         data-toggle="tooltip" data-placement="top"
         title="would execute dnpsoup_cli with the current simulation settings as input"
       >
         <span>
           Run (Not Available Yet)
         </span>
-      </button>
+      </button> -->
     </div>
   </div>
 </template>
@@ -510,6 +512,6 @@ export default {
 <style scoped>
   #control-area {
     margin: 2px;
-    border: 1px solid #aaa;
+    /* border: 1px solid #aaa; */
   }
 </style>

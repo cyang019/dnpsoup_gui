@@ -1,6 +1,6 @@
 <template>
-  <div id='pulseseq-panel' class='flex-fill'>
-    <div class='d-flex flex-column'>
+  <div id='pulseseq-panel' class='d-flex flex-fill'>
+    <div class='d-flex flex-column flex-fill'>
       <input-sync-state
         :name="'Name'"
         :stateValue="stateName"
@@ -32,6 +32,7 @@
         </div>
         <sequence-panel class="card-body"/>
       </div>
+      <div class="flex-fill"></div>
     </div>
   </div>
 </template>

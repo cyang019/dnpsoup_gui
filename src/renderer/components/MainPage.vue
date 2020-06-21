@@ -1,20 +1,20 @@
 <template>
-  <div id="home">
-    <div id="global-container" class="d-flex flex-column">
-      <div id="parameters" class="h-70 d-flex flex-fill flex-row">
-        <div class="w-75 upper-left-region">
-          <working-area/>
-        </div>
-        <div class="w-25 upper-right-region">
-          <summary-area/>
-        </div>
+  <div id="home" class="d-flex flex-column">
+    <div id="parameters"
+      class="h-70 d-flex flex-fill flex-row m-0 p-0"
+    >
+      <div class="w-75 m-2 p-0">
+        <working-area/>
       </div>
-      <div class="h-20">
-        <info-area></info-area>
+      <div class="w-25 m-2 p-1">
+        <summary-area/>
       </div>
-      <div class="h-10">
-        <control-area></control-area>
-      </div>
+    </div>
+    <div class="d-flex flex-fill">
+      <info-area></info-area>
+    </div>
+    <div class="h-10">
+      <control-area></control-area>
     </div>
   </div>
 </template>
@@ -40,25 +40,11 @@ export default {
   #home {
     width: 100%;
     height: 100%;
-  }
-
-  #global-container {
-    width: 100%;
-    height: 100%;
     overflow: auto;
     min-width: 200px;
   }
 
   #parameters {
     overflow: auto;
-  }
-
-  .upper-left-region {
-    margin: 2px;
-  }
-
-  .upper-right-region {
-    margin: 2px;
-    padding: 5px;
   }
 </style>

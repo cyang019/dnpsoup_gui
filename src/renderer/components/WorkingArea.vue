@@ -1,5 +1,7 @@
 <template>
-  <div id="working-area" class="border border-primary container">
+  <div id="working-area" 
+    class="mx-2 border-top border-left d-flex flex-column flex-fill p-1"
+  >
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item"
         v-for="panel in panels"
@@ -15,6 +17,7 @@
       <component v-bind:is="currentPanelComponent">
       </component>
     </keep-alive>
+    <div class="flex-fill"></div>
   </div>
 </template>
 
@@ -66,7 +69,6 @@ export default {
 
 <style scoped>
   #working-area {
-    margin: 2px;
     overflow: scroll;
   }
 
