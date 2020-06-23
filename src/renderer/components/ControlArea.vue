@@ -27,7 +27,8 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-const { dialog } = require('electron').remote
+import { remote } from 'electron'
+// const { dialog } = require('electron').remote
 const fs = require('fs')
 
 export default {
@@ -459,7 +460,9 @@ export default {
     },
     saveToFileClicked () {
       let content = this.prepareOutput()
-      dialog.showSaveDialog({}
+      remote.dialog.showSaveDialog(
+        remote.getCurrentWindow(),
+        {}
       ).then(result => {
         let filename = result.filePath
         if (filename === undefined) {
@@ -480,7 +483,9 @@ export default {
       })
     },
     loadFromFileClicked () {
-      dialog.showOpenDialog({}
+      remote.dialog.showOpenDialog(
+        remote.getCurrentWindow(),
+        {}
       ).then(
         result => {
           let filepath = result.filePaths[0]

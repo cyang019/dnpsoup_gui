@@ -312,6 +312,9 @@ export default {
       }
 
       if (this.purpose === 'edit') {
+        if (this.tempSection.name !== this.section.name) {
+          this.$emit('edit-section-delete', this.section.name)
+        }
         this.updateSection(committedSection)
         this.$emit('edit-section-finish', true)
       } else {

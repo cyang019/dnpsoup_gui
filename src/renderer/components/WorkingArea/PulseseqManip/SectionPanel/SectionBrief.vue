@@ -44,6 +44,7 @@
     v-bind:section="section"
     v-bind:purpose="'edit'"
     v-on:edit-section-finish="editing=false"
+    v-on:edit-section-delete="deleteSectionByName"
   >
   </edit-section>
 </template>

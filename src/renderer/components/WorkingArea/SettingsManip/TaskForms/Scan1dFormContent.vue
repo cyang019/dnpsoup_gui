@@ -209,6 +209,24 @@ export default {
   props: [
     'stateScanType', 'stateScanSpin', 'stateScanName', 'stateScanRange'
   ],
+  data () {
+    return {
+      editRange: false,
+
+      scanType: '',
+      spin: '',
+      name: '',
+      range: {
+        begin: 0,
+        end: 0,
+        step: 1
+      },
+      editScan: false,
+      hoverScanContent: false,
+
+      tempChannels: []
+    }
+  },
   computed: {
     ...mapState('SimSettings', {
       scanTypes: state => state.simulation.task.taskDetails.scanTypes
@@ -276,8 +294,16 @@ export default {
         this.tempChannels = []
       } else {
         let emrGetter = this.getEmrByName()
-        let tempEmr = emrGetter(this.name)
-        this.tempChannels = Object.assign([], tempEmr.channels)
+        if (this.hasOwnProperty('name') && this.name.length > 0) {
+          let tempEmr = emrGetter(this.name)
+          if (tempEmr.hasOwnProperty('channels')) {
+            this.tempChannels = Object.assign([], tempEmr.channels)
+          } else {
+            this.tempChannels = []
+          }
+        } else {
+          this.tempChannels = []
+        }
       }
       this.resetRange()
     },
@@ -357,24 +383,6 @@ export default {
       this.name = ''
       this.spin = ''
       this.resetRange()
-    }
-  },
-  data () {
-    return {
-      editRange: false,
-
-      scanType: '',
-      spin: '',
-      name: '',
-      range: {
-        begin: 0,
-        end: 0,
-        step: 1
-      },
-      editScan: false,
-      hoverScanContent: false,
-
-      tempChannels: []
     }
   }
 }
