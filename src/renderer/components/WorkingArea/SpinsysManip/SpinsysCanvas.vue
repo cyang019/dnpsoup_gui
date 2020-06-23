@@ -235,6 +235,12 @@ export default {
         this.updateChartRanges()
       },
       deep: true
+    },
+    spins: {
+      handler: function () {
+        this.chart.traces = this.genTraces()
+        this.updateChartRanges()
+      }
     }
   }
 }
