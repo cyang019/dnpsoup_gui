@@ -95,6 +95,21 @@
             </input-sync-state>
             <label for="" class="col-form-label">Number of angles: {{zcwCount}}</label>
           </div>
+          <div class="d-flex flex-row">
+            <select v-model="sphere" @change="setEulerZCWPowderSphere(sphere)">
+              <option disabled :value="-1">Please select one</option>
+              <option :value="0">Full sphere</option>
+              <option :value="1">Hemisphere</option>
+              <option :value="2">Octant</option>
+            </select>
+            <div>
+              <span class="mr-1">Sphere Set:</span>
+              <span v-if="sphere === 0">Full sphere</span>
+              <span v-else-if="sphere === 1">Hemisphere</span>
+              <span v-else-if="sphere === 2">Octant</span>
+              <span v-else>unknown</span>
+            </div>
+          </div>
           <div v-if="stateEulerOption === 'eulers'">
             <div class="form-group mb-0">
               <label class="col-form-label">
@@ -191,6 +206,7 @@ export default {
         beta: 0.0,
         gamma: 0.0
       },
+      sphere: 0,
       editXtalEuler: false,
       powderOption: '',
       // a list of {alpha, beta, gamma}'s
@@ -211,7 +227,8 @@ export default {
       'setXtalEulerAlpha', 'setXtalEulerBeta', 'setXtalEulerGamma',
       'setSampleEuler',
       'setEulerPowderOption',
-      'setEulerZCWValue', 'addEuler', 'removeEuler'
+      'setEulerZCWValue', 'setEulerZCWPowderSphere',
+      'addEuler', 'removeEuler'
     ]),
     ...mapGetters('SimSettings', [
       'getXtalEuler', 'getPowderOption', 'getEulerSchemeZcw', 'getEulers'

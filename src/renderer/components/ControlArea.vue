@@ -63,7 +63,8 @@ export default {
       'setScanRange1Begin', 'setScanRange1End', 'setScanRange1Step',
       'setScanRange2Begin', 'setScanRange2End', 'setScanRange2Step',
       'setXtalEulerAlpha', 'setXtalEulerBeta', 'setXtalEulerGamma',
-      'setSampleEuler', 'setEulerPowderOption', 'setEulerZCWValue', 'addEuler',
+      'setSampleEuler', 'setEulerPowderOption', 'setEulerZCWValue',
+      'setEulerZCWPowderSphere', 'addEuler',
       'setMagneticField', 'setGyrotronFrequency',
       'setProbe', 'setMas', 'setTemperature',
       'setAcq',
@@ -197,7 +198,8 @@ export default {
       if (['zcw', 'eulers'].includes(this.sample.eulerOption)) {
         if (this.sample.eulerOption === 'zcw') {
           result['euler_scheme'] = {
-            zcw: parseInt(this.sample.eulerScheme.zcw)
+            zcw: parseInt(this.sample.eulerScheme.zcw),
+            sphere: parseInt(this.sample.eulerScheme.sphere)
           }
         } else {
           result.eulers = []
@@ -381,6 +383,9 @@ export default {
       if (settings.hasOwnProperty('euler_scheme')) {
         this.setEulerPowderOption('zcw')
         this.setEulerZCWValue(parseInt(settings.euler_scheme.zcw))
+        if (settings.euler_scheme.hasOwnProperty('sphere')) {
+          this.setEulerZCWPowderSphere(parseInt(settings.euler_scheme.sphere))
+        }
       } else if (settings.hasOwnProperty('eulers')) {
         this.setEulerPowderOption('eulers')
         for (const tempPowderEuler of settings.eulers) {

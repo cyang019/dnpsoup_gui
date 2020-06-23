@@ -17,7 +17,8 @@ const state = {
     },
     eulerOption: '',
     eulerScheme: {
-      zcw: 0
+      zcw: 0,
+      sphere: 0
     },
     eulers: []
   },
@@ -441,6 +442,9 @@ const mutations = {
   setEulerZCWValue: (state, value) => {
     state.sample.eulerScheme.zcw = parseInt(value)
   },
+  setEulerZCWPowderSphere: (state, value) => {
+    state.sample.eulerScheme.sphere = parseInt(value)
+  },
   appendEuler: (state, euler) => {
     state.sample.eulers.push(Object.assign({}, euler))
   },
@@ -583,6 +587,9 @@ const actions = {
   },
   setEulerZCWValue ({ commit }, value) {
     commit('setEulerZCWValue', value)
+  },
+  setEulerZCWPowderSphere ({ commit }, value) {
+    commit('setEulerZCWPowderSphere', value)
   },
   addEuler ({ commit }, euler) {
     commit('appendEuler', euler)
