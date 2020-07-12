@@ -8,6 +8,14 @@ DNP Simulation inputs are separated into three categories:
   - Simulation Settings
 
 The output of this software is a .json file. This file can serve as an input configuration for the command-line DNPSoup (In Development) Simulator.
+
+#### Appearance
+
+![Page1](resources/images/dnpsoup_page1.png)
+
+![Page2](resources/images/dnpsoup_page2.png)
+
+![Page3](resources/images/dnpsoup_page3.png)
   
 #### Download
 
