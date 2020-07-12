@@ -71,7 +71,14 @@ export default {
       'resetSimSettings'
     ]),
     ...mapActions('SimSettings', {
-      'setSimIncrement': state => state.setIncrement
+      'setSimIncrement': state => state.setIncrement,
+      'setSimSettingsLoaded': state => state.setLoaded
+    }),
+    ...mapActions('pulseseq', {
+      'setPulseseqLoaded': state => state.setLoaded
+    }),
+    ...mapActions('spinsys', {
+      'setSpinsysLoaded': state => state.setLoaded
     }),
 
     prepareSpinsysOutput () {
@@ -159,6 +166,10 @@ export default {
           size: section.size,
           names: Object.assign([], section.names),
           params: Object.assign({}, section.params)
+        }
+        if (section.type === 'Chirp' && section.hasOwnProperty('span')) {
+          sectionContent['span'] = parseFloat(section.span)
+          sectionContent['spin type'] = section.spinType
         }
         if (section.hasOwnProperty('phase0')) {
           sectionContent['phase0'] = Object.assign({}, section.phase0)
@@ -282,6 +293,9 @@ export default {
       this.populateSpinsys(spinsys)
       this.populatePulseseq(pulseseq)
       this.populateSettings(settings)
+      this.setSpinsysLoaded(true)
+      this.setPulseseqLoaded(true)
+      this.setSimSettingsLoaded(true)
     },
     populateSpinsys (spinsys) {
       this.resetSpinsys()
@@ -366,6 +380,10 @@ export default {
       for (const secName in pulseseq.sections) {
         let tempSection = Object.assign({}, pulseseq.sections[secName])
         tempSection['name'] = secName
+        if (tempSection.type === 'Chirp' && tempSection.hasOwnProperty('span')) {
+          tempSection['span'] = parseFloat(tempSection['span'])
+          tempSection['spinType'] = tempSection['spin type']
+        }
         this.addSection(Object.assign({}, tempSection))
       }
       for (const subseq of pulseseq.sequence) {
@@ -508,6 +526,9 @@ export default {
       )
     },
     resetClicked () {
+      this.setSpinsysLoaded(false)
+      this.setPulseseqLoaded(false)
+      this.setSimSettingsLoaded(false)
       this.resetSpinsys()
       this.resetPulseseq()
       this.resetSimSettings()

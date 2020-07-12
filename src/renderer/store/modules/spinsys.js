@@ -15,6 +15,8 @@ function initDefaultSpinState () {
     spinId: 0,
     interactionId: 0,
 
+    loadedFromFile: false,
+
     defaultEllipsoidAngles: defaultEllipsoidAngles
   }
 }
@@ -108,6 +110,9 @@ const mutations = {
   },
   setSpinsysEuler: (state, euler) => {
     state.euler = Object.assign({}, euler)
+  },
+  setLoaded: (state, value) => {
+    state.loadedFromFile = Boolean(value)
   }
 }
 
@@ -141,6 +146,9 @@ const actions = {
   },
   setSpinsysEuler ({ commit }, euler) {
     commit('setSpinsysEuler', euler)
+  },
+  setLoadedFromFile ({ commit }, value) {
+    commit('setLoaded', value)
   }
 }
 

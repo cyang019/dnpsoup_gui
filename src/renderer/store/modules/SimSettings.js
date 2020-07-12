@@ -74,7 +74,8 @@ const state = {
           step: 0
         }
       }
-    }
+    },
+    loadedFromFile: false
   },
 
   taskCandidates: [
@@ -179,7 +180,8 @@ const mutations = {
       },
       eulerOption: '',
       eulerScheme: {
-        zcw: 0
+        zcw: 0,
+        sphere: 0
       },
       eulers: []
     }
@@ -476,6 +478,9 @@ const mutations = {
   },
   setSyncStateRequired: (state, val) => {
     state.syncStateRequired = val
+  },
+  setLoaded: (state, value) => {
+    state.loadedFromFile = Boolean(value)
   }
 }
 
@@ -625,6 +630,9 @@ const actions = {
   },
   setSyncStateRequired ({ commit }, val) {
     commit('setSyncStateRequired', val)
+  },
+  setLoaded ({ commit }, value) {
+    commit('setLoaded', value)
   }
 }
 

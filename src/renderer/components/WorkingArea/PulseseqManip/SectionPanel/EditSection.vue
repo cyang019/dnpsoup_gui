@@ -112,6 +112,9 @@
         </label>
         <input type="number" id="section-span" 
           step="any" v-model="tempSection.span">
+        <label for="section-type" class="col-form-label">
+          spin type: e
+        </label>
       </div>
       <div v-if="tempType === 'Section'" class='card'>
         <div class='card-body phase0-content'>
@@ -200,7 +203,7 @@ export default {
         size: 0,
         names: [],
         span: 0,
-        spinType: '',
+        spinType: 'e',
         phase0: {
           reset: false,
           seed: 0

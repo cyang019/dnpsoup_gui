@@ -18,9 +18,8 @@
         </div>
       </div>
     </div>
-    <div v-if="section.type === 'Chirp'" class="d-flex flex-row">
-      <span>Chirp Span: {{section.span}}Hz</span>
-      <span>on {{section.spinType}}</span>
+    <div v-if="section.type === 'Chirp'" class="d-flex">
+      <span>Chirp Span: {{chirpSpanValue}}</span>
     </div>
     <div v-if="section.type === 'Section'">
       <span v-if="section.phase0.reset">phase0 reset with seed {{section.phase0.seed}}</span>
@@ -59,6 +58,22 @@ export default {
     EditSection
   },
   props: ['section'],
+  computed: {
+    chirpSpanValue () {
+      if (this.section.type === 'Chirp') {
+        const val = parseFloat(this.section.span)
+        if (val > 1e6) {
+          return (val / 1e6) + ' MHz'
+        } else if (val > 1e3) {
+          return (val / 1e3) + ' kHz'
+        } else {
+          return val + ' Hz'
+        }
+      } else {
+        return ''
+      }
+    }
+  },
   data () {
     return {
       editing: false,

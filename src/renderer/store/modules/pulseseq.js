@@ -8,7 +8,8 @@ const state = {
   sectionOptions: [
     'Delay', 'Pulse', 'Chirp',
     'Section'
-  ]
+  ],
+  loadedFromFile: false
 }
 
 const getters = {
@@ -81,12 +82,14 @@ const mutations = {
   removeSubSequenceByName: (state, subseqName) => {
     state.sequence = state.sequence.filter(name => name !== subseqName)
   },
-
   resetPulseseq: (state) => {
     state.increment = 1.0e-9
     state.emrs = []
     state.sections = []
     state.sequence = []
+  },
+  setLoaded: (state, value) => {
+    state.loadedFromFile = Boolean(value)
   }
 }
 
@@ -121,9 +124,11 @@ const actions = {
   deleteNameInSequence ({ commit }, sectionName) {
     commit('removeSubSequenceByName', sectionName)
   },
-
   resetPulseseq ({ commit }) {
     commit('resetPulseseq')
+  },
+  setLoaded ({ commit }, value) {
+    commit('setLoaded', value)
   }
 }
 

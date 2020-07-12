@@ -95,7 +95,7 @@
             </input-sync-state>
             <label for="" class="col-form-label">Number of angles: {{zcwCount}}</label>
           </div>
-          <div class="d-flex flex-row">
+          <div v-if="stateEulerOption === 'zcw'" class="d-flex flex-row">
             <select v-model="sphere" @change="setEulerZCWPowderSphere(sphere)">
               <option disabled :value="-1">Please select one</option>
               <option :value="0">Full sphere</option>
@@ -104,9 +104,9 @@
             </select>
             <div>
               <span class="mr-1">Sphere Set:</span>
-              <span v-if="sphere === 0">Full sphere</span>
-              <span v-else-if="sphere === 1">Hemisphere</span>
-              <span v-else-if="sphere === 2">Octant</span>
+              <span v-if="stateZcwPowderSphere === 0">Full sphere</span>
+              <span v-else-if="stateZcwPowderSphere === 1">Hemisphere</span>
+              <span v-else-if="stateZcwPowderSphere === 2">Octant</span>
               <span v-else>unknown</span>
             </div>
           </div>
@@ -175,7 +175,8 @@ export default {
       stateSampleEuler: state => state.sample.euler,
       stateEulerOption: state => state.sample.eulerOption,
       stateSampleEulers: state => state.sample.eulers,
-      stateZcwValue: state => state.sample.eulerScheme.zcw
+      stateZcwValue: state => state.sample.eulerScheme.zcw,
+      stateZcwPowderSphere: state => state.sample.eulerScheme.sphere
     }),
 
     showPowderOptions () {
