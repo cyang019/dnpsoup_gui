@@ -11,10 +11,13 @@ The output of this software is a .json file. This file can serve as an input con
 
 #### Appearance
 
+- A spin system
 ![Page1](resources/images/dnpsoup_page1.png)
 
+- A DNP pulse sequence
 ![Page2](resources/images/dnpsoup_page2.png)
 
+- Other experiment specific settings
 ![Page3](resources/images/dnpsoup_page3.png)
   
 #### Download
