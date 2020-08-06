@@ -68,12 +68,10 @@ export default {
       'setMagneticField', 'setGyrotronFrequency',
       'setProbe', 'setMas', 'setTemperature',
       'setAcq',
+      'setSimIncrement',
+      'setSimLoaded',
       'resetSimSettings'
     ]),
-    ...mapActions('SimSettings', {
-      'setSimIncrement': state => state.setIncrement,
-      'setSimSettingsLoaded': state => state.setLoaded
-    }),
     ...mapActions('pulseseq', {
       'setPulseseqLoaded': state => state.setLoaded
     }),
@@ -295,7 +293,7 @@ export default {
       this.populateSettings(settings)
       this.setSpinsysLoaded(true)
       this.setPulseseqLoaded(true)
-      this.setSimSettingsLoaded(true)
+      this.setSimLoaded(true)
     },
     populateSpinsys (spinsys) {
       this.resetSpinsys()

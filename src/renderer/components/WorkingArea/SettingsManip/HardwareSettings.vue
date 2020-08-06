@@ -142,17 +142,17 @@ export default {
   },
   methods: {
     init () {
-      this.magneticField = parseFloat(this.stateB0)
-      this.gyrotronFrequency = parseFloat(this.stateGyrotronFrequency) / 1.0e9
-      this.masFrequency = parseFloat(this.stateProbeMas)
-      this.increment = parseFloat(this.stateProbeMasIncrement) * 1.0e9
-      this.temperature = parseFloat(this.stateProbeTemperature)
-      this.acq = this.stateProbeAcq
+      // this.magneticField = parseFloat(this.stateB0)
+      // this.gyrotronFrequency = parseFloat(this.stateGyrotronFrequency) / 1.0e9
+      // this.masFrequency = parseFloat(this.stateProbeMas)
+      // this.increment = parseFloat(this.stateProbeMasIncrement) * 1.0e9
+      // this.temperature = parseFloat(this.stateProbeTemperature)
+      // this.acq = this.stateProbeAcq
     },
 
     ...mapActions('SimSettings', [
       'setMagneticField', 'setGyrotronFrequency',
-      'setMas', 'setTemperature', 'setIncrement', 'setAcq'
+      'setMas', 'setTemperature', 'setSimIncrement', 'setAcq'
     ]),
     ...mapGetters('SimSettings', [
       'getB0', 'getEmFreq',
@@ -171,7 +171,7 @@ export default {
       this.setGyrotronFrequency(parseFloat(value) * 1.0e9)
     },
     setIncrementState (value) {
-      this.setIncrement(parseFloat(value) * 1.0e-9)
+      this.setSimIncrement(parseFloat(value) * 1.0e-9)
     },
     editAcqClicked () {
       this.editAcq = true

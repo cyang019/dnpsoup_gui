@@ -619,7 +619,7 @@ const actions = {
   setTemperature ({ commit }, temperature) {
     commit('setTemperature', temperature)
   },
-  setIncrement ({ commit }, inc) {
+  setSimIncrement ({ commit }, inc) {
     commit('setIncrement', inc)
   },
   setAcq ({ commit }, acq) {
@@ -631,7 +631,7 @@ const actions = {
   setSyncStateRequired ({ commit }, val) {
     commit('setSyncStateRequired', val)
   },
-  setLoaded ({ commit }, value) {
+  setSimLoaded ({ commit }, value) {
     commit('setLoaded', value)
   }
 }
