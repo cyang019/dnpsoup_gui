@@ -204,6 +204,21 @@ export default {
         zmin = Math.min(zmin, zminTmp)
         zmax = Math.max(zmax, zmaxTmp)
       }
+      const xLen = xmax - xmin
+      const yLen = ymax - ymin
+      const zLen = zmax - zmin
+      // to maintain the same aspect ratio
+      const chartLen = Math.max(xLen, yLen, zLen)
+      const xmid = (xmax + xmin) / 2.0
+      const ymid = (ymax + ymin) / 2.0
+      const zmid = (zmax + zmin) / 2.0
+      xmin = xmid - chartLen / 2.0
+      xmax = xmid + chartLen / 2.0
+      ymin = ymid - chartLen / 2.0
+      ymax = ymid + chartLen / 2.0
+      zmin = zmid - chartLen / 2.0
+      zmax = zmid + chartLen / 2.0
+
       this.chart.layout.scene.xaxis.range = [xmin, xmax]
       this.chart.layout.scene.yaxis.range = [ymin, ymax]
       this.chart.layout.scene.zaxis.range = [zmin, zmax]

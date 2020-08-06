@@ -23,12 +23,16 @@
           <div class="row p-1" v-if="hasEuler">
             Euler: {{interaction.entries.euler.alpha}}, {{interaction.entries.euler.beta}}, {{interaction.entries.euler.gamma}}
           </div>
-          <div class="row">
-            <div class="col-8"></div>
-            <div class="col-4 p-1 align-middle">
-              <span @click="removeInteraction(interaction.id)">
-                <i class="far fa-trash-alt delete"></i>
-              </span>
+          <div class="d-flex flex-row justify-content-end">
+            <div class="btn btn-light disabled btn-sm"
+              @click="editClicked"
+            >
+              <span class="text-secondary"><i class='fas fa-pen'></i></span>
+            </div>
+            <div class="btn btn-light btn-sm"
+              @click="removeInteraction(interaction.id)"
+            >
+              <span class="text-secondary"><i class='far fa-trash-alt'></i></span>
             </div>
           </div>
         </div>
@@ -46,6 +50,7 @@ export default {
   data () {
     return {
       showDetails: false,
+      editing: false,
       hasEuler: this.interaction.entries.hasOwnProperty('euler'),
       hasEllipsoid: this.interaction.entries.hasOwnProperty('x'),
 
@@ -57,6 +62,9 @@ export default {
 
     genIndicesRepresentation () {
       return this.ids.join('-')
+    },
+    editClicked () {
+      this.editing = true
     }
   }
 }
