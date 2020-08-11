@@ -526,7 +526,7 @@ export default {
     resetClicked () {
       this.setSpinsysLoaded(false)
       this.setPulseseqLoaded(false)
-      this.setSimSettingsLoaded(false)
+      this.setSimLoaded(false)
       this.resetSpinsys()
       this.resetPulseseq()
       this.resetSimSettings()
