@@ -5,6 +5,11 @@
       :stateValue="stateNCores"
       v-on:input-sync-state-ok-clicked="setNumCores"
     ></input-sync-state>
+    <input-sync-state
+      :name="'sampling step size'"
+      :stateValue="stateSamplingStepSize"
+      v-on:input-sync-state-ok-clicked="setSamplingStepSize"
+    ></input-sync-state>
   </div>
 </template>
 
@@ -19,11 +24,12 @@ export default {
   },
   computed: {
     ...mapState('SimSettings', {
-      stateNCores: state => state.simulation.ncores
+      stateNCores: state => state.simulation.ncores,
+      stateSamplingStepSize: state => state.simulation.task.taskDetails.samplingStepSize
     })
   },
   methods: {
-    ...mapActions('SimSettings', ['setNumCores'])
+    ...mapActions('SimSettings', ['setNumCores', 'setSamplingStepSize'])
   },
   data () {
     return {

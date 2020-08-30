@@ -28,6 +28,8 @@ const state = {
     task: {
       name: 'Default',
       taskDetails: {
+        // for buildups
+        samplingStepSize: 1,
         // for field profile
         emrRange: {
           begin: 0,
@@ -190,6 +192,7 @@ const mutations = {
       task: {
         name: 'Default',
         taskDetails: {
+          samplingStepSize: 1,
           // for field profile
           emrRange: {
             begin: 0,
@@ -256,6 +259,8 @@ const mutations = {
 
   // task settings
   setNCores: (state, n) => (state.simulation.ncores = parseInt(n)),
+
+  setSamplingStepSize: (state, n) => (state.simulation.task.taskDetails.samplingStepSize = parseInt(n)),
 
   setTaskName: (state, name) => {
     if (name === 'scan1d') {
@@ -488,6 +493,9 @@ const actions = {
   // task settings
   setNumCores ({ commit }, n) {
     commit('setNCores', n)
+  },
+  setSamplingStepSize ({ commit }, n) {
+    commit('setSamplingStepSize', n)
   },
   setTaskName ({ commit }, name) {
     commit('setTaskName', name)

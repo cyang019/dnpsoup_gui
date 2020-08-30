@@ -53,7 +53,7 @@ export default {
       'addEmr', 'addSection', 'addSectionToSequence', 'resetPulseseq'
     ]),
     ...mapActions('SimSettings', [
-      'setNumCores', 'setTaskName',
+      'setNumCores', 'setTaskName', 'setSamplingStepSize',
       'setEmrRangeBegin', 'setEmrRangeEnd', 'setEmrRangeStep',
       'setFieldRangeBegin', 'setFieldRangeEnd', 'setFieldRangeStep',
       'setScanType', 'setScanType1', 'setScanType2',
@@ -226,12 +226,23 @@ export default {
         case 'EigenValues':
           break
         case 'BuildUp':
+          result['task details'] = {
+            'sampling_step_size': this.simulation.task.taskDetails.samplingStepSize
+          }
           break
         case 'Intensity':
           break
         case 'PowderIntensity':
           break
         case 'PowderBuildUp':
+          result['task details'] = {
+            'sampling_step_size': this.simulation.task.taskDetails.samplingStepSize
+          }
+          break
+        case 'PowderBuildUpEnhancement':
+          result['task details'] = {
+            'sampling_step_size': this.simulation.task.taskDetails.samplingStepSize
+          }
           break
         case 'FieldProfile':
           if (this.simulation.task.taskDetails.fieldRange.begin === 0 &&
@@ -464,6 +475,13 @@ export default {
           this.setScanRange2Step(parseFloat(settings['task details'].range2.step))
           if (settings['task details'].hasOwnProperty('spin2')) {
             this.setScanSpin(settings['task details'].spin2)
+          }
+          break
+        case 'BuildUp': case 'PowderBuildUp': case 'PowderBuildUpEnhancement':
+          if (settings.hasOwnProperty('task details')) {
+            if (settings['task details'].hasOwnProperty('sampling_step_size')) {
+              this.setSamplingStepSize(parseInt(settings['task details']['sampling_step_size']))
+            }
           }
           break
         default:
