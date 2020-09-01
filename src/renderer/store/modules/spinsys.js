@@ -11,6 +11,7 @@ function initDefaultSpinState () {
     irradiation: [],
     spins: [],
     spinIds: [],
+    spinGroups: [],
 
     spinId: 0,
     interactionId: 0,
@@ -51,6 +52,7 @@ const mutations = {
     state.interactions = state.interactions.filter(
       interaction => idNotInEntries(interaction.entries, spinId)
     )
+    state.spinGroups = []
   },
   updateSpin: (state, spin) => {
     const index = state.spins.findIndex(tmpSpin => tmpSpin.id === spin.id)
@@ -93,9 +95,20 @@ const mutations = {
   deleteInteraction: (state, interactionId) => {
     state.interactions = state.interactions.filter(interaction => interaction.id !== interactionId)
   },
+  addSpinGroup: (state, spinIds) => {
+    state.spinGroups.push([...spinIds])
+  },
+  removeSpinGroup: (state, position) => {
+    state.spinGroups.splice(position, 1)
+  },
+  resetSpinGroups: (state) => {
+    state.spinGroups = []
+  },
+
   resetSpinsys: (state) => {
     state.euler = {alpha: 0.0, beta: 0.0, gamma: 0.0}
     state.spins = []
+    state.spinGroups = []
     state.spinIds = []
     state.interactions = []
     state.irradiation = []
@@ -134,6 +147,15 @@ const actions = {
   },
   removeInteraction ({ commit }, interactionId) {
     commit('deleteInteraction', interactionId)
+  },
+  addSpinGroup ({ commit }, spinIds) {
+    commit('addSpinGroup', spinIds)
+  },
+  removeSpinGroup ({ commit }, position) {
+    commit('removeSpinGroup', position)
+  },
+  resetSpinGroups ({ commit }) {
+    commit('resetSpinGroups')
   },
   resetSpinsys ({ commit }) {
     commit('resetSpinsys')

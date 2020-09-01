@@ -34,7 +34,7 @@ const fs = require('fs')
 export default {
   name: 'control-area',
   computed: {
-    ...mapState('spinsys', ['euler', 'spins', 'interactions']),
+    ...mapState('spinsys', ['euler', 'spins', 'interactions', 'spinGroups']),
     ...mapState('pulseseq', [
       'increment', 'emrs', 'sections', 'sequence', 'name'
     ]),
@@ -46,7 +46,7 @@ export default {
     ...mapActions('spinsys', [
       'addSpin', 'addOneSpinInteraction', 'addTwoSpinInteraction', 'resetSpinsys',
       'incrementSpinId', 'incrementInteractionId',
-      'setSpinsysEuler'
+      'setSpinsysEuler', 'addSpinGroup', 'resetSpinGroups'
     ]),
     ...mapActions('pulseseq', [
       'setName', 'setIncrement',
@@ -134,6 +134,16 @@ export default {
           if (!result.irradiation.includes(channelName)) {
             result.irradiation.push(channelName)
           }
+        }
+      }
+      if (this.spinGroups.length > 0) {
+        result['spin-groups'] = []
+        for (const spinGroup of this.spinGroups) {
+          let tmp = []
+          for (const spinId of spinGroup) {
+            tmp.push(spinId)
+          }
+          result['spin-groups'].push([...tmp])
         }
       }
       return result
@@ -359,6 +369,12 @@ export default {
             this.addTwoSpinInteraction(temp2)
             this.incrementInteractionId()
             break
+        }
+        this.resetSpinGroups()
+        if (spinsys.hasOwnProperty('spin-groups')) {
+          for (const spinIds of spinsys['spin-groups']) {
+            this.addSpinGroup(spinIds)
+          }
         }
       }
     },

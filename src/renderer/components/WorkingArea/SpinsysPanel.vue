@@ -16,6 +16,9 @@
         <div id='interactions-info' class='d-flex flex-column align-items-right'>
           <interactions/>
         </div>
+        <div>
+          <spin-groups/>
+        </div>
       </div>
 
       <spinsys-canvas/>
@@ -29,6 +32,7 @@ import AddSpin from './SpinsysManip/AddSpin'
 import AddInteraction from './SpinsysManip/AddInteraction'
 import Spins from './SpinsysManip/Spins'
 import Interactions from './SpinsysManip/Interactions'
+import SpinGroups from './SpinsysManip/SpinGroups'
 
 export default {
   name: 'spinsys-panel',
@@ -37,7 +41,8 @@ export default {
     AddSpin,
     AddInteraction,
     Spins,
-    Interactions
+    Interactions,
+    SpinGroups
   }
 }
 </script>
