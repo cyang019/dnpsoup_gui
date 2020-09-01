@@ -318,6 +318,7 @@ export default {
     },
     populateSpinsys (spinsys) {
       this.resetSpinsys()
+      this.incrementSpinId()
       let euler = {
         alpha: parseFloat(spinsys.euler.alpha) / Math.PI * 180.0,
         beta: parseFloat(spinsys.euler.beta) / Math.PI * 180.0,

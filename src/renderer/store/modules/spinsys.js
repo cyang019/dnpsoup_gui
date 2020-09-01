@@ -43,6 +43,9 @@ const getters = {
 
 const mutations = {
   newSpin: (state, spin) => {
+    if (spin.spinType === 'H') {
+      spin.spinType = 'H1'
+    }
     state.spins.push(spin)
     state.spinIds.push(spin.id)
   },
