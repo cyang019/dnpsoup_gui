@@ -1,9 +1,9 @@
 <template>
   <div class="card card-body m-1 p-1 d-flex flex-column">
     <div v-for="(spinId, index) in spinIds" :key="index"
-      class="badge badge-pill badge-secondary mb-1"
+      class="badge badge-secondary mb-1"
     >
-      [{{spinId}}] {{getSpinType(spinId)}}
+      <span>[{{spinId}}]</span> {{getSpinType(spinId)}}
     </div>
     <div class="d-flex flex-row-reverse">
       <div class="btn btn-sm">
