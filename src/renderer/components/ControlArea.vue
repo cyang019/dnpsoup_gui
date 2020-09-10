@@ -356,7 +356,7 @@ export default {
               }
             }
             this.addOneSpinInteraction(temp1)
-            this.incrementInteractionId()
+            // this.incrementInteractionId()
             break
           default:
             let temp2 = {
@@ -368,7 +368,7 @@ export default {
               temp2['value'] = parseFloat(interaction.entries.value)
             }
             this.addTwoSpinInteraction(temp2)
-            this.incrementInteractionId()
+            // this.incrementInteractionId()
             break
         }
         this.resetSpinGroups()
