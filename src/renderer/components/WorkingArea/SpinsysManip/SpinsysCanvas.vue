@@ -111,7 +111,9 @@ export default {
         x: [],
         y: [],
         z: [],
-        mode: 'markers',
+        text: [],
+        textposition: 'top-right',
+        mode: 'markers+text',
         type: 'scatter3d',
         marker: {
           color: 'rgb(217, 217, 217)',
@@ -129,6 +131,7 @@ export default {
         trace.x.push(parseFloat(spin.x))
         trace.y.push(parseFloat(spin.y))
         trace.z.push(parseFloat(spin.z))
+        trace.text.push(spin.id)
         colors.push(this.deriveSpinTypeColor(spin.spinType))
       }
       if (colors.length > 0) {
