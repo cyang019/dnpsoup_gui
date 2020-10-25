@@ -1,11 +1,12 @@
 <template>
-  <div id="spin-brief">
+  <div id="interaction-brief">
     <div
       v-if="!showDetails"
       class='brief rounded align-middle text-center border border-secondary text-secondary'
+      :class="colorObj"
       @click="showDetails=true"
     >
-      <span class="p-1">[{{genIndicesRepresentation()}}] {{this.interaction.name}}</span>
+      <span class="p-1">[{{genIndicesRepresentation()}}] {{interaction.name}}</span>
     </div>
     <div v-else
       class='details rounded align-middle text-center border border-primary text-primary'
@@ -24,7 +25,7 @@
             Euler: {{interaction.entries.euler.alpha}}, {{interaction.entries.euler.beta}}, {{interaction.entries.euler.gamma}}
           </div>
           <div class="d-flex flex-row justify-content-end">
-            <div class="btn btn-light disabled btn-sm"
+            <div class="btn btn-muted disabled btn-sm"
               @click="editClicked"
             >
               <span class="text-secondary"><i class='fas fa-pen'></i></span>
@@ -47,6 +48,17 @@ import { mapActions } from 'vuex'
 export default {
   name: 'interaction-brief',
   props: ['interaction'],
+  computed: {
+    colorObj: function () {
+      return {
+        'text-dark': ['shielding', 'scalar'].includes(this.interaction.name),
+        'bg-warning': this.interaction.name === 'shielding',
+        'text-light': this.interaction.name === 'csa',
+        'bg-info': this.interaction.name === 'csa',
+        'bg-light': this.interaction.name === 'scalar'
+      }
+    }
+  },
   data () {
     return {
       showDetails: false,

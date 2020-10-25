@@ -43,6 +43,9 @@ const getters = {
 
 const mutations = {
   newSpin: (state, spin) => {
+    if (spin.spinType === 'H') {
+      spin.spinType = 'H1'
+    }
     state.spins.push(spin)
     state.spinIds.push(spin.id)
   },
@@ -68,15 +71,40 @@ const mutations = {
       'name': (spin.spinType === 'e') ? 'shielding' : 'csa',
       'id': parseInt(state.interactionId)
     }
+    while (true) {
+      let found = state.interactions.findIndex(interaction => interaction.id === state.interactionId)
+      if (found === -1) {
+        break
+      } else {
+        ++state.interactionId
+      }
+    }
+
     interaction['id'] = parseInt(state.interactionId)
     interaction.entries = Object.assign({}, payload.tensor)
     interaction.entries.id = parseInt(payload.spinId)
     interaction.entries.euler = Object.assign({}, payload.euler)
 
-    ++state.interactionId
+    while (true) {
+      let found = state.interactions.findIndex(interaction => interaction.id === state.interactionId)
+      if (found === -1) {
+        break
+      } else {
+        ++state.interactionId
+      }
+    }
     state.interactions.push(interaction)
   },
   newTwoSpinInteraction: (state, payload) => {
+    while (true) {
+      let found = state.interactions.findIndex(interaction => interaction.id === state.interactionId)
+      if (found === -1) {
+        break
+      } else {
+        ++state.interactionId
+      }
+    }
+
     let interaction = {
       'name': payload.name,
       'id': parseInt(state.interactionId),
@@ -89,7 +117,14 @@ const mutations = {
     interaction.entries.id1 = parseInt(payload.spinId1)
     interaction.entries.id2 = parseInt(payload.spinId2)
 
-    ++state.interactionId
+    while (true) {
+      let found = state.interactions.findIndex(interaction => interaction.id === state.interactionId)
+      if (found === -1) {
+        break
+      } else {
+        ++state.interactionId
+      }
+    }
     state.interactions.push(interaction)
   },
   deleteInteraction: (state, interactionId) => {
@@ -116,10 +151,19 @@ const mutations = {
     state.interactionId = 0
   },
   incSpinId: (state) => {
-    ++state.spinId
+    while (state.spinIds.includes(state.spinId)) {
+      ++state.spinId
+    }
   },
   incInteractionId: (state) => {
-    ++state.interactionId
+    while (true) {
+      let found = state.interactions.findIndex(interaction => interaction.id === state.interactionId)
+      if (found === -1) {
+        break
+      } else {
+        ++state.interactionId
+      }
+    }
   },
   setSpinsysEuler: (state, euler) => {
     state.euler = Object.assign({}, euler)

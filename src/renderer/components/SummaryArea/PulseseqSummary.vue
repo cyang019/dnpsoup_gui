@@ -4,7 +4,7 @@
     <div v-if="name.length > 0" class="d-flex flex-column">
       <span class="p">{{name}}</span>
       <span class="p">increment: {{increment * 1e9}} ns</span>
-      <span v-for="section in sequence">
+      <span v-for="(section, index) in sequence" :key=index>
         {{section.name}}
       </span>
     </div>

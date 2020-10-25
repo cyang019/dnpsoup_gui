@@ -318,6 +318,7 @@ export default {
     },
     populateSpinsys (spinsys) {
       this.resetSpinsys()
+      this.incrementSpinId()
       let euler = {
         alpha: parseFloat(spinsys.euler.alpha) / Math.PI * 180.0,
         beta: parseFloat(spinsys.euler.beta) / Math.PI * 180.0,
@@ -355,7 +356,7 @@ export default {
               }
             }
             this.addOneSpinInteraction(temp1)
-            this.incrementInteractionId()
+            // this.incrementInteractionId()
             break
           default:
             let temp2 = {
@@ -367,7 +368,7 @@ export default {
               temp2['value'] = parseFloat(interaction.entries.value)
             }
             this.addTwoSpinInteraction(temp2)
-            this.incrementInteractionId()
+            // this.incrementInteractionId()
             break
         }
         this.resetSpinGroups()
