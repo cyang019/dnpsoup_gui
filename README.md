@@ -9,6 +9,8 @@ DNP Simulation inputs are separated into three categories:
 
 The output of this software is a .json file. This file can serve as an input configuration for the command-line DNPSoup (In Development) Simulator.
 
+**Currently the software Only works in development mode (launch using ```npm run dev```).**
+
 #### Appearance
 
 - A spin system
