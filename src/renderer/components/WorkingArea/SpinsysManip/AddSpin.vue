@@ -36,6 +36,7 @@
               <option value='H1'>H</option>
               <option value='D2'>D</option>
               <option value='C13'>C13</option>
+              <option value='N14'>N14</option>
               <option value='N15'>N15</option>
             </select>
           </div>
@@ -279,9 +280,9 @@ export default {
         let tempDist = 0.0
         for (const tempSpin of this.spins) {
           tempDist = this.calcDistance(this.spin, tempSpin)
-          if (tempDist < 0.5) {
+          if (tempDist < 0.2) {
             this.coordinateError = 'spin ' + this.spin.id + ' and ' +
-            tempSpin.id + ' are too close (within 0.5 Anstroms away).'
+            tempSpin.id + ' are too close (within 0.2 Anstroms away).'
             return false
           }
         }

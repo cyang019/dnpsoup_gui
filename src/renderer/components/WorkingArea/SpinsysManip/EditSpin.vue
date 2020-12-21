@@ -78,8 +78,8 @@ export default {
           let diffY = existSpin.y - this.tempSpin.y
           let diffZ = existSpin.z - this.tempSpin.z
           let squareSum = diffX * diffX + diffY * diffY + diffZ * diffZ
-          if (Math.sqrt(squareSum) < 0.5) {
-            this.coordError = 'Spin ' + existSpin.id + ' and ' + this.tempSpin.id + ' are too close (< 0.5 Anstrom).'
+          if (Math.sqrt(squareSum) < 0.2) {
+            this.coordError = 'Spin ' + existSpin.id + ' and ' + this.tempSpin.id + ' are too close (< 0.2 Anstrom).'
             success = false
             break
           }
