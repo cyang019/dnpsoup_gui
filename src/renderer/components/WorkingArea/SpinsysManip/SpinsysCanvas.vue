@@ -27,6 +27,10 @@ export default {
       return {
         autosize: true,
         showlegend: false,
+        font: {
+          family: 'Courier New, monospace',
+          size: 12
+        },
         margin: {
           l: 2,
           r: 2,
@@ -95,6 +99,8 @@ export default {
           return 'rgb(200,200,255)'
         case 'H':
           return 'rgb(200,200,255)'
+        case 'BulkH': case 'HBulk':
+          return 'rgb(140,140,255)'
         case 'D2': case 'H2':
           return 'rgb(255, 255, 160)'
         case 'C13':
@@ -102,7 +108,7 @@ export default {
         case 'N15':
           return 'rgb(16, 80, 80)'
         default:
-          return 'rgb(0, 0, 0)'
+          return 'rgb(40, 40, 40)'
       }
     },
     genSpinTraces () {
@@ -127,15 +133,22 @@ export default {
         }
       }
       let colors = []
+      let sizes = []
       for (const spin of this.spins) {
         trace.x.push(parseFloat(spin.x))
         trace.y.push(parseFloat(spin.y))
         trace.z.push(parseFloat(spin.z))
         trace.text.push(spin.id)
+        if (spin.spinType === 'BulkH' || spin.spinType === 'HBulk') {
+          sizes.push(40)
+        } else {
+          sizes.push(25)
+        }
         colors.push(this.deriveSpinTypeColor(spin.spinType))
       }
       if (colors.length > 0) {
         trace.marker.color = colors
+        trace.marker.size = sizes
         traces.push(trace)
       }
 

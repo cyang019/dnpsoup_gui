@@ -38,6 +38,7 @@
               <option value='C13'>C13</option>
               <option value='N14'>N14</option>
               <option value='N15'>N15</option>
+              <option value='BulkH'>BulkH</option>
             </select>
           </div>
           <div class="form-group mb-0">
