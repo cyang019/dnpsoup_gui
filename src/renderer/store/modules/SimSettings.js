@@ -82,7 +82,8 @@ const state = {
 
   taskCandidates: [
     'EigenValues', 'Intensity', 'BuildUp',
-    'PowderIntensity', 'PowderBuildUpEnhancement',
+    'PowderIntensity', 'PowderBuildUp',
+    'PowderBuildUpEnhancement',
     'FieldProfile', 'Scan1d',
     'Scan2d'
   ],
