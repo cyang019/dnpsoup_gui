@@ -18,14 +18,19 @@
           <input type='number' id='x' placeholder=0.0 
             class='col-sm-2'
             v-model.number='spin.x' step="any">
+          <label for="x" class="mr-2">&#8491;</label>
+          
           <label for='y' class='col-form-label'>y:</label>
           <input type='number' id='y' placeholder=0.0 
             class='col-sm-2'
             v-model.number='spin.y' step="any">
+          <label for="y" class="mr-2">&#8491;</label>
+          
           <label for='z' class='col-form-label'>z:</label>
           <input type='number' id='z' placeholder=0.0 
             class='col-sm-2'
             v-model.number='spin.z' step="any">
+          <label for="z" class="mr-2">&#8491;</label>
         </div>
         <div class='d-flex flex-column'>
           <div class='form-group mb-0'>
@@ -52,10 +57,13 @@
             <input type='number' id='t1' placeholder='10.0' min='0.0' 
               class='col-sm-3'
               v-model.number='spin.t1' step="any">
+            <label for="t1" class="mr-2">s</label>
+
             <label for='t2' class='col-form-label'>T2:</label>
             <input type='number' id='t2' placeholder='1.0e-3' min='0.0' 
               class='col-sm-3'
-              v-model.number='spin.t2' step="any"> 
+              v-model.number='spin.t2' step="any">
+            <label for="t2" class="mr-2">ms</label> 
           </div>
         </div>
         <div v-if="spin.spinType=='e'">
