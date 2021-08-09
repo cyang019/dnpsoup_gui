@@ -307,9 +307,16 @@ export default {
             'euler': Object.assign({}, this.interaction.euler)
           })
           break
-        case 'Dipolar': case 'Hyperfine':
+        case 'Dipolar':
           this.addTwoSpinInteraction({
-            'name': this.interaction.name.slice(0, this.interaction.name.length),
+            'name': 'dipole',
+            'spinId1': parseInt(this.interaction.id1),
+            'spinId2': parseInt(this.interaction.id2)
+          })
+          break
+        case 'Hyperfine':
+          this.addTwoSpinInteraction({
+            'name': 'hyperfine',
             'spinId1': parseInt(this.interaction.id1),
             'spinId2': parseInt(this.interaction.id2)
           })
