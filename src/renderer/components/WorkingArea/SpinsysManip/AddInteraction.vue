@@ -254,7 +254,7 @@ export default {
       ],
       twoSpinOptions: [
         'Scalar',
-        'Dipolar',
+        'Dipole',
         'Hyperfine'
       ],
       spinId1Error: '',
@@ -323,7 +323,7 @@ export default {
           break
         case 'Scalar':
           this.addTwoSpinInteraction({
-            'name': this.interaction.name.slice(0, this.interaction.name.length),
+            'name': 'scalar',
             'spinId1': parseInt(this.interaction.id1),
             'spinId2': parseInt(this.interaction.id2),
             'value': parseFloat(this.interaction.value)

@@ -10,12 +10,17 @@
           <label class="col-form-label">x</label>
           <input class="col-md-3" 
             type="number" step="any" v-model="tempSpin.x">
+          <label class="mr-2">&#8491;</label>
+
           <label class="col-form-label">y</label>
           <input class="col-md-3" 
             type="number" step="any" v-model="tempSpin.y">
+          <label class="mr-2">&#8491;</label>
+
           <label class="col-form-label">z</label>
           <input class="col-md-3" 
             type="number" step="any" v-model="tempSpin.z">
+          <label class="mr-2">&#8491;</label>
         </div>
         <small v-if="t1Error.length > 0" class="text-danger">{{t1Error}}</small>
         <small v-if="t2Error.length > 0" class="text-danger">{{t2Error}}</small>
@@ -23,9 +28,11 @@
           <label class="col-form-label">t1</label>
           <input class="col-md-3"
             type="number" step="any" v-model="tempSpin.t1">
+          <label class="mr-2">s</label>
           <label class="col-form-label">t2</label>
           <input class="col-md-3"
             type="number" step="any" v-model="tempSpin.t2">
+          <label class="mr-2">ms</label>
         </div>
         <div class="d-flex flex-row justify-content-end">
           <div class="btn btn-light" @click="okClicked">

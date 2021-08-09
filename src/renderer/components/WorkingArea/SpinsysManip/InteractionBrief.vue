@@ -25,11 +25,11 @@
             Euler: {{interaction.entries.euler.alpha}}, {{interaction.entries.euler.beta}}, {{interaction.entries.euler.gamma}}
           </div>
           <div class="d-flex flex-row justify-content-end">
-            <div class="btn btn-muted disabled btn-sm"
+            <!-- <div class="btn btn-muted disabled btn-sm"
               @click="editClicked"
             >
               <span class="text-secondary"><i class='fas fa-pen'></i></span>
-            </div>
+            </div> -->
             <div class="btn btn-light btn-sm"
               @click="removeInteraction(interaction.id)"
             >

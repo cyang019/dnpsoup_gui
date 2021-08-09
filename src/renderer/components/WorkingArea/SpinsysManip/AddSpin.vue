@@ -18,19 +18,26 @@
           <input type='number' id='x' placeholder=0.0 
             class='col-sm-2'
             v-model.number='spin.x' step="any">
+          <label for="x" class="mr-2">&#8491;</label>
+          
           <label for='y' class='col-form-label'>y:</label>
           <input type='number' id='y' placeholder=0.0 
             class='col-sm-2'
             v-model.number='spin.y' step="any">
+          <label for="y" class="mr-2">&#8491;</label>
+          
           <label for='z' class='col-form-label'>z:</label>
           <input type='number' id='z' placeholder=0.0 
             class='col-sm-2'
             v-model.number='spin.z' step="any">
+          <label for="z" class="mr-2">&#8491;</label>
         </div>
         <div class='d-flex flex-column'>
           <div class='form-group mb-0'>
             <label for='spin-type' class='col-form-label'>Spin:</label>
-            <select name='spin' id='spin-type' class='col-sm-2' v-model='spin.spinType'>
+            <select name='spin' id='spin-type' class='col-sm-2' v-model='spin.spinType'
+              @change="updateDefaultTensorValue()"
+            >
               <option value=''>--</option>
               <option value='e'>e</option>
               <option value='H1'>H</option>
@@ -52,10 +59,13 @@
             <input type='number' id='t1' placeholder='10.0' min='0.0' 
               class='col-sm-3'
               v-model.number='spin.t1' step="any">
+            <label for="t1" class="mr-2">s</label>
+
             <label for='t2' class='col-form-label'>T2:</label>
             <input type='number' id='t2' placeholder='1.0e-3' min='0.0' 
               class='col-sm-3'
-              v-model.number='spin.t2' step="any"> 
+              v-model.number='spin.t2' step="any">
+            <label for="t2" class="mr-2">ms</label> 
           </div>
         </div>
         <div v-if="spin.spinType=='e'">
@@ -63,25 +73,22 @@
             <label for='gxx' class='col-form-label'>g<sub>xx</sub></label>
             <input 
               type='number' 
-              id='gxx' 
-              placeholder='2.003' 
-              v-model.number='tensor.x' 
+              id='gxx'
+              v-model.number='tensor.x'
               class="col-sm-3"
               step="any">
             <label for='gyy' class='col-form-label'>g<sub>yy</sub></label>
             <input 
               type='number' 
               id='gyy' 
-              placeholder='2.003' 
-              v-model.number='tensor.y' 
+              v-model.number='tensor.y'
               class="col-sm-3"
               step="any">
             <label for='gzz' class='col-form-label'>g<sub>zz</sub></label>
             <input 
               type='number' 
-              id='gzz' 
-              placeholder='2.003' 
-              v-model.number='tensor.z' 
+              id='gzz'
+              v-model.number='tensor.z'
               class="col-sm-3"
               step="any">
           </div>
@@ -91,15 +98,14 @@
             <label for='csaxx' class='col-form-label'>csa<sub>xx</sub></label>
             <input 
               type='number' 
-              id='csaxx' placeholder='0.0' 
+              id='csaxx'
               v-model.number='tensor.x'
               class="col-sm-2"
               step="any">
             <label for='csayy' class='col-form-label'>csa<sub>yy</sub></label>
             <input 
               type='number' 
-              id='csayy' 
-              placeholder='0.0' 
+              id='csayy'
               v-model.number='tensor.y' 
               class="col-sm-2"
               step="any">
@@ -107,7 +113,6 @@
             <input 
               type='number' 
               id='csazz' 
-              placeholder='0.0' 
               v-model.number='tensor.z' 
               class="col-sm-2"
               step="any">
@@ -304,6 +309,17 @@ export default {
       let diffZ = parseFloat(spin1.z) - parseFloat(spin2.z)
       let result = diffX * diffX + diffY * diffY + diffZ * diffZ
       return Math.sqrt(result)
+    },
+    updateDefaultTensorValue () {
+      if (this.spin.spinType === 'e') {
+        this.tensor.x = 2.003
+        this.tensor.y = 2.003
+        this.tensor.z = 2.003
+      } else {
+        this.tensor.x = 0
+        this.tensor.y = 0
+        this.tensor.z = 0
+      }
     }
   }
 }

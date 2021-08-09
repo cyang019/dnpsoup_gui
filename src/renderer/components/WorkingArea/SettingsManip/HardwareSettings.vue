@@ -21,10 +21,10 @@
             v-on:input-sync-state-ok-clicked="setMagneticField"
           />
           <small class="ml-2 p text-info">
-            <span>H Freq {{fieldHFreq}} MHz</span>
+            <span>H Freq {{fieldHFreq}} MHz (zero chemical shift)</span>
           </small>
           <small class="ml-2 p text-info">
-            <span>e Freq {{fieldEFreq}} GHz</span>
+            <span>e Freq {{fieldEFreq}} GHz (assuming isotropic g of e in vaccum)</span>
           </small>
         </div>
         <input-sync-state
