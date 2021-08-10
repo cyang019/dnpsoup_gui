@@ -36,7 +36,7 @@
           <div class='form-group mb-0'>
             <label for='spin-type' class='col-form-label'>Spin:</label>
             <select name='spin' id='spin-type' class='col-sm-2' v-model='spin.spinType'
-              @change="updateDefaultTensorValue()"
+              @change="updateDefaultValues()"
             >
               <option value=''>--</option>
               <option value='e'>e</option>
@@ -240,6 +240,12 @@ export default {
       })
       for (const spin2 of this.spins) {
         if (spin2.id !== spin.id) {
+          if (spin.spinType === 'BulkH' && spin2.spinType === 'e') {
+            continue
+          }
+          if (spin.spinType === 'e' && spin2.spinType === 'BulkH') {
+            continue
+          }
           if (spin2.id > spin.id) {
             this.addTwoSpinInteraction({
               'name': this.deriveDefaultInteractionName(spin, spin2),
@@ -310,7 +316,7 @@ export default {
       let result = diffX * diffX + diffY * diffY + diffZ * diffZ
       return Math.sqrt(result)
     },
-    updateDefaultTensorValue () {
+    updateDefaultTensorValues () {
       if (this.spin.spinType === 'e') {
         this.tensor.x = 2.003
         this.tensor.y = 2.003
@@ -320,6 +326,19 @@ export default {
         this.tensor.y = 0
         this.tensor.z = 0
       }
+    },
+    updateDefaultRelaxationConstants () {
+      if (this.spin.spinType === 'e') {
+        this.spin.t1 = 0.001
+        this.spin.t2 = 0.001
+      } else {
+        this.spin.t1 = 1
+        this.spin.t2 = 1
+      }
+    },
+    updateDefaultValues () {
+      this.updateDefaultTensorValues()
+      this.updateDefaultRelaxationConstants()
     }
   }
 }
