@@ -271,7 +271,7 @@ export default {
       this.spin.z = 0.0
       this.spinType = ''
       this.t1 = 100
-      this.t2 = 10
+      this.t2 = 1
       this.tensor.x = 0.0
       this.tensor.y = 0.0
       this.tensor.z = 0.0
@@ -330,10 +330,10 @@ export default {
     updateDefaultRelaxationConstants () {
       if (this.spin.spinType === 'e') {
         this.spin.t1 = 0.001
-        this.spin.t2 = 0.001
+        this.spin.t2 = 0.000001
       } else {
         this.spin.t1 = 1
-        this.spin.t2 = 1
+        this.spin.t2 = 0.001
       }
     },
     updateDefaultValues () {
