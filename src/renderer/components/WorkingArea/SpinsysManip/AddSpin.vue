@@ -65,7 +65,7 @@
             <input type='number' id='t2' placeholder='1.0e-3' min='0.0' 
               class='col-sm-3'
               v-model.number='spin.t2' step="any">
-            <label for="t2" class="mr-2">ms</label> 
+            <label for="t2" class="mr-2">s</label> 
           </div>
         </div>
         <div v-if="spin.spinType=='e'">

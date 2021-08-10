@@ -32,7 +32,7 @@
           <label class="col-form-label">t2</label>
           <input class="col-md-3"
             type="number" step="any" v-model="tempSpin.t2">
-          <label class="mr-2">ms</label>
+          <label class="mr-2">s</label>
         </div>
         <div class="d-flex flex-row justify-content-end">
           <div class="btn btn-light" @click="okClicked">
